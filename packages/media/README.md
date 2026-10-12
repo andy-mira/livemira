@@ -1,5 +1,7 @@
 # VideoSession
 
+[English](README.md) | [简体中文](README.zh-CN.md)
+
 `src/video-session.mjs` owns one HTMLVideoElement's URL, playback and decoded-frame observer. Configuration uses public `MediaConfig` through the declaration file. Set `crossOrigin` before source, default muted/loop/inline, preserve time on pause, restart only when requested. `stop` releases src/srcObject and callback; `dispose` also removes error listener and is idempotent. Assigned streams are detached but their tracks belong to the caller; the fixture explicitly stops its generator tracks.
 
 `observeFrames` returns false when requestVideoFrameCallback is unavailable; no rAF timestamp is mislabeled as a newly decoded frame. CSS video still composites natively in that case. Callback numbers and mediaTime are video presentation diagnostics, not camera observation time or motion-to-photon measurements.

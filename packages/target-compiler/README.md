@@ -1,5 +1,7 @@
 # CPU target compiler
 
+[English](README.md) | [简体中文](README.zh-CN.md)
+
 Compiles a packed gray8 image into a `TargetBundle` (features, descriptors and a gray8 pyramid), serializes it with a checksum envelope, and parses it back with full validation. The adapter imports `@livemira/contracts` 0.1.0. Entry: `src/index.ts`; the package entry `index.mjs` uses the root build. There is no external runtime dependency and no copied reference source.
 
 ```ts

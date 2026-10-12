@@ -1,5 +1,7 @@
 # LiveMira 0.2.0
 
+[English](livemira-release.md) | [简体中文](livemira-release.zh-CN.md)
+
 LiveMira is a browser engine for image-target AR: it recognizes a prepared image target in the live camera feed, tracks it, and shows a video on it. 0.2.0 is the first stable edition. Recognition, matching, scale retry, camera and tracking are unchanged. Video presentation adds a black translucent loading layer and spinner, followed by a soft circular reveal from the centre when a decoded frame is available. The package name, distribution file names and import paths follow the LiveMira naming in `NAMING.md` of the `docs` directory.
 
 ## Layout
@@ -13,7 +15,7 @@ LiveMira is a browser engine for image-target AR: it recognizes a prepared image
 | `shared/notices/` | Unchanged third-party license texts and the toolchain pin |
 | `docs/` | Guides for naming, media and target quality |
 
-The root holds only `package.json`, this README, `LICENSE`, `NOTICE`, `release-layout.json` and `release-manifest.json`. `release-manifest.json` records the class, size and SHA-256 of every file. The SDK package (`@livemira/engine`) additionally holds `shared/runtime/`, the multi-file development modules; the production drop does not.
+The root holds only `package.json`, the English and Simplified Chinese README files, `LICENSE`, `NOTICE`, `release-layout.json` and `release-manifest.json`. `release-manifest.json` records the class, size and SHA-256 of every file. The SDK package (`@livemira/engine`) additionally holds `shared/runtime/`, the multi-file development modules; the production drop does not.
 
 ## Production interface
 

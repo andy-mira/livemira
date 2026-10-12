@@ -1,5 +1,7 @@
 # LiveMira naming
 
+[English](livemira-naming.md) | [简体中文](livemira-naming.zh-CN.md)
+
 | Item | Name |
 | --- | --- |
 | Engine brand | LiveMira |

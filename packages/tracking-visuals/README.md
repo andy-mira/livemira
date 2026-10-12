@@ -1,5 +1,7 @@
 # Optional tracking visuals
 
+[English](README.md) | [简体中文](README.zh-CN.md)
+
 This independently loaded RenderSink decorator draws recognized target boundaries and current matched inlier points. The core engine never imports it. Both drawing flags and core point collection default off.
 
 Build: `npm run build` produces `dist/tracking-visuals-single/lm-tracking-visuals.mjs` and `.min.mjs`, self-contained declarations, and a closure/hash audit. Either companion runtime has no imports, Worker, WASM or recorder; copy it beside your own assets and import only when wanted. The separate target-quality utility stays independent.

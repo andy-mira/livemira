@@ -1,5 +1,7 @@
 # Tracking
 
+[English](README.md) | [简体中文](README.zh-CN.md)
+
 `src/index.ts` imports `@livemira/contracts` 0.1.0 and exports `createTrackingPipeline(recognize): VisionPipeline`, plus two opt-in variants (`createHybridTrackingPipeline`, `createSubpixelTrackingPipeline`). The injected async `recognize` callback receives `(FramePacket, readonly TargetBundle[], AbortSignal)` and returns `readonly RecognitionObservation[]`. It must finish all borrowed image work before settling. The pipeline owns no callback or backend resources and never releases SDK-owned frames; the integrator owns callback and backend disposal. There is no default or mock recognizer. Callback errors propagate.
 
 ```ts

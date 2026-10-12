@@ -210,9 +210,15 @@ try:
             copied.append(row['path'])
     extras = {}
     readme_source = root / RELEASE_GUIDE
-    for destination, source in [('README.md', readme_source), ('docs/NAMING.md', root / 'docs/release/livemira-naming.md'), ('docs/MEDIA.md', root / 'packages/media/README.md')]:
+    for destination, source in [('README.md', readme_source), ('README.zh-CN.md', readme_source.with_name(readme_source.stem + '.zh-CN.md'))]:
         assert destination not in copied, f'Destination collision: {destination}'
-        shutil.copyfile(source, staging / destination)
+        import re
+        name = destination.replace('.zh-CN.md', '.md')
+        bar = f"[English]({name}) | [简体中文]({name.replace('.md', '.zh-CN.md')})"
+        original = source.read_text()
+        text, count = re.subn(r'^\[English\]\([^\n)]+\) \| \[简体中文\]\([^\n)]+\)$', lambda match: bar, original, flags=re.M)
+        assert count == 1, f'Expected one language navigation bar in {source}'
+        (staging / destination).write_text(text)
         extras[destination] = {'sourcePath': source.relative_to(root).as_posix(), 'sourceSha256': sha256(source.read_bytes()), 'class': 'doc'}
     # Minimal package.json: exports come from the central layout and resolve only to files that exist in this drop (the SDK package.json would dangle without shared/runtime).
     package_json = {'name': package['name'], 'version': version, 'private': True, 'type': 'module', 'description': package['description'], 'license': package['license'], 'author': package['author'],

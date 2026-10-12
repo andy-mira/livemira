@@ -1,5 +1,7 @@
 # Optional recognition diagnostics companion
 
+[English](README.md) | [简体中文](README.zh-CN.md)
+
 This independently loadable companion tracks **why targets were rejected** during recognition passes and **where matched inlier points lie** during tracking. It is **NOT** part of the engine runtime: nothing in the core engine closures imports it (the engine builder gates that), and it imports nothing from the engine. It ships as its own standalone module.
 
 Outputs are **purely numeric and bounded** (counters, means, min/max; never image pixels, URLs, coordinates, or point arrays) and safe to export with diagnostics logs.

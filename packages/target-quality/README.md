@@ -1,5 +1,7 @@
 # Target suitability preflight (optional utility)
 
+[English](README.md) | [简体中文](README.zh-CN.md)
+
 Scores a picture **0..5** for how suitable it is as an image target, before you ship it. **Below 3 the advice is to replace the image.** A score of 3 or more can still fail on a real device (lighting, motion blur, print quality, the camera, the matcher's own limits); the score is a heuristic preflight, not a calibrated detection probability, not a recognition guarantee and not a Vuforia or ARCore rating. No asset-specific tuning is applied. It is independent of the engine: nothing in `packages/sdk/src/browser.ts`, the Worker or either single-file engine imports it (the engine builder fails if it ever does), and it needs no dependency, Worker, WASM or network.
 
 It reuses the real legacy extractor and geometry (`m0-harris-brief256-v1` or explicit ANMS `m0-harris-anms-brief256-v1`, 384 features, 3 pyramid levels, the same as `compileGrayTarget`), so it measures what the engine would compile. No new recognizer, no per-frame matching.

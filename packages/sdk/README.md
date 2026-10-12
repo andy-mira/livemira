@@ -1,5 +1,7 @@
 # Engine integration guide
 
+[English](README.md) | [简体中文](README.zh-CN.md)
+
 This guide ships inside the `@livemira/engine` package (as `INTEGRATION.md` in its `docs` directory) and in the source repository (`packages/sdk/README.md`); the two copies are identical. You do not need the source checkout to follow it.
 
 Status: LiveMira 0.2.0 (first stable edition), not published to npm and not declared production-ready. The API below was checked against the shipped declarations and exercised by Node-level tests (imports, strict TypeScript, fake-DOM loop/grace behavior). The engine was tested in an iPhone browser Demo integration; other devices and environments are trial. The example below has **not** itself been run on a phone or with any particular bundler.

@@ -13,9 +13,10 @@ import { lstat, mkdir, readdir, readFile, realpath, rename, rm, stat, writeFile 
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { checkExports, checkTree, classifyDist, loadLayout, packageExports, requiredDistFiles, safeRel } from './release-layout.mjs';
+import { documentLanguageLinks, materializeDocumentation } from './documentation.mjs';
 import { AUTHOR, LEGAL_SOURCE_SCOPE, SPDX_LICENSE_ID } from './legal.mjs';
 import { syncMetadata } from './sync-metadata.mjs';
-import { isPreviewVersion, RELEASE_GUIDE, RELEASE_VERSION, ENGINE_NAME, ENGINE_PACKAGE_NAME } from './release-version.mjs';
+import { isPreviewVersion, RELEASE_GUIDE, RELEASE_VERSION, ENGINE_NAME, ENGINE_PACKAGE_NAME, ROOT_METADATA } from './release-version.mjs';
 
 const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const PACKAGE_NAME = ENGINE_PACKAGE_NAME, PACKAGE_VERSION = RELEASE_VERSION, MANIFEST_SCHEMA = 'lm-engine-package/1';
@@ -33,7 +34,7 @@ const REQUIRED = ['sdk/src/index.js', 'sdk/src/cpu.js', 'sdk/src/worker-pipeline
 // Inputs whose changes make the package differ from the recorded commit.
 // It includes the legal files and public documents copied into the SDK or the curated drop, so an edit to any of them (tracked or untracked) cannot claim a clean source.
 const SOURCE_SCOPE = ['packages', 'native', 'tsconfig.json', 'package.json', 'package-lock.json', 'apps/demo/copy-assets.mjs', 'scripts/release/release-layout.json', 'scripts/release/release-layout.mjs', 'scripts/release/build-engine-package.mjs', 'scripts/release/build-engine-single.mjs', 'scripts/release/build-target-quality.mjs', 'scripts/release/build-recognition-diagnostics.mjs', 'scripts/release/build-tracking-visuals.mjs',
-  'scripts/release/release-version.mjs', 'scripts/release/sync-metadata.mjs', 'scripts/release/package-livemira.py', RELEASE_GUIDE, 'docs/release/livemira-naming.md', ...LEGAL_SOURCE_SCOPE];
+  'scripts/release/documentation.mjs', 'scripts/release/SDK.zh-CN.md.template', 'scripts/release/release-version.mjs', 'scripts/release/sync-metadata.mjs', 'scripts/release/package-livemira.py', RELEASE_GUIDE, RELEASE_GUIDE.replace(/\.md$/, '.zh-CN.md'), 'docs/release/livemira-naming.md', 'docs/release/livemira-naming.zh-CN.md', ...LEGAL_SOURCE_SCOPE];
 // Directories compiled/copied into dist; used only to refuse a stale dist.
 const BUILD_INPUTS = ['packages/*/src', 'packages/recognition/experimental', 'packages/tracking/experimental', 'packages/compute/shaders', 'packages/compute/artifacts'];
 
@@ -92,6 +93,8 @@ const HANDWRITTEN_DECLARATIONS = {
   'renderer/src/perspective.d.mts': 'packages/renderer/src/perspective.d.mts', 'renderer/src/loading-reveal.d.mts': 'packages/renderer/src/loading-reveal.d.mts' };
 
 const README = `# ${PACKAGE_NAME} (local ${isPreviewVersion(PACKAGE_VERSION) ? 'preview' : 'stable'} release)
+
+[English](README.md) | [简体中文](README.zh-CN.md)
 
 Classified distribution of the compiled engine. Start with **docs/INTEGRATION.md** (complete usage guide and example). The layout is defined once in release-layout.json:
 
@@ -203,6 +206,8 @@ async function main() {
     await put(`${dirs.types}/runtime/entry/sdk-worker.d.ts`, Buffer.from(workerForward), 'generated', 'dev-types', { owner: 'sdk' });
     await put('package.json', Buffer.from(JSON.stringify(packageJson(layout), null, 2) + '\n'), 'generated', 'package');
     await put('README.md', Buffer.from(README), 'generated', 'package');
+    const chineseReadme = materializeDocumentation(await readFile(path.join(repo, 'scripts/release/SDK.zh-CN.md.template'), 'utf8'), { PACKAGE_NAME, CHANNEL: isPreviewVersion(PACKAGE_VERSION) ? '候选' : '稳定', COPYRIGHT_YEAR: ROOT_METADATA.livemira.copyrightYear, AUTHOR, LICENSE: SPDX_LICENSE_ID });
+    await put('README.zh-CN.md', Buffer.from(chineseReadme), 'generated', 'package');
     // Legal files: raw copies of the repository root files, recorded with their source hash like the guides and notices.
     for (const name of layout.legal.files) {
       const data = await readFile(path.join(repo, name));
@@ -211,8 +216,9 @@ async function main() {
     const layoutSource = path.relative(repo, layoutFile ?? path.join(repo, 'scripts/release/release-layout.json'));
     await put('release-layout.json', layoutBytes, 'copied-from-source', 'layout', { sourcePath: layoutSource.startsWith('..') ? path.basename(layoutSource) : posix(layoutSource), sourceSha256: layoutSha256 });
     for (const [name, source] of Object.entries(layout.docs)) {
-      const guide = await readFile(path.join(repo, source));
-      await put(`${dirs.docs}/${name}`, guide, 'copied-from-source', 'doc', { sourcePath: source, sourceSha256: sha256(guide) });
+      const original = await readFile(path.join(repo, source));
+      const guide = Buffer.from(documentLanguageLinks(original.toString('utf8'), name));
+      await put(`${dirs.docs}/${name}`, guide, 'language-navigation-adjusted', 'doc', { sourcePath: source, sourceSha256: sha256(original) });
     }
     for (const name of layout.notices.files) {
       const source = `${layout.notices.sourceDir}/${name}`, data = await readFile(path.join(repo, source));

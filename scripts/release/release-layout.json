@@ -11,7 +11,7 @@
     "runtime": "shared/runtime",
     "docs": "docs"
   },
-  "rootFiles": ["package.json", "README.md", "LICENSE", "NOTICE", "engine-package-manifest.json", "release-layout.json"],
+  "rootFiles": ["package.json", "README.md", "README.zh-CN.md", "LICENSE", "NOTICE", "engine-package-manifest.json", "release-layout.json"],
   "legal": {
     "description": "Legal files copied byte for byte from the repository root into the SDK root and the curated drop root (license: Apache-2.0). Third-party license texts live in notices.files.",
     "files": ["LICENSE", "NOTICE"],
@@ -59,7 +59,13 @@
   },
   "docs": {
     "INTEGRATION.md": "packages/sdk/README.md",
-    "TARGET-QUALITY.md": "packages/target-quality/README.md"
+    "INTEGRATION.zh-CN.md": "packages/sdk/README.zh-CN.md",
+    "TARGET-QUALITY.md": "packages/target-quality/README.md",
+    "TARGET-QUALITY.zh-CN.md": "packages/target-quality/README.zh-CN.md",
+    "MEDIA.md": "packages/media/README.md",
+    "MEDIA.zh-CN.md": "packages/media/README.zh-CN.md",
+    "NAMING.md": "docs/release/livemira-naming.md",
+    "NAMING.zh-CN.md": "docs/release/livemira-naming.zh-CN.md"
   },
   "exportsDescription": "Stable production exports (core/ and tools/ only) are identical in the SDK and in the curated drop: '.' and './browser' serve the minified core, './single' the readable core, './single/min' the minified core, and each tool name serves its standalone file (the minified one when there is one). Multi-file modules of shared/runtime are SDK-only and only reachable through explicit './development/...' subpaths, outside the stable production contract. There is no wildcard export.",
   "exports": {
@@ -96,7 +102,7 @@
   },
   "curated": {
     "description": "The curated production drop has no shared/runtime, so its generated package.json exposes exactly the stable exports above (every export that resolves to core/ or tools/, same names, same targets as the SDK). The './development/...' subpaths exist only in the SDK.",
-    "rootFiles": ["package.json", "README.md", "LICENSE", "NOTICE", "release-layout.json", "release-manifest.json"]
+    "rootFiles": ["package.json", "README.md", "README.zh-CN.md", "LICENSE", "NOTICE", "release-layout.json", "release-manifest.json"]
   },
   "demo": {
     "description": "Development Demo URLs keep their historical /dist/<private-build-dir>/ form. build-livemira-demo.mjs materializes them from the classified SDK; the SDK itself never ships these aliases. core -> dist/<core.distDir>/, tools.<name> -> dist/<tools.<name>.distDir>/, shared/runtime/** -> dist/**.",

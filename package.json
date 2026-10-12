@@ -26,7 +26,7 @@
   ],
   "scripts": {
     "build": "npm run version:check && tsc -p tsconfig.json && node apps/demo/copy-assets.mjs && node scripts/release/build-engine-single.mjs && node scripts/release/build-target-quality.mjs && node scripts/release/build-tracking-visuals.mjs && node scripts/release/build-recognition-diagnostics.mjs",
-    "test": "npm run build && node --test --test-isolation=none packages/contracts/test/*.test.mjs packages/sdk/test/*.test.mjs tests/reliability/release-metadata.test.mjs tests/quality/standalone.test.mjs tests/reliability/engine-single.test.mjs tests/reliability/tracking-visuals-standalone.test.mjs tests/reliability/recognition-diagnostics-standalone.test.mjs",
+    "test": "npm run build && node --test --test-isolation=none packages/contracts/test/*.test.mjs packages/sdk/test/*.test.mjs tests/reliability/bilingual-documentation.test.mjs tests/reliability/release-metadata.test.mjs tests/quality/standalone.test.mjs tests/reliability/engine-single.test.mjs tests/reliability/tracking-visuals-standalone.test.mjs tests/reliability/recognition-diagnostics-standalone.test.mjs",
     "engine:package": "npm run build && node scripts/release/build-engine-package.mjs",
     "version:set": "node scripts/release/sync-metadata.mjs",
     "version:check": "node scripts/release/sync-metadata.mjs --check"

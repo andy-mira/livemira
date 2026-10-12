@@ -1,5 +1,7 @@
 # Camera runtime
 
+[English](README.md) | [简体中文](README.zh-CN.md)
+
 Dependency-free ES modules with a typed entry importing `@livemira/contracts` 0.1.0. No competing FramePacket definition. Node is used for reproducible lifecycle tests; browser camera capture uses getUserMedia, a muted playsInline video, requestVideoFrameCallback and an exercised VideoFrame snapshot with ImageBitmap fallback. API presence alone never proves capture.
 
 ## SDK integration

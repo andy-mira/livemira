@@ -1,5 +1,7 @@
 # Compute backend
 
+[English](README.md) | [简体中文](README.zh-CN.md)
+
 Native-style preprocessing (gray conversion and a Gaussian pyramid) on the CPU, in scalar or SIMD WebAssembly, plus an optional Worker-safe resident WebGPU Hamming matcher with an exact CPU fallback. Neither means the whole engine runs in WebAssembly or on the GPU: recognition and tracking run on the CPU, and GPU matching is opt-in (small batches regress, and full recognition does not meet a 33 ms budget on the measured desktop fixtures).
 
 ## Runtime entry points

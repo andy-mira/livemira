@@ -1,5 +1,7 @@
 # CSS video renderer
 
+[English](README.md) | [简体中文](README.zh-CN.md)
+
 `src/index.ts` exports `CssVideoRenderSink implements RenderSink` using `@livemira/contracts` 0.1.0. `src/perspective.mjs` is a dependency-free browser compatibility implementation. It uses CSS `matrix3d` projective `w` rather than affine triangles. Video decoding and compositing belong to the browser; this path has no explicit texture upload or WebGPU device and never borrows a camera image handle.
 
 Media sources can be a URL or an owned `File`/`Blob`, with explicit retry and audio controls, numeric media diagnostics and pagehide cleanup. `examples/media-controls.mjs` shows how to bind these to existing UI (it creates no DOM).

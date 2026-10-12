@@ -1,5 +1,7 @@
 # CPU recognition baseline
 
+[English](README.md) | [简体中文](README.zh-CN.md)
+
 `CpuRecognizer` finds image targets in gray8 frames on the CPU. It produces original-target `RecognitionObservation` candidates only, never tracking state or SDK events; confirmation and rematch scheduling belong to the tracking package.
 
 ## Algorithms

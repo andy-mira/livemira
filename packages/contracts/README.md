@@ -1,5 +1,7 @@
 # Contracts 0.1.0
 
+[English](README.md) | [简体中文](README.zh-CN.md)
+
 Shared types and validators for the LiveMira modules. Import `@livemira/contracts`. Run `npm ci && npm test` from the repository root. This package is private (it is not published to npm); `private` is a publishing safeguard, not a license restriction. TypeScript 5.9.3 is the only build dependency; the npm lock records its integrity. Node 25.9.0 and npm 11.12.1 are the measured toolchain; the declared engine range is not a tested compatibility claim.
 
 ## Conventions
