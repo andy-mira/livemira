@@ -83,7 +83,7 @@ import { createEngine, createWorkerPipeline, CameraFrameSource, getFrameGeometry
 
 ## Made with AI（AI 参与构建）
 
-本仓库由人类 + AI 团队构建：所有者（**Andy Mira**）负责定方向、评审与验收；代码和产物由 AI Agent 协作完成 —— **Nova**（GLM-5.3，调度与运维）、**Codex**（GPT，工程管理与验收，Claude 超限时接管开发任务）和 **Claude**（具体实现）。项目采用 Apache-2.0 开源许可 —— 在许可条款内可自由使用。
+本仓库由人类 + AI 团队构建：所有者（**Andy (@andy-mira)**）负责定方向、评审与验收；代码和产物由 AI Agent 协作完成 —— **Nova**（GLM-5.3，调度与运维）、**Codex**（GPT，工程管理与验收，Claude 超限时接管开发任务）和 **Claude**（具体实现）。项目采用 Apache-2.0 开源许可 —— 在许可条款内可自由使用。
 
 ## 请我们喝杯咖啡 ☕
 

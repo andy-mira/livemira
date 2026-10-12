@@ -83,7 +83,7 @@ The prebuilt modules were produced with Emscripten 4.0.15 (pin in `packages/comp
 
 ## Made with AI
 
-This repository is built by a human–AI team: the owner (**Andy Mira**) sets direction, reviews and accepts the work; the code and artifacts were produced together with AI agents — **Nova** (GLM-5.3, orchestration & ops), **Codex** (GPT, engineering management & acceptance, and takes over development when Claude hits its limits) and **Claude** (implementation). The project is openly licensed under Apache-2.0 — use it freely, within the license terms.
+This repository is built by a human–AI team: the owner (**Andy (@andy-mira)**) sets direction, reviews and accepts the work; the code and artifacts were produced together with AI agents — **Nova** (GLM-5.3, orchestration & ops), **Codex** (GPT, engineering management & acceptance, and takes over development when Claude hits its limits) and **Claude** (implementation). The project is openly licensed under Apache-2.0 — use it freely, within the license terms.
 
 ## Buy us a coffee ☕
 
