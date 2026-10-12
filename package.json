@@ -1,0 +1,43 @@
+{
+  "name": "livemira",
+  "version": "0.2.0",
+  "description": "LiveMira engine source: browser image-target AR with an embedded Worker, WebAssembly and WebGPU shaders.",
+  "license": "Apache-2.0",
+  "author": "Andy (@andy-mira)",
+  "private": true,
+  "type": "module",
+  "packageManager": "npm@11.12.1",
+  "engines": {
+    "node": ">=25.9.0",
+    "npm": ">=10"
+  },
+  "workspaces": [
+    "packages/camera",
+    "packages/contracts",
+    "packages/media",
+    "packages/recognition",
+    "packages/recognition-diagnostics",
+    "packages/renderer",
+    "packages/sdk",
+    "packages/target-compiler",
+    "packages/target-quality",
+    "packages/tracking",
+    "packages/tracking-visuals"
+  ],
+  "scripts": {
+    "build": "npm run version:check && tsc -p tsconfig.json && node apps/demo/copy-assets.mjs && node scripts/release/build-engine-single.mjs && node scripts/release/build-target-quality.mjs && node scripts/release/build-tracking-visuals.mjs && node scripts/release/build-recognition-diagnostics.mjs",
+    "test": "npm run build && node --test --test-isolation=none packages/contracts/test/*.test.mjs packages/sdk/test/*.test.mjs tests/reliability/release-metadata.test.mjs tests/quality/standalone.test.mjs tests/reliability/engine-single.test.mjs tests/reliability/tracking-visuals-standalone.test.mjs tests/reliability/recognition-diagnostics-standalone.test.mjs",
+    "engine:package": "npm run build && node scripts/release/build-engine-package.mjs",
+    "version:set": "node scripts/release/sync-metadata.mjs",
+    "version:check": "node scripts/release/sync-metadata.mjs --check"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2",
+    "typescript": "5.9.3"
+  },
+  "livemira": {
+    "displayName": "LiveMira",
+    "enginePackageName": "@livemira/engine",
+    "copyrightYear": 2026
+  }
+}

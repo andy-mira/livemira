@@ -1,0 +1,4 @@
+{
+  "compilerOptions": { "target": "ES2022", "module": "NodeNext", "moduleResolution": "NodeNext", "lib": ["ES2022", "DOM"], "strict": true, "declaration": true, "sourceMap": true, "outDir": "dist", "rootDir": "packages", "skipLibCheck": true, "allowJs": true, "checkJs": false, "rewriteRelativeImportExtensions": true, "paths": { "@livemira/contracts": ["./packages/contracts/src/index.ts"] } },
+  "include": ["packages/*/src/**/*.ts", "packages/*/src/**/*.mjs", "packages/recognition/experimental/features.mjs", "packages/recognition/experimental/geometry.mjs"]
+}

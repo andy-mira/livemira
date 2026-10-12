@@ -1,0 +1,13 @@
+{
+  "schema": "lm-prebuilt-compute-artifacts/1",
+  "description": "Pinned prebuilt WebAssembly modules and their Emscripten glue. The root build (npm run build) copies and embeds these exact files; it never compiles native code. Rebuild route: scripts/build-wasm.ps1 with the toolchain recorded in toolchain-pin.json. The glue and the WebAssembly contain upstream Emscripten, musl libc, LLVM libc++ and dlmalloc code under their own licenses (EMSCRIPTEN-LICENSE.txt, MUSL-COPYRIGHT.txt, LIBCXX-LICENSE.txt, DLMALLOC-NOTICE.txt); they are not relicensed. The compiler toolchain is identified in toolchain-pin.json but is not redistributed.",
+  "builtFrom": ["native/common/preprocess.cpp", "native/common/preprocess.h"],
+  "buildScript": "scripts/build-wasm.ps1",
+  "toolchainPin": "toolchain-pin.json",
+  "artifacts": [
+    { "path": "artifacts/scalar/compute.mjs", "bytes": 7356, "sha256": "0718ba96c424f17f37d7abe332bb93f37ebf0e8a9e2b57733eff9b7f420dfc44" },
+    { "path": "artifacts/scalar/compute.wasm", "bytes": 8035, "sha256": "29e9c0bc27b73ca9207c8a6060e51ea4298ef14f337466abe256f250cef5ac68" },
+    { "path": "artifacts/simd/compute.mjs", "bytes": 7356, "sha256": "0718ba96c424f17f37d7abe332bb93f37ebf0e8a9e2b57733eff9b7f420dfc44" },
+    { "path": "artifacts/simd/compute.wasm", "bytes": 8387, "sha256": "aa84af8095bd3231e75b6571d95e672ed4c21479218c88e925afe682c9da02a9" }
+  ]
+}

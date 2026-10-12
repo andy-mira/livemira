@@ -1,0 +1,20 @@
+{
+  "name": "@livemira/recognition-diagnostics",
+  "version": "0.2.0",
+  "license": "Apache-2.0",
+  "author": "Andy (@andy-mira)",
+  "private": true,
+  "type": "module",
+  "description": "Optional recognition diagnostics companion (bounded rejection-stage counters and measured point-distribution statistics). Not part of the engine runtime.",
+  "main": "./index.mjs",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./index.mjs"
+    }
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json"
+  }
+}

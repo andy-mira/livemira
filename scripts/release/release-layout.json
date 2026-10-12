@@ -1,0 +1,106 @@
+{
+  "schema": "lm-release-layout/1",
+  "layoutVersion": 2,
+  "description": "Central classified distribution layout of @livemira/engine (layout contract 2: stable exports resolve to core/ and tools/, multi-file modules only under ./development/). Read by build-engine-package.mjs, package-livemira.py and build-livemira-demo.mjs; nothing else decides where a release file goes. Paths are POSIX, relative to the SDK/package root unless noted.",
+  "dirs": {
+    "core": "core",
+    "tools": "tools",
+    "types": "shared/types",
+    "audits": "shared/audits",
+    "notices": "shared/notices",
+    "runtime": "shared/runtime",
+    "docs": "docs"
+  },
+  "rootFiles": ["package.json", "README.md", "LICENSE", "NOTICE", "engine-package-manifest.json", "release-layout.json"],
+  "legal": {
+    "description": "Legal files copied byte for byte from the repository root into the SDK root and the curated drop root (license: Apache-2.0). Third-party license texts live in notices.files.",
+    "files": ["LICENSE", "NOTICE"],
+    "license": "Apache-2.0"
+  },
+  "core": {
+    "distDir": "engine-single",
+    "runtime": ["lm-engine.mjs", "lm-engine.min.mjs"],
+    "requiredRuntime": "lm-engine.min.mjs",
+    "types": ["lm-engine.d.mts", "lm-engine.min.d.mts"],
+    "typesForwardTo": "sdk/src/browser.js",
+    "audits": ["lm-engine.audit.json", "lm-engine.min.audit.json"],
+    "discardedDistDirs": ["NOTICES"]
+  },
+  "tools": {
+    "target-quality": {
+      "distDir": "target-quality-single",
+      "runtime": ["lm-target-quality.mjs"],
+      "types": ["lm-target-quality.d.mts"],
+      "audits": ["lm-target-quality.audit.json"]
+    },
+    "tracking-visuals": {
+      "distDir": "tracking-visuals-single",
+      "runtime": ["lm-tracking-visuals.mjs", "lm-tracking-visuals.min.mjs"],
+      "types": ["lm-tracking-visuals.d.mts", "lm-tracking-visuals.min.d.mts"],
+      "audits": ["lm-tracking-visuals.audit.json"]
+    },
+    "recognition-diagnostics": {
+      "distDir": "recognition-diagnostics-single",
+      "runtime": ["lm-recognition-diagnostics.mjs", "lm-recognition-diagnostics.min.mjs"],
+      "types": ["lm-recognition-diagnostics.d.mts", "lm-recognition-diagnostics.min.d.mts"],
+      "audits": ["lm-recognition-diagnostics.audit.json"]
+    }
+  },
+  "devRuntime": {
+    "packages": ["camera", "compute", "contracts", "media", "recognition", "recognition-diagnostics", "renderer", "sdk", "target-compiler", "target-quality", "tracking", "tracking-visuals"],
+    "runtimeExtensions": [".js", ".mjs", ".wasm", ".wgsl"],
+    "declarationExtensions": [".d.ts", ".d.mts"],
+    "generated": ["entry/sdk-worker.js"],
+    "generatedTypes": ["entry/sdk-worker.d.ts"]
+  },
+  "notices": {
+    "sourceDir": "packages/compute",
+    "files": ["EMSCRIPTEN-LICENSE.txt", "MUSL-COPYRIGHT.txt", "LIBCXX-LICENSE.txt", "DLMALLOC-NOTICE.txt", "toolchain-pin.json"]
+  },
+  "docs": {
+    "INTEGRATION.md": "packages/sdk/README.md",
+    "TARGET-QUALITY.md": "packages/target-quality/README.md"
+  },
+  "exportsDescription": "Stable production exports (core/ and tools/ only) are identical in the SDK and in the curated drop: '.' and './browser' serve the minified core, './single' the readable core, './single/min' the minified core, and each tool name serves its standalone file (the minified one when there is one). Multi-file modules of shared/runtime are SDK-only and only reachable through explicit './development/...' subpaths, outside the stable production contract. There is no wildcard export.",
+  "exports": {
+    ".": { "types": "shared/types/core/lm-engine.min.d.mts", "default": "core/lm-engine.min.mjs" },
+    "./browser": { "types": "shared/types/core/lm-engine.min.d.mts", "default": "core/lm-engine.min.mjs" },
+    "./single": { "types": "shared/types/core/lm-engine.d.mts", "default": "core/lm-engine.mjs" },
+    "./single/min": { "types": "shared/types/core/lm-engine.min.d.mts", "default": "core/lm-engine.min.mjs" },
+    "./target-quality": { "types": "shared/types/tools/target-quality/lm-target-quality.d.mts", "default": "tools/target-quality/lm-target-quality.mjs" },
+    "./target-quality/single": { "types": "shared/types/tools/target-quality/lm-target-quality.d.mts", "default": "tools/target-quality/lm-target-quality.mjs" },
+    "./tracking-visuals": { "types": "shared/types/tools/tracking-visuals/lm-tracking-visuals.min.d.mts", "default": "tools/tracking-visuals/lm-tracking-visuals.min.mjs" },
+    "./tracking-visuals/single": { "types": "shared/types/tools/tracking-visuals/lm-tracking-visuals.d.mts", "default": "tools/tracking-visuals/lm-tracking-visuals.mjs" },
+    "./tracking-visuals/single/min": { "types": "shared/types/tools/tracking-visuals/lm-tracking-visuals.min.d.mts", "default": "tools/tracking-visuals/lm-tracking-visuals.min.mjs" },
+    "./recognition-diagnostics": { "types": "shared/types/tools/recognition-diagnostics/lm-recognition-diagnostics.min.d.mts", "default": "tools/recognition-diagnostics/lm-recognition-diagnostics.min.mjs" },
+    "./recognition-diagnostics/single": { "types": "shared/types/tools/recognition-diagnostics/lm-recognition-diagnostics.d.mts", "default": "tools/recognition-diagnostics/lm-recognition-diagnostics.mjs" },
+    "./recognition-diagnostics/single/min": { "types": "shared/types/tools/recognition-diagnostics/lm-recognition-diagnostics.min.d.mts", "default": "tools/recognition-diagnostics/lm-recognition-diagnostics.min.mjs" },
+    "./development/sdk": { "types": "shared/types/runtime/sdk/src/index.d.ts", "default": "shared/runtime/sdk/src/index.js" },
+    "./development/browser": { "types": "shared/types/runtime/sdk/src/browser.d.ts", "default": "shared/runtime/sdk/src/browser.js" },
+    "./development/cpu": { "types": "shared/types/runtime/sdk/src/cpu.d.ts", "default": "shared/runtime/sdk/src/cpu.js" },
+    "./development/worker": { "types": "shared/types/runtime/entry/sdk-worker.d.ts", "default": "shared/runtime/entry/sdk-worker.js" },
+    "./development/mock": { "types": "shared/types/runtime/sdk/src/mock.d.ts", "default": "shared/runtime/sdk/src/mock.js" },
+    "./development/target-quality": { "types": "shared/types/runtime/target-quality/src/index.d.ts", "default": "shared/runtime/target-quality/src/index.js" },
+    "./development/tracking-visuals": { "types": "shared/types/runtime/tracking-visuals/src/index.d.ts", "default": "shared/runtime/tracking-visuals/src/index.js" },
+    "./development/recognition-diagnostics": { "types": "shared/types/runtime/recognition-diagnostics/src/index.d.ts", "default": "shared/runtime/recognition-diagnostics/src/index.js" },
+    "./development/camera": { "types": "shared/types/runtime/camera/src/index.d.mts", "default": "shared/runtime/camera/src/index.mjs" },
+    "./development/renderer": { "types": "shared/types/runtime/renderer/src/index.d.ts", "default": "shared/runtime/renderer/src/index.js" },
+    "./development/renderer/perspective": { "types": "shared/types/runtime/renderer/src/perspective.d.mts", "default": "shared/runtime/renderer/src/perspective.mjs" },
+    "./development/media": { "types": "shared/types/runtime/media/src/video-session.d.mts", "default": "shared/runtime/media/src/video-session.mjs" },
+    "./development/target-compiler": { "types": "shared/types/runtime/target-compiler/src/index.d.ts", "default": "shared/runtime/target-compiler/src/index.js" },
+    "./development/recognition": { "types": "shared/types/runtime/recognition/src/index.d.ts", "default": "shared/runtime/recognition/src/index.js" },
+    "./development/tracking": { "types": "shared/types/runtime/tracking/src/index.d.ts", "default": "shared/runtime/tracking/src/index.js" },
+    "./development/compute": { "types": "shared/types/runtime/compute/src/index.d.ts", "default": "shared/runtime/compute/src/index.js" },
+    "./development/contracts": { "types": "shared/types/runtime/contracts/src/index.d.ts", "default": "shared/runtime/contracts/src/index.js" },
+    "./development/contracts/worker": { "types": "shared/types/runtime/contracts/src/worker.d.ts", "default": "shared/runtime/contracts/src/worker.js" }
+  },
+  "curated": {
+    "description": "The curated production drop has no shared/runtime, so its generated package.json exposes exactly the stable exports above (every export that resolves to core/ or tools/, same names, same targets as the SDK). The './development/...' subpaths exist only in the SDK.",
+    "rootFiles": ["package.json", "README.md", "LICENSE", "NOTICE", "release-layout.json", "release-manifest.json"]
+  },
+  "demo": {
+    "description": "Development Demo URLs keep their historical /dist/<private-build-dir>/ form. build-livemira-demo.mjs materializes them from the classified SDK; the SDK itself never ships these aliases. core -> dist/<core.distDir>/, tools.<name> -> dist/<tools.<name>.distDir>/, shared/runtime/** -> dist/**.",
+    "routeRoot": "dist",
+    "skipRuntime": ["entry"]
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "sdkVersion": "4.0.15",
+  "emccCommit": "09f52557f0d48b65b8c724853ed8f4e8bf80e669",
+  "repository": "https://github.com/emscripten-core/emsdk.git",
+  "sdkCommit": "389a68bc35dcff7ebae4614e1615099dafda00d1",
+  "compilerRelease": "b412b6307e541b93dd93f01b61181e15c17302ec",
+  "officialContainer": "emscripten/emsdk:4.0.15",
+  "containerDigest": "sha256:27bc6267cb285223b8aebb7627bfebae7cb3ad2aaa0d5923b8aa5321793033e8",
+  "documentation": "https://emscripten.org/docs/getting_started/downloads.html"
+}

@@ -1,0 +1,31 @@
+{
+  "name": "@livemira/sdk",
+  "version": "0.2.0",
+  "license": "Apache-2.0",
+  "author": "Andy (@andy-mira)",
+  "private": true,
+  "type": "module",
+  "main": "./index.mjs",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./index.mjs"
+    },
+    "./cpu": {
+      "types": "./src/cpu.ts",
+      "default": "./cpu.mjs"
+    },
+    "./worker": {
+      "types": "./worker.d.ts",
+      "default": "./worker.mjs"
+    },
+    "./mock": {
+      "types": "./src/mock.ts",
+      "default": "./mock.mjs"
+    }
+  },
+  "dependencies": {
+    "@livemira/contracts": "0.2.0"
+  }
+}
