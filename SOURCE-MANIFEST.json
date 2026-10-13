@@ -32,7 +32,7 @@
     ],
     "rebuild": "scripts/build-wasm.ps1 with the toolchain in packages/compute/toolchain-pin.json (see README.md)"
   },
-  "note": "Documentation-only update (2026-10-13): added Simplified Chinese documentation for all public documents and refreshed English originals; engine source, runtime files and licenses unchanged. SOURCE-MANIFEST.json lists every other file with its SHA-256.",
+  "note": "Documentation-only update (2026-10-13): added Simplified Chinese documentation for all public documents and refreshed English originals; engine source, runtime files and licenses unchanged. SOURCE-MANIFEST.json lists every other file with its SHA-256. Follow-up link fix (2026-10-13): cross-document links in README.zh-CN.md and packages/recognition/README.zh-CN.md now target the Chinese documents; documentation-only, no source or runtime change.",
   "fileCount": 196,
   "files": [
     {
@@ -67,8 +67,8 @@
     },
     {
       "path": "README.zh-CN.md",
-      "bytes": 8872,
-      "sha256": "caaf3c61c82913941d348407be78c23f53622a873bf0c2fcd53ef3ae198e9494"
+      "bytes": 8914,
+      "sha256": "29cdff752ada5f893a6023addc907fe74df9ccabb53db893715f22cba97114ec"
     },
     {
       "path": "apps/demo/copy-assets.mjs",
@@ -447,8 +447,8 @@
     },
     {
       "path": "packages/recognition/README.zh-CN.md",
-      "bytes": 4622,
-      "sha256": "2176ba2fa61e690d174d055c6caee45326d9343317268ea2a7df291995033e93"
+      "bytes": 4628,
+      "sha256": "621a30494d5cc7b659eccfd5bd465ea9c81c551e2d100b607e4b2fac7e3aa561"
     },
     {
       "path": "packages/recognition/experimental/features.d.mts",

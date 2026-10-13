@@ -6,7 +6,7 @@
 
 ## 算法
 
-同一个 `CpuRecognizer` 接受统一的传统目标名录或统一的 `c-oriented-brief256-v2` 目标名录；版本混用将予以拒绝。传统目标使用 `m0-harris-brief256-v1`（每层贪婪选择）或 `m0-harris-anms-brief256-v1`（ANMS 选择）。若要更改算法，必须重新编译目标；编译器默认项仍为传统算法。参见[目标编译器 README](../target-compiler/README.md)。
+同一个 `CpuRecognizer` 接受统一的传统目标名录或统一的 `c-oriented-brief256-v2` 目标名录；版本混用将予以拒绝。传统目标使用 `m0-harris-brief256-v1`（每层贪婪选择）或 `m0-harris-anms-brief256-v1`（ANMS 选择）。若要更改算法，必须重新编译目标；编译器默认项仍为传统算法。参见[目标编译器 README](../target-compiler/README.zh-CN.md)。
 
 对于传统目标，全局未命中会获得一次半倍频程（half-octave）重试，而不会更改已保存的描述符或几何阈值。`legacyScaleSearch: false` 会跳过该重试（仅供诊断比对）。
 

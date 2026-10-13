@@ -33,7 +33,7 @@ LiveMira 是面向浏览器的**图像目标 AR 引擎**：在实时相机画面
 
 ## 构建
 
-要求：Node.js >= 25.9.0，npm >= 10（实测 Node 25.9.0、npm 11.12.1）。除 `npm ci` 外不需要 Docker、Emscripten 或网络：WebAssembly 模块是固定的预编译文件，位于 [`packages/compute/artifacts/`](packages/compute/README.md)，记录在 `packages/compute/prebuilt-artifacts.json`。
+要求：Node.js >= 25.9.0，npm >= 10（实测 Node 25.9.0、npm 11.12.1）。除 `npm ci` 外不需要 Docker、Emscripten 或网络：WebAssembly 模块是固定的预编译文件，位于 [`packages/compute/artifacts/`](packages/compute/README.zh-CN.md)，记录在 `packages/compute/prebuilt-artifacts.json`。
 
 ```sh
 npm ci
@@ -62,7 +62,7 @@ import { createEngine, createWorkerPipeline, CameraFrameSource, getFrameGeometry
   from '/assets/lm-engine.min.mjs';        // 你构建出的 core/lm-engine.min.mjs，通过 HTTPS 提供
 ```
 
-`@livemira/engine` 的生产接口在 SDK 包和精选发行版中完全相同：`.` 与 `./browser` 指向压缩核心，`./single` 为可读核心，`./single/min` 为压缩核心；`./target-quality`、`./tracking-visuals`、`./recognition-diagnostics`（及其 `/single`、`/single/min` 形式）指向独立工具文件。只有 SDK 包另有显式的 `./development/...` 入口用于多文件模块，它们不属于稳定生产接口；不存在通配符导出。补丁版与次版本的兼容规则以及目标 schema 版本规则见 [`docs/release/livemira-release.md`](docs/release/livemira-release.md)。完整示例、API 说明以及内容安全策略要求（`worker-src blob:`、允许 WebAssembly 编译）见 [`packages/sdk/README.md`](packages/sdk/README.md)，在包的 `docs` 目录中为 `INTEGRATION.md`。可选指南：[目标图质量](packages/target-quality/README.md)、[跟踪可视化](packages/tracking-visuals/README.md)、[识别诊断](packages/recognition-diagnostics/README.md)。
+`@livemira/engine` 的生产接口在 SDK 包和精选发行版中完全相同：`.` 与 `./browser` 指向压缩核心，`./single` 为可读核心，`./single/min` 为压缩核心；`./target-quality`、`./tracking-visuals`、`./recognition-diagnostics`（及其 `/single`、`/single/min` 形式）指向独立工具文件。只有 SDK 包另有显式的 `./development/...` 入口用于多文件模块，它们不属于稳定生产接口；不存在通配符导出。补丁版与次版本的兼容规则以及目标 schema 版本规则见 [`docs/release/livemira-release.md`](docs/release/livemira-release.zh-CN.md)。完整示例、API 说明以及内容安全策略要求（`worker-src blob:`、允许 WebAssembly 编译）见 [`packages/sdk/README.md`](packages/sdk/README.zh-CN.md)，在包的 `docs` 目录中为 `INTEGRATION.md`。可选指南：[目标图质量](packages/target-quality/README.zh-CN.md)、[跟踪可视化](packages/tracking-visuals/README.zh-CN.md)、[识别诊断](packages/recognition-diagnostics/README.zh-CN.md)。
 
 ## 目录
 
@@ -79,7 +79,7 @@ import { createEngine, createWorkerPipeline, CameraFrameSource, getFrameGeometry
 
 ## 原生重建
 
-预编译模块使用 Emscripten 4.0.15 生成（固定记录在 `packages/compute/toolchain-pin.json`）。文档化的重建路径是 `scripts/build-wasm.ps1`，它是来自 Windows 环境的 PowerShell 脚本，未在其他平台验证，不声明跨平台重建可用。详见 [`packages/compute/README.md`](packages/compute/README.md)。
+预编译模块使用 Emscripten 4.0.15 生成（固定记录在 `packages/compute/toolchain-pin.json`）。文档化的重建路径是 `scripts/build-wasm.ps1`，它是来自 Windows 环境的 PowerShell 脚本，未在其他平台验证，不声明跨平台重建可用。详见 [`packages/compute/README.md`](packages/compute/README.zh-CN.md)。
 
 ## Made with AI（AI 参与构建）
 
