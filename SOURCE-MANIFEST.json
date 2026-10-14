@@ -2,8 +2,8 @@
   "schema": "lm-public-source/1",
   "allowlistVersion": "lm-public-source-allowlist/1",
   "name": "livemira",
-  "version": "0.2.0",
-  "scope": "LiveMira engine source 0.2.0 (current stable). It is the engine only: not the LiveMorae application, not unreleased UI work, no Demo media or user targets.",
+  "version": "0.2.1",
+  "scope": "LiveMira engine source 0.2.1 (current stable). It is the engine only: not the LiveMorae application, not unreleased UI work, no Demo media or user targets.",
   "license": {
     "spdx": "Apache-2.0",
     "files": [
@@ -13,7 +13,7 @@
     "thirdParty": "packages/compute/EMSCRIPTEN-LICENSE.txt, packages/compute/MUSL-COPYRIGHT.txt (unchanged upstream texts; see NOTICE)"
   },
   "source": {
-    "commit": "a8f4764eb2b339052214071fa1fef2de2729d86c",
+    "commit": "da6b0473c84e879cd0c2ad4e560dc0e37ad5cbe9",
     "dirty": false,
     "dirtyEntryCount": 0
   },
@@ -32,8 +32,8 @@
     ],
     "rebuild": "scripts/build-wasm.ps1 with the toolchain in packages/compute/toolchain-pin.json (see README.md)"
   },
-  "note": "Documentation-only update (2026-10-13): added Simplified Chinese documentation for all public documents and refreshed English originals; engine source, runtime files and licenses unchanged. SOURCE-MANIFEST.json lists every other file with its SHA-256. Follow-up link fix (2026-10-13): cross-document links in README.zh-CN.md and packages/recognition/README.zh-CN.md now target the Chinese documents; documentation-only, no source or runtime change.",
-  "fileCount": 196,
+  "note": "0.2.1 source update (2026-10-14): WASM exact matching and BRIEF offset reuse become engine defaults (bit-identical results, new packages/compute/exact-matching-wasm sources); version metadata and public documentation refreshed. On top of the distributed source, this repository adds the marketing layer only — badges, the Made with AI section and Ko-fi funding link in both READMEs, and .github/FUNDING.yml; engine source, runtime files and licenses are byte-identical to the distributed source manifest. SOURCE-MANIFEST.json lists every other file with its SHA-256.",
+  "fileCount": 203,
   "files": [
     {
       "path": ".github/FUNDING.yml",
@@ -62,13 +62,13 @@
     },
     {
       "path": "README.md",
-      "bytes": 9716,
-      "sha256": "209d22a35531e5cab16046ea4be3c436bb2e17a6066e7efd58645ded31b34aa1"
+      "bytes": 10753,
+      "sha256": "1ee54add325ea5ded32c707af70db6dcb72b1075f71458567a88af44d638079d"
     },
     {
       "path": "README.zh-CN.md",
-      "bytes": 8914,
-      "sha256": "29cdff752ada5f893a6023addc907fe74df9ccabb53db893715f22cba97114ec"
+      "bytes": 9869,
+      "sha256": "21b190d14219d4547f925d66b29100ba00475660468210446396b33f9a6a8329"
     },
     {
       "path": "apps/demo/copy-assets.mjs",
@@ -87,13 +87,13 @@
     },
     {
       "path": "docs/release/livemira-release.md",
-      "bytes": 7528,
-      "sha256": "507a1d3f788d3720648461cf32118f1af25cecb5c2cb8f883b1b85ad7afe12c4"
+      "bytes": 9722,
+      "sha256": "b3038411dc5afd61e4bbc350d93dd6070669199eba3379ef7a39746bad9544be"
     },
     {
       "path": "docs/release/livemira-release.zh-CN.md",
-      "bytes": 7452,
-      "sha256": "7668a50dcd2b5512ceb8984c82c054be518778f815437f33e2b90928250a6f05"
+      "bytes": 9537,
+      "sha256": "f38b58a03e0afc39f415bf813e7bafc80a9018f9b11991c4e6f785b5fdfd6ece"
     },
     {
       "path": "native/CMakeLists.txt",
@@ -123,12 +123,12 @@
     {
       "path": "package-lock.json",
       "bytes": 18250,
-      "sha256": "22885e87f4482902a8addbd98c82499a340dd06d21655deec8ea9cf72a4425db"
+      "sha256": "67121a50188fb0b506148f575d51cbb7dcccd0d92379b849bc2f03bb5546cd1a"
     },
     {
       "path": "package.json",
       "bytes": 1855,
-      "sha256": "8f4fa1c1752863f91580702fa1081f45fa5f0168ef5b8f36e0f7402b474fe5ab"
+      "sha256": "e8f5da312a3de6b070d41b70df52ed37e6a12f3912dca60d225bd8e16d9240cb"
     },
     {
       "path": "packages/camera/README.md",
@@ -148,7 +148,7 @@
     {
       "path": "packages/camera/package.json",
       "bytes": 353,
-      "sha256": "91a74c8d6c3551f5cdd13d65c7f3ac4a96e755b86a26c6c68f36bde81da64f04"
+      "sha256": "f44781bbaefeb9e8150716ece2970400426603d537055bd6aeffcf76191d4a96"
     },
     {
       "path": "packages/camera/src/capabilities.mjs",
@@ -247,13 +247,13 @@
     },
     {
       "path": "packages/compute/README.md",
-      "bytes": 8660,
-      "sha256": "0a9902891b54837544cfd368b0074d4f09cf7dd3132cc9406e584a3042a6633f"
+      "bytes": 12427,
+      "sha256": "69145a1048dfc6055c7a8359204c68d151ce34a5c452be6e23cf193e507847bc"
     },
     {
       "path": "packages/compute/README.zh-CN.md",
-      "bytes": 8524,
-      "sha256": "08319b2070df1024d112cd1b65ae8f8652698e9cada8d75795e4fb673099adc9"
+      "bytes": 12086,
+      "sha256": "d865f8f7424e7b8b574ca5cdb06f70fa6e5e67cc820e06c75fcee3981716f798"
     },
     {
       "path": "packages/compute/artifacts/scalar/compute.mjs",
@@ -274,6 +274,31 @@
       "path": "packages/compute/artifacts/simd/compute.wasm",
       "bytes": 8387,
       "sha256": "aa84af8095bd3231e75b6571d95e672ed4c21479218c88e925afe682c9da02a9"
+    },
+    {
+      "path": "packages/compute/exact-matching-wasm/build.mjs",
+      "bytes": 5946,
+      "sha256": "e625fac2062919df498f4786dde38e2a96b2972b7c4c0c2adba4b09249662ac8"
+    },
+    {
+      "path": "packages/compute/exact-matching-wasm/hamming-exact-scalar.wat",
+      "bytes": 6960,
+      "sha256": "af50be6ee084029bf9bdca81ce2b090cc4dbb0a1ecb2da96904ab6963bb38595"
+    },
+    {
+      "path": "packages/compute/exact-matching-wasm/hamming-exact-simd.wat",
+      "bytes": 9887,
+      "sha256": "8a6302ec703d05bc781337ca61f905eac9516f3995097abc064f8df6fec9c50e"
+    },
+    {
+      "path": "packages/compute/exact-matching-wasm/manifest.json",
+      "bytes": 1903,
+      "sha256": "042e5088337a47eeabf2c5992b2c6edf3288482af48e65bc93ae46734c2c2b8c"
+    },
+    {
+      "path": "packages/compute/exact-matching-wasm/toolchain-pin.json",
+      "bytes": 616,
+      "sha256": "5b5f8e2171510862c73f6069c22376fd541a32e64b6e9047a521a5ddb341b87c"
     },
     {
       "path": "packages/compute/prebuilt-artifacts.json",
@@ -307,18 +332,23 @@
     },
     {
       "path": "packages/compute/src/exact-matching-adapter.mjs",
-      "bytes": 740,
-      "sha256": "f3211051eac59cb7209860023e6a2f204e1f5bbb9986a178a5f92a15dcb1a8e1"
+      "bytes": 1313,
+      "sha256": "1f7a21fc038a8a0f4081423560bb139e41a9df0221650817c8ce5e3d655ce38c"
+    },
+    {
+      "path": "packages/compute/src/exact-matching-wasm-binaries.mjs",
+      "bytes": 3492,
+      "sha256": "b84f4a9f1d0a3f1dc16eaa2cac0b27793871f4336e5c39ead46c8f1e7ac535c6"
     },
     {
       "path": "packages/compute/src/hamming-matcher.mjs",
-      "bytes": 9619,
-      "sha256": "8c300718b701fd7684d3e2711f425e5f9e1a0a6dc1afbf8ff74fc687a5451a90"
+      "bytes": 9716,
+      "sha256": "f8080a13a523e8dd566b03aeaa7a7ddfdc26976d6c30a8e92cba1ab290c760d9"
     },
     {
       "path": "packages/compute/src/index.ts",
-      "bytes": 546,
-      "sha256": "4984d851033872c1a7075e1d4bc9e316cc63661a6cc918baea52deefb3fb257f"
+      "bytes": 663,
+      "sha256": "bec59d522513c015bcfa5d49ac73144447d59b9d2ac2f40dfcd476e6deca62fb"
     },
     {
       "path": "packages/compute/src/probe.mjs",
@@ -329,6 +359,11 @@
       "path": "packages/compute/src/reference.mjs",
       "bytes": 3024,
       "sha256": "94aaa27871320263581ae0b0ec0bf2e30e045c3c763140fa54d972cd9da50399"
+    },
+    {
+      "path": "packages/compute/src/wasm-exact-matcher.mjs",
+      "bytes": 10894,
+      "sha256": "99dab440f6fea8f636de080592a37786cbffb2cafcd81e169ff566e61b7f0819"
     },
     {
       "path": "packages/compute/src/wasm-preprocessor.mjs",
@@ -363,17 +398,17 @@
     {
       "path": "packages/contracts/package.json",
       "bytes": 211,
-      "sha256": "44339e28b6cf90ded0b229d360a05a7fb3ed17bd5f9e742cbf4f5809294e28c4"
+      "sha256": "3e1fb7a380f4ffd03ace6c7b2ef2741c2376d5e8147ff15a976748a9bed8a2f9"
     },
     {
       "path": "packages/contracts/src/index.ts",
-      "bytes": 22214,
-      "sha256": "c809fb9138ccb51572c6a5394b045b6f375a2d4e0833550f2d66dd0145b9e103"
+      "bytes": 23617,
+      "sha256": "4cfd41adcbe40ca2e71c45e323b5f970a5179f357c8f41f838045546ef054d7f"
     },
     {
       "path": "packages/contracts/src/worker.ts",
-      "bytes": 11170,
-      "sha256": "58b15841ce887823466d46db4a50571c76c36b82f4f65ae5004474b51e572bb7"
+      "bytes": 13198,
+      "sha256": "a88cf073beee24d1a7a6573a9c6a1f4fadc25dc307ae31d275b221ed1f9fc9c5"
     },
     {
       "path": "packages/contracts/test/contracts.test.mjs",
@@ -393,7 +428,7 @@
     {
       "path": "packages/media/package.json",
       "bytes": 193,
-      "sha256": "22c7e4e6359510f566de7e26c813090a4eb21aff54c9c78efe964ed51086c3c2"
+      "sha256": "7e9b0a231371224e64a0196af5e0c9dd8a13c77556ba0b7372a9913392b2af42"
     },
     {
       "path": "packages/media/src/video-session.d.mts",
@@ -428,7 +463,7 @@
     {
       "path": "packages/recognition-diagnostics/package.json",
       "bytes": 560,
-      "sha256": "025312201c0124e5f8e058cc8a6aa4f1a63ab2abd0fcbf054525db2cf9fa3f43"
+      "sha256": "06c4f5af1b09d4669f2c1ba715975539af934a3b4177c488ee455a3af406fe66"
     },
     {
       "path": "packages/recognition-diagnostics/src/index.ts",
@@ -452,13 +487,13 @@
     },
     {
       "path": "packages/recognition/experimental/features.d.mts",
-      "bytes": 1290,
-      "sha256": "2395bf693069e43d92c1d63d375bc2e0a0374f56dd8e7080ba8095cc2584f464"
+      "bytes": 1402,
+      "sha256": "23c768d748c09ed766c37cb911aca4e90250862a6c25638caa250a1eb67128f6"
     },
     {
       "path": "packages/recognition/experimental/features.mjs",
-      "bytes": 10213,
-      "sha256": "9783b5aa6bca6fd193a2cea81d950fe01c36cdeb60a96920c610ca729c4dad8a"
+      "bytes": 11544,
+      "sha256": "cc1f74a2c9c656e3718d157c08d2f01c54ec251ec719eb3eb7651d68113e9f6c"
     },
     {
       "path": "packages/recognition/experimental/geometry.d.mts",
@@ -483,7 +518,7 @@
     {
       "path": "packages/recognition/package.json",
       "bytes": 273,
-      "sha256": "249baea4d6a20ea44f1816fd60fcca8a69193e11f3ed76c9f75fcd0634855267"
+      "sha256": "00d591ea4837bd25afeeabab55d025e4304b197955aaa0d42bb8b19764602dc6"
     },
     {
       "path": "packages/recognition/src/anms.d.mts",
@@ -497,18 +532,18 @@
     },
     {
       "path": "packages/recognition/src/index.ts",
-      "bytes": 15810,
-      "sha256": "78739eb6c3e3c36d563d34fb5917d4b1454233dfffdd13af78f01664f0fa2a1a"
+      "bytes": 17078,
+      "sha256": "e2c7a7dd2afd4e32eb77e39f54774e5a81f6f8cfb5314a00fcdd62a9dc1a7910"
     },
     {
       "path": "packages/recognition/src/legacy-family.d.mts",
-      "bytes": 636,
-      "sha256": "899347cc06d47288f8ca64feb9db662aaa7f707a65abad5ea0575fba6c6f8188"
+      "bytes": 660,
+      "sha256": "90cf4db464c78457bced6bb11c21a46c70dc631c20a9fe3fe7b3eebcbe047008"
     },
     {
       "path": "packages/recognition/src/legacy-family.mjs",
-      "bytes": 1343,
-      "sha256": "8c45ec70c89ba78ff83b9979e1588d2ccdab24bf04f8b0e8f79c30006dcb6e12"
+      "bytes": 1357,
+      "sha256": "9f795e112c8dd6ce8e7f10f9857f67c42a6d6633920f073d9d1b0c5376309a33"
     },
     {
       "path": "packages/recognition/src/legacy-scale.d.mts",
@@ -563,7 +598,7 @@
     {
       "path": "packages/renderer/package.json",
       "bytes": 308,
-      "sha256": "730bd28136177e36afcce5e1fbece0e7d8de1b244128d2cc908d52a621fa7d56"
+      "sha256": "f508045aac291ca5fe2738d88e5218a3c6fa0e3930d12a07441915f689609a40"
     },
     {
       "path": "packages/renderer/src/index.ts",
@@ -597,13 +632,13 @@
     },
     {
       "path": "packages/sdk/README.md",
-      "bytes": 24793,
-      "sha256": "d878aee6f528863b189de621ab24eebdb05bcf3b8f02ef8203095dc37912b0cb"
+      "bytes": 28958,
+      "sha256": "48e565fcdad84e9391b3a5b30daa4f7fca477ecd69717dcd6edbda46f81b1473"
     },
     {
       "path": "packages/sdk/README.zh-CN.md",
-      "bytes": 24894,
-      "sha256": "69b716254ad18095a4c58944880ee8f3a5855eb429a13ff9636c466681324a53"
+      "bytes": 28891,
+      "sha256": "5e133ff3d38b9247eb5f04a3c9abed47adcdb07ca1696c5b5e0a2cb1bff60acb"
     },
     {
       "path": "packages/sdk/cpu.mjs",
@@ -623,7 +658,7 @@
     {
       "path": "packages/sdk/package.json",
       "bytes": 622,
-      "sha256": "18f75fc85da0e5a0375f50341e35bd608e05a58a8f0f12d2934710b4ce30a3b2"
+      "sha256": "154da71aac017461419df606082ada4b7c9334f49bb043b27ecac1861be5bdfa"
     },
     {
       "path": "packages/sdk/src/browser.ts",
@@ -632,8 +667,8 @@
     },
     {
       "path": "packages/sdk/src/cpu.ts",
-      "bytes": 5262,
-      "sha256": "8f9492a896b48c809e871026d5af8b428c9d9393ba654fee0785eaf301fb4eb5"
+      "bytes": 5866,
+      "sha256": "2b0a08555b666d3e96ceff483cd136c35dd63bd2c07ae29bd55babdfb3959147"
     },
     {
       "path": "packages/sdk/src/diagnostics.ts",
@@ -667,13 +702,13 @@
     },
     {
       "path": "packages/sdk/src/worker-pipeline.ts",
-      "bytes": 12447,
-      "sha256": "0584bacfaf8bc8c6c64a2e1c3b90d56b74ce9988da0eeff8a1dbe401b6f3d251"
+      "bytes": 13217,
+      "sha256": "5d82ed53c65c9618a89699e45c93b8f58f9ec7017e9a9c9545eec647664c3a51"
     },
     {
       "path": "packages/sdk/src/worker-runtime.ts",
-      "bytes": 20156,
-      "sha256": "2ad776dd8b089f5a4439ad98bdd7d9424e7034345a2a9273edaeeb766e261b6d"
+      "bytes": 24529,
+      "sha256": "1bb74d13f88b08f4dc24aa0701d6f4344db8480e9f577826b45d3e75c8959515"
     },
     {
       "path": "packages/sdk/test/cpu-borrow.test.mjs",
@@ -712,8 +747,8 @@
     },
     {
       "path": "packages/sdk/test/worker-frame.test.mjs",
-      "bytes": 25965,
-      "sha256": "03d52f85a5918900ec324cf0108934a9e30bfbbb33879192f57bdda18da0a046"
+      "bytes": 28552,
+      "sha256": "1eafdd60a8998f3bf19405940f1f9f540b6f4a644f527bcffe6284c73d608995"
     },
     {
       "path": "packages/sdk/test/worker.test.mjs",
@@ -758,12 +793,12 @@
     {
       "path": "packages/target-compiler/package.json",
       "bytes": 277,
-      "sha256": "61d63eb6fca50434d9c1421c6d6f3d3a6647ce7cedbf3c2285e9ee12f71c5268"
+      "sha256": "57ab9ea4974753fbdd514535a8231b79aa808aea71033b11115ac0505f323fcf"
     },
     {
       "path": "packages/target-compiler/src/index.ts",
-      "bytes": 9756,
-      "sha256": "b4c419b5c38ca6d3e54c39a0aa5f6d60e71e3f63fd82edd7943c5b634e569e13"
+      "bytes": 10110,
+      "sha256": "8c5d18f1611bf4087b1df02cf816f8e589c64d9bc3d5b6880cd20b5928ee4327"
     },
     {
       "path": "packages/target-compiler/tsconfig.json",
@@ -788,7 +823,7 @@
     {
       "path": "packages/target-quality/package.json",
       "bytes": 487,
-      "sha256": "6d1e321e1bc2e082ee89f66ea22472cf73970aca0d6b965c4c517c8443ab2b19"
+      "sha256": "936bae3c841609e952dc416b6a98496b124105bd808b41ea6db03ff42b7c659c"
     },
     {
       "path": "packages/target-quality/src/index.ts",
@@ -818,7 +853,7 @@
     {
       "path": "packages/tracking-visuals/package.json",
       "bytes": 540,
-      "sha256": "86f758839e8e9c22b4ffa1b5166ba0b5e2f9efc4f141afde5f29c7760b7611e5"
+      "sha256": "85f73ba1a72eed8e15c4f6165471bf36b23842dcb70942dc6a238a18015a2674"
     },
     {
       "path": "packages/tracking-visuals/src/index.ts",
@@ -858,7 +893,7 @@
     {
       "path": "packages/tracking/package.json",
       "bytes": 326,
-      "sha256": "aa072ed7dfe535884c7832c579223fdd81bc278835e691c9f00b3d9b89cf7ec0"
+      "sha256": "b62c52352e1c8ccf7047d961aca72a0c0b2d0248277ac743bf8f54f85ce029ff"
     },
     {
       "path": "packages/tracking/src/cpu-points.ts",
@@ -897,18 +932,18 @@
     },
     {
       "path": "scripts/release/SDK.zh-CN.md.template",
-      "bytes": 2583,
-      "sha256": "192def2639b3239caa0d2f73e49dea475c8c9b7b21f417e3b0dd39958fd00886"
+      "bytes": 3000,
+      "sha256": "21dd8fec21d8a5c8f0479481ad0d91901a10316e8dad69ca8f3718bd2407eabc"
     },
     {
       "path": "scripts/release/build-engine-package.mjs",
-      "bytes": 24575,
-      "sha256": "3f3bddf73b6ceef0a234ab2cf186a6957a8627ebe908d6301794f9fa9c56bebd"
+      "bytes": 24992,
+      "sha256": "a6f8265b8aa0b545aa514d3c3e8a0c8e7fca5a748dc371e8a16eaaf0e8903d52"
     },
     {
       "path": "scripts/release/build-engine-single.mjs",
-      "bytes": 22407,
-      "sha256": "35b5d540bbdfdc130e969aded8ee0c9747056a17d853943b21852f53cf9d7457"
+      "bytes": 22626,
+      "sha256": "f39897daa33f8d6660baf1b589cefcc99d10d7c5f9b6420ded7eaf0bcc170385"
     },
     {
       "path": "scripts/release/build-recognition-diagnostics.mjs",
@@ -992,8 +1027,8 @@
     },
     {
       "path": "tests/reliability/engine-single.test.mjs",
-      "bytes": 36616,
-      "sha256": "b2f88003d553da32280136716e730d2d89b9c1b4b291510939444c08ee319ed9"
+      "bytes": 40255,
+      "sha256": "ec742533c42db49a269d5e1194be520af9f8339ab5cd8fce033d3a9467feb4e7"
     },
     {
       "path": "tests/reliability/recognition-diagnostics-standalone.test.mjs",

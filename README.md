@@ -1,19 +1,20 @@
 # LiveMira
 
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
-[![Engine](https://img.shields.io/badge/engine-0.2.0-orange.svg)](https://github.com/andy-mira/livemira/releases/tag/v0.2.0)
+[![Engine](https://img.shields.io/badge/engine-0.2.1-orange.svg)](https://github.com/andy-mira/livemira/releases/tag/v0.2.1)
 [![Docs](https://img.shields.io/badge/docs-EN%20%7C%20%E4%B8%AD%E6%96%87-informational.svg)](README.zh-CN.md)
 
 [简体中文](README.zh-CN.md)
 
-LiveMira is a browser engine for **image-target AR**: it recognizes a prepared image in the live camera feed, tracks it in real time and overlays a video on it. Recognition and tracking run in a Web Worker with WebAssembly preprocessing and optional WebGPU matching; the page needs no server component.
+LiveMira is a browser engine for **image-target AR**: it recognizes a prepared image in the live camera feed, tracks it in real time and overlays a video on it. Recognition and tracking run in a Web Worker. CPU is the default; since 0.2.1 it matches descriptors with an exact WebAssembly matcher and reuses precomputed BRIEF sample offsets by default (each can be switched off, with automatic fallback to JavaScript). WebAssembly preprocessing and experimental WebGPU matching stay opt-in; the page needs no server component.
 
-This repository contains the source of the current stable edition of **LiveMira**. It contains the engine only; applications built on it and their media are not included.
+This source tree is **LiveMira 0.2.1**, a patch release that turns on two bit-identical CPU optimizations by default; the formal 0.2.0 release artifacts remain frozen. Applications built on the engine and their media are not included in the public source distribution.
 
 ## Status and support scope
 
-- Recognition and the existing camera/media behavior inherit previously tested iPhone browser evidence. The loading overlay and soft circular reveal were confirmed in an iPhone Chrome Demo using the release candidate. Final 0.2.0 changes only version metadata and public documentation; these final artifacts were not tested directly on a phone. Other devices and environments are trial.
-- **Known issue:** portrait/landscape transitions can deform the video overlay. This remains unresolved in 0.2.0; prefer a fixed orientation where consistent alignment is required.
+- Recognition and the existing camera/media behavior inherit previously tested iPhone browser evidence. The loading overlay and soft circular reveal were confirmed in an iPhone Chrome Demo using the release candidate. Final 0.2.0 changed only version metadata and public documentation; those final artifacts were not tested directly on a phone. 0.2.1 changes defaults only: the exact WebAssembly matcher and BRIEF offset reuse produce the same results as the previous JavaScript paths (same algorithm and schema identifiers; compiled targets are unchanged). Measured on the candidate build with both options explicitly enabled (phones labelled 14 PM and 18 PM; the final 0.2.1 artifacts were not directly phone tested), input-to-result p95 latency improved (about 55 → 28 ms and 62 → 28 ms in the same test), but a human tester saw little or no clear difference, and those inputs were not physically paired. Other devices and environments are trial.
+- **Known issue:** portrait/landscape transitions can deform the video overlay. This remains unresolved in 0.2.1; prefer a fixed orientation where consistent alignment is required.
+- **Known issue:** matching can still be lost during fast motion. The 0.2.1 defaults do not fix this and no clear subjective improvement is claimed.
 - The engine is **not declared production-ready** (`productionReady: false` in release manifests). Confirm performance and device behavior in your own target environment.
 - Packages are private (`"private": true` only prevents accidental publishing to npm; it is not a license restriction). Nothing here is published to npm.
 
@@ -81,16 +82,6 @@ The production interface of `@livemira/engine` is the same in the SDK package an
 
 The prebuilt modules were produced with Emscripten 4.0.15 (pin in `packages/compute/toolchain-pin.json`). The documented rebuild route is `scripts/build-wasm.ps1`, a PowerShell script from a Windows environment. It has not been verified on other platforms and no cross-platform rebuild is claimed. See [`packages/compute/README.md`](packages/compute/README.md).
 
-## Made with AI
-
-This repository is built by a human–AI team: the owner (**Andy (@andy-mira)**) sets direction, reviews and accepts the work; the code and artifacts were produced together with AI agents — **Nova** (GLM-5.3, orchestration & ops), **Codex** (GPT, engineering management & acceptance, and takes over development when Claude hits its limits) and **Claude** (implementation). The project is openly licensed under Apache-2.0 — use it freely, within the license terms.
-
-## Buy us a coffee ☕
-
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/andymira)
-
-If LiveMira saves you time, consider buying the author a coffee. Half of every donation goes to the AI agents that helped build this — they run on subscriptions, and coffee is literally their fuel.
-
 ## License
 
 Copyright 2026 Andy (@andy-mira)
@@ -105,3 +96,13 @@ The prebuilt WebAssembly modules and their JavaScript glue also contain code fro
 The root `package.json` is the source of the release version, author, license and `livemira` display/package metadata. Workspace manifests and the npm lockfile contain generated copies required by npm. Set the next version with `npm run version:set -- 0.2.1` (or run it without an argument to synchronize existing root metadata). `npm run version:check` checks consistency without changing files; builds run this check automatically. No environment file is needed.
 
 Distribution paths and exports are defined in `scripts/release/release-layout.json`. Algorithm, compiler and target-schema versions describe separate compatibility contracts and are not changed by the release-version command. Historical evidence and original copyright notices remain under their original identities.
+
+## Made with AI
+
+This repository is built by a human–AI team: the owner (**Andy (@andy-mira)**) sets direction, reviews and accepts the work; the code and artifacts were produced together with AI agents — **Nova** (GLM-5.3, orchestration & ops), **Codex** (GPT, engineering management & acceptance, and takes over development when Claude hits its limits) and **Claude** (implementation). The project is openly licensed under Apache-2.0 — use it freely, within the license terms.
+
+## Buy us a coffee ☕
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/andymira)
+
+If LiveMira saves you time, consider buying the author a coffee. Half of every donation goes to the AI agents that helped build this — they run on subscriptions, and coffee is literally their fuel.

@@ -7,3 +7,4 @@ export { copyCanonicalFrame } from './canonical-frame.ts';
 export { createWasmPreprocessor, WasmPreprocessor } from './wasm-preprocessor.mjs';
 export { HammingMatcher, matchHamming32 } from './hamming-matcher.mjs';
 export { createExactMatchingAdapter } from './exact-matching-adapter.mjs';
+export { WasmExactMatcher, selectWasmExactMatcher, createWasmExactMatchingAdapter } from './wasm-exact-matcher.mjs';

@@ -2,7 +2,7 @@
 
 [English](README.md) | [简体中文](README.zh-CN.md)
 
-在 CPU 上以标量或 SIMD WebAssembly 形式进行原生风格的预处理（灰度转换和高斯金字塔），外加一个可选的、Worker 安全的常驻 WebGPU 汉明匹配器（带有精确的 CPU 回退）。这两种方式都不意味着整个引擎运行在 WebAssembly 或 GPU 上：识别和跟踪均在 CPU 上运行，且 GPU 匹配是可选加入的（小批次会出现性能回退，并且在测量的桌面测试夹具上完整识别无法满足 33 ms 的预算）。
+在 CPU 上以标量或 SIMD WebAssembly 形式进行原生风格的预处理（灰度转换和高斯金字塔），外加一个可选的、Worker 安全的常驻 WebGPU 汉明匹配器（带有精确的 CPU 回退）。这两种方式都不意味着整个引擎运行在 WebAssembly 或 GPU 上：识别和跟踪均在 CPU 上运行。默认使用 CPU；GPU 匹配是显式开启的实验选项。收益取决于设备、浏览器和目标负载，启用前须验证完整相机链路的表现。
 
 ## 运行时入口点
 
@@ -27,13 +27,28 @@ await matcher.dispose();
 
 `CpuComputeBackend` 接收注入的 `CpuOperators`（特征检测、描述与匹配、点跟踪）；该后端拥有有界的资源生命周期（最多保留 32 个句柄和 32 MiB），且 `dispose` 会排空正在进行的活跃工作。每个准备好的帧或金字塔句柄都必须予以释放；`readGray` 返回拥有所有权的副本。`src/canonical-frame.ts` (`copyCanonicalFrame`) 在保留帧和会话标识以及尊重借用输入所有权的同时复制紧密打包的规范 gray8 或 RGBA8；它拒绝非规范方向、已释放句柄以及已中止的调用。
 
+SDK 应用可通过 `createWorkerPipeline({ prepareFrame, options: { backendPreference: 'webgpu' } })` 为传统/ANMS 或 oriented-v2 目标请求精确 GPU 匹配。默认保持 `backendPreference: 'cpu'`。通过 `onCapability` 的 `operators.matching` 确认实际后端；识别与跟踪仍在 CPU 上，因此整体 `backend` 仍为 `cpu`。GPU 不可用时，传统匹配继续使用原 CPU 匹配器。处理中匹配设备代际变化会拒绝该帧并要求 reset，不会产生有效的过期姿态。上面的低层 `exactMatching` 示例仍仅适用于 oriented-v2。
+
 ### 汉明匹配
 
-对于直接匹配，先执行 `setTargets([{id, descriptors: Uint8Array}])`，然后 `matchBatch(targetIds, frameDescriptors, signal)` 返回后端、版本、匹配项、耗时和 `fallbackReason`。最多保留十个目标快照；每个目标或帧最多包含 512 个 32 字节的描述符；一个批次最多包含三个候选目标。目标描述符在调用之间保留在 GPU 上，每个批次仅上传一次帧。仅返回前向最佳/次佳和反向最近归约，而不返回完整距离矩阵或图像。返回的配对包含 `targetIndex`、`frameIndex` 和 `distance`，按目标索引排序。
+对于直接匹配，先执行 `setTargets([{id, descriptors: Uint8Array}])`，然后 `matchBatch(targetIds, frameDescriptors, signal)` 返回后端、版本、匹配项、耗时和 `fallbackReason`。最多保留十个目标快照；每个目标或帧最多包含 512 个 32 字节的描述符；一个批次最多包含十个候选目标。目标描述符在调用之间保留在 GPU 上，每个批次仅上传一次帧。仅返回前向最佳/次佳和反向最近归约，而不返回完整距离矩阵或图像。返回的配对包含 `targetIndex`、`frameIndex` 和 `distance`，按目标索引排序。
 
 精确数值约定 `hamming32-mutual-ratio075-max64/1`：最佳 <= 64，严格满足 `4*best < 3*second`；仅接受唯一反向最近目标（反向距离相等时拒绝）。空输入不返回匹配项。所有距离和索引决策必须与 CPU 完全一致。匹配器不计算方向、描述符、检索或单应性。
 
 `diagnostics` 和 `onCapabilityChanged` 公开实际后端、代际和回退原因。`invalidateGpu()` 会销毁当前 GPU 代际：等待已提交的工作，销毁临时缓冲区，未中止的匹配回退到精确 CPU。中止操作将导致拒绝，而不是在 CPU 上静默完成。处置会阻止新工作，等待初始化和活跃工作，并使缓冲区失效。允许一个进行中的批次，忙碌时 `setTargets` 会予以拒绝。CPU 循环在操作边界观察取消信号；硬取消通过终止 Worker 实现。
+
+### WebAssembly 精确匹配（实验性）
+
+`src/wasm-exact-matcher.mjs` 是传统 BRIEF 家族 JavaScript `matchPacked` 的纯 CPU 替代实现，自 0.2.1 起在 Worker 中默认选用（`WorkerPipelineOptions.cpuMatching` 省略或为 `'wasm-experimental'`；`'js'` 表示关闭；参见 SDK README）。`selectWasmExactMatcher()` 先尝试 SIMD 模块，再尝试标量模块：每个模块都必须通过 `WebAssembly.validate`、完成实例化，并在内置确定性自检（并列、边界、512 x 512）中复现 `matchHamming32` 的结果；否则 `matcher` 为 `null` 并附带原因，调用方继续使用 JavaScript。`WasmExactMatcher` 的数值契约和请求上限与 `HammingMatcher` 相同（十个常驻目标，每个至多 512 个描述符，每批次一帧至多 512 个，配对按目标索引升序）。它是同步的，在目标之间检查 `signal`，`dispose()` 释放实例及其内存。`createWasmExactMatchingAdapter(matcher, {onFailure})` 是识别器的 `legacyExactMatching` 算子：匹配器不可用或请求超出固定容量时解析为 `null`（该帧使用 JavaScript）；WebAssembly 失败时永久禁用匹配器、调用一次 `onFailure` 并同样解析为 `null`；中止则拒绝。
+
+这些模块是原创的手写 WebAssembly 文本，位于 [`exact-matching-wasm/`](exact-matching-wasm)（Apache-2.0）：`hamming-exact-scalar.wat`（MVP `i64.popcnt`）和 `hamming-exact-simd.wat`（固定宽度 SIMD128 `i8x16.popcnt`，每步处理四个帧描述符；不使用 relaxed SIMD，不使用线程）。二者均使用一个不可增长、布局固定的 4 页内存，无导入、无分配器，不含第三方代码，因此无需额外声明。[`exact-matching-wasm/build.mjs`](exact-matching-wasm/build.mjs) 使用 [`exact-matching-wasm/toolchain-pin.json`](exact-matching-wasm/toolchain-pin.json) 中固定的 WAT 汇编器 `wabt`（npm 完整性校验、tarball 与 `index.js` 哈希；仅构建时使用，不是依赖项，也不重新分发）将其汇编为生成文件 `src/exact-matching-wasm-binaries.mjs`（base64，因此单文件 Blob Worker 从不请求 `.wasm`）和 [`exact-matching-wasm/manifest.json`](exact-matching-wasm/manifest.json)（源码、工具链与输出哈希）。该脚本从不下载；请在仓库之外获取一次固定版本的包：
+
+```sh
+npm pack wabt@1.0.39 && tar -xzf wabt-1.0.39.tgz -C <dir>
+node packages/compute/exact-matching-wasm/build.mjs --wabt <dir>/package --check   # byte-identical rebuild, or omit --check to regenerate
+```
+
+开发仓库的测试套件（不属于公开源码）将清单与源码及内嵌字节进行核对（当 `LM_WABT_DIR` 指向固定版本的包时还会运行重建检查），并将两个变体与定义级预言（oracle）、`matchPacked`、冻结的 RC5 预言以及 `matchHamming32` 进行比较。公开源码包含 WAT 源文件、`build.mjs`、`manifest.json` 和工具链固定信息，便于审阅并重建内嵌二进制。
 
 ### WebAssembly 限制
 

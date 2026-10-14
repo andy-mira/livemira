@@ -3,6 +3,7 @@
  */
 export const CONTRACT_VERSION = '0.1.0' as const;
 export * from './worker.js';
+import type { CpuFeatureOptions } from './worker.js';
 export const TARGET_SCHEMA_VERSION = 1 as const;
 export type Mat3 = readonly [number, number, number, number, number, number, number, number, number];
 export type Mat4 = readonly [number, number, number, number, number, number, number, number, number, number, number, number, number, number, number, number];
@@ -98,6 +99,19 @@ export const ERROR_CODES = ['INVALID_CONFIG', 'INVALID_TARGET', 'DISPOSED', 'STA
 export type ErrorCode = typeof ERROR_CODES[number];
 export class EngineError extends Error {
   constructor(public readonly code: ErrorCode, public readonly recoverable: boolean, public readonly reason: string) { super(reason); this.name = 'EngineError'; }
+}
+/** Validated frozen copy of CpuFeatureOptions (undefined stays undefined); null, arrays, non-objects, unknown keys or a non-boolean briefOffsets throw INVALID_CONFIG. Each field is read once. */
+export function snapshotCpuFeatureOptions(value: unknown): Readonly<CpuFeatureOptions> | undefined {
+  if (value === undefined) return undefined;
+  if (value === null || typeof value !== 'object' || Array.isArray(value)) throw new EngineError('INVALID_CONFIG', false, 'cpuFeatures must be an object');
+  if (Object.keys(value).some(key => key !== 'briefOffsets')) throw new EngineError('INVALID_CONFIG', false, 'Unknown cpuFeatures option');
+  const briefOffsets = (value as CpuFeatureOptions).briefOffsets;
+  if (briefOffsets !== undefined && typeof briefOffsets !== 'boolean') throw new EngineError('INVALID_CONFIG', false, 'cpuFeatures.briefOffsets must be a boolean');
+  return Object.freeze(briefOffsets === undefined ? {} : { briefOffsets });
+}
+/** Validated frozen cpuFeatures with defaults applied (0.2.1: briefOffsets true when omitted, undefined or the object is partial). Same validation and single field reads as snapshotCpuFeatureOptions. */
+export function resolveCpuFeatureOptions(value: unknown): Readonly<Required<CpuFeatureOptions>> {
+  return Object.freeze({ briefOffsets: snapshotCpuFeatureOptions(value)?.briefOffsets ?? true });
 }
 export interface MediaConfig { url: string; muted?: boolean; loop?: boolean; fit?: 'contain' | 'cover'; lostBehavior?: 'pause-and-hide' | 'hide'; resumeBehavior?: 'resume' | 'restart'; crossOrigin?: 'anonymous' | 'use-credentials' | null; /** iOS WeChat only; default 'auto'. 'off' never uses the WeixinJSBridge fallback after a native NotAllowedError. */ wechatPlaybackRecovery?: 'auto' | 'off' }
 export interface EventContext { sessionId: string | null; targetId: string | null; timestampUs: number; timestampDomain?: 'attempt' | 'source-session' | 'engine-session' }

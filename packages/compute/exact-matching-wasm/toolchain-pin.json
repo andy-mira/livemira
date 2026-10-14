@@ -1,0 +1,11 @@
+{
+  "package": "wabt",
+  "version": "1.0.39",
+  "license": "Apache-2.0",
+  "repository": "https://github.com/AssemblyScript/wabt.js",
+  "tarball": "https://registry.npmjs.org/wabt/-/wabt-1.0.39.tgz",
+  "integrity": "sha512-ba+dRL/75VQQY7RkU/CgriGbkoWAfS8TDyUlJfJhJ8KhtXgMl5dhNvoPNUcQ9IWRhW8u41glMSuZeTvsYq2rRg==",
+  "tarballSha256": "a10d4f4b15b91de8ab2ccb4700ef12185736f0bc96ee809e53ab17f7ea743fd2",
+  "indexJsSha256": "cecf06ab5c65c3b7c05bafe601bbba61a45e4939889c5c51351e8817ac06f48d",
+  "role": "WAT assembler only (build time). Not a dependency of the package, not in package-lock.json and not redistributed."
+}

@@ -276,3 +276,31 @@ test('Worker runtime end to end: result for real frames, 1080p accepted, oversiz
   await send({type:'frame',frame:rawFrame(5,gray.subarray(0,4097),4097,1,null,{kind:'gray8'})});assert.equal(messages.at(-1).type,'error');assert.equal(messages.at(-1).code,'UNSUPPORTED');
   await send({type:'dispose'});assert.equal(messages.at(-1).type,'ack');assert.ok(log.canvases.every(c=>c.width===0&&c.height===0));
 }));
+
+test('optional preparation profiling separates canvas/gray stages with identical pixels and zero additional clock reads when off',()=>withCanvas(()=>{
+  const frame=rawFrame(1,rgbaPattern(8,6),8,6,handGeometry(4,3,HALF)),desc=Object.getOwnPropertyDescriptor(globalThis,'performance');let ticks=0;
+  Object.defineProperty(globalThis,'performance',{configurable:true,value:{now:()=>++ticks}});
+  try{
+    const off=standardFrame(frame,new FrameCache());assert.equal(ticks,0);
+    const stages={inputPackingDurationUs:0,inputUploadDurationUs:0,standardDrawDurationUs:0,readbackDurationUs:0,grayscaleDurationUs:0},on=standardFrame(frame,new FrameCache(),rgbaToGray,stages);
+    assert.deepEqual(on.imageHandle.data,off.imageHandle.data);assert.ok(ticks>0);for(const value of Object.values(stages))assert.ok(Number.isFinite(value)&&value>=0);
+    assert.ok(stages.standardDrawDurationUs>0&&stages.readbackDurationUs>0&&stages.grayscaleDurationUs>0);
+  }finally{Object.defineProperty(globalThis,'performance',desc);}
+}));
+
+test('observed and unobserved CPU Worker paths return identical measured/negative/recovery results; only observation includes preparation stages',()=>withCanvas(async()=>{
+  const image=texture(),target=await compileGrayTarget(image,{targetId:'forest-03'}),rgba=new Uint8Array(image.width*image.height*4);
+  for(let i=0;i<image.data.length;i++){rgba.fill(image.data[i],i*4,i*4+3);rgba[i*4+3]=255;}
+  const results=[];
+  for(const observeRecognition of [false,true]){
+    const messages=[],handle=createVisionWorkerRuntime(m=>messages.push(m));let id=0;const send=async m=>{await handle({protocol:1,requestId:++id,generation:1,...m});return messages.at(-1);};
+    await send({type:'init',options:{trackingMode:'absolute',backendPreference:'cpu',observeRecognition}});await send({type:'load-targets',targets:[target]});await send({type:'reset',sessionId:'s'});
+    const route=[];
+    for(let i=0;i<7;i++){
+      const pixels=i===3?new Uint8Array(rgba.length).fill(20):rgba,m=await send({type:'frame',frame:rawFrame(i,pixels,image.width,image.height,handGeometry(image.width,image.height,IDENT))});
+      assert.equal(m.type,'result');assert.equal('prepareStages' in m.timing,observeRecognition);assert.equal('trace' in m,observeRecognition);if(observeRecognition)for(const value of Object.values(m.timing.prepareStages))assert.ok(Number.isFinite(value)&&value>=0);route.push(m.result);
+    }
+    await send({type:'dispose'});results.push(route);
+  }
+  assert.deepEqual(results[0],results[1]);assert.ok(results[0].some(r=>r.state==='TRACKING'&&r.quality.measured));
+}));

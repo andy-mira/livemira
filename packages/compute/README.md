@@ -2,7 +2,7 @@
 
 [English](README.md) | [简体中文](README.zh-CN.md)
 
-Native-style preprocessing (gray conversion and a Gaussian pyramid) on the CPU, in scalar or SIMD WebAssembly, plus an optional Worker-safe resident WebGPU Hamming matcher with an exact CPU fallback. Neither means the whole engine runs in WebAssembly or on the GPU: recognition and tracking run on the CPU, and GPU matching is opt-in (small batches regress, and full recognition does not meet a 33 ms budget on the measured desktop fixtures).
+Native-style preprocessing (gray conversion and a Gaussian pyramid) on the CPU, in scalar or SIMD WebAssembly, plus an optional Worker-safe resident WebGPU Hamming matcher with an exact CPU fallback. Neither means the whole engine runs in WebAssembly or on the GPU: recognition and tracking run on the CPU. CPU is the default; GPU matching is an explicit experimental option. Speedups depend on the device, browser and workload and must be verified on the full live-camera path before enabling it.
 
 ## Runtime entry points
 
@@ -27,13 +27,28 @@ await matcher.dispose();
 
 `CpuComputeBackend` accepts injected `CpuOperators` (feature detection, describe-and-match, point tracking); the backend owns bounded resource lifetime (at most 32 handles and 32 MiB retained) and `dispose` drains active work. Each prepared frame or pyramid handle must be released; `readGray` returns an owned copy. `src/canonical-frame.ts` (`copyCanonicalFrame`) copies packed canonical gray8 or RGBA8 while preserving frame and session identity and respecting borrowed input ownership; it rejects noncanonical orientation, released handles and aborted calls.
 
+For SDK applications, `createWorkerPipeline({ prepareFrame, options: { backendPreference: 'webgpu' } })` can request exact GPU matching for legacy/ANMS as well as oriented-v2 targets. Keep `backendPreference: 'cpu'` as the default. Check `onCapability` and `operators.matching` for the actual backend; the overall `backend` remains `cpu` because recognition and tracking run there. An unavailable GPU leaves legacy matching with the original CPU matcher. A matching-device generation change during processing rejects the frame and requires reset; it does not produce a valid stale pose. The low-level `exactMatching` example above remains oriented-v2 only.
+
 ### Hamming matching
 
-For direct matching, `setTargets([{id, descriptors: Uint8Array}])`, then `matchBatch(targetIds, frameDescriptors, signal)` returns the backend, version, matches, timings and `fallbackReason`. At most ten target snapshots are retained; each target or frame has at most 512 descriptors of 32 bytes; a batch has at most three candidates. Target descriptors stay on the GPU between calls and a frame is uploaded once per batch. Only the forward best/second and reverse-nearest reductions return, not the full distance matrix or images. Returned pairs carry `targetIndex`, `frameIndex` and `distance`, ordered by target index.
+For direct matching, `setTargets([{id, descriptors: Uint8Array}])`, then `matchBatch(targetIds, frameDescriptors, signal)` returns the backend, version, matches, timings and `fallbackReason`. At most ten target snapshots are retained; each target or frame has at most 512 descriptors of 32 bytes; a batch has at most ten candidates. Target descriptors stay on the GPU between calls and a frame is uploaded once per batch. Only the forward best/second and reverse-nearest reductions return, not the full distance matrix or images. Returned pairs carry `targetIndex`, `frameIndex` and `distance`, ordered by target index.
 
 Exact numerical contract `hamming32-mutual-ratio075-max64/1`: best <= 64, strict `4*best < 3*second`; accept only the unique reverse nearest target (equal reverse distances reject). Empty inputs return no matches. All distances and index decisions must match the CPU exactly. The matcher does not compute orientation, descriptors, retrieval or homography.
 
 `diagnostics` and `onCapabilityChanged` expose the actual backend, generation and fallback reason. `invalidateGpu()` destroys the current GPU generation: already submitted work is awaited, temporary buffers are destroyed, and non-aborted matching falls back to exact CPU. An abort rejects instead of silently finishing on the CPU. Disposal blocks new work, waits for initialization and active work, and invalidates buffers. One batch is allowed in flight and `setTargets` rejects while busy. CPU loops observe cancellation at operation boundaries; hard cancellation is Worker termination.
+
+### WebAssembly exact matching (experimental)
+
+`src/wasm-exact-matcher.mjs` is a CPU-only alternative to the JavaScript `matchPacked` for the legacy BRIEF family, selected in the Worker by default since 0.2.1 (`WorkerPipelineOptions.cpuMatching` omitted or `'wasm-experimental'`; `'js'` opts out; see the SDK README). `selectWasmExactMatcher()` tries the SIMD module, then the scalar module: each must pass `WebAssembly.validate`, instantiate, and reproduce `matchHamming32` on a built-in deterministic self-test (ties, boundaries, 512 x 512); otherwise `matcher` is `null` with the reason, and the caller keeps JavaScript. `WasmExactMatcher` has the same numerical contract and request limits as `HammingMatcher` (ten resident targets, at most 512 descriptors each, one frame of at most 512 per batch, pairs in ascending target index). It is synchronous, observes `signal` between targets, and `dispose()` drops the instance and its memory. `createWasmExactMatchingAdapter(matcher, {onFailure})` is the recognizer's `legacyExactMatching` operator: it resolves `null` (JavaScript for that frame) when the matcher is unavailable or a request exceeds the fixed capacity, and on a WebAssembly failure it disables the matcher permanently, calls `onFailure` once and also resolves `null`; aborts reject.
+
+The modules are original, hand-written WebAssembly text in [`exact-matching-wasm/`](exact-matching-wasm) (Apache-2.0): `hamming-exact-scalar.wat` (MVP `i64.popcnt`) and `hamming-exact-simd.wat` (fixed-width SIMD128 `i8x16.popcnt`, four frame descriptors per step; no relaxed SIMD, no threads). Both use one non-growable 4-page memory with a fixed layout, no imports, no allocator. They contain no third-party code, so no further notices apply. [`exact-matching-wasm/build.mjs`](exact-matching-wasm/build.mjs) assembles them with the WAT assembler `wabt` pinned in [`exact-matching-wasm/toolchain-pin.json`](exact-matching-wasm/toolchain-pin.json) (npm integrity, tarball and `index.js` hashes; build time only, not a dependency, not redistributed) into the generated `src/exact-matching-wasm-binaries.mjs` (base64, so the single-file Blob Worker never fetches a `.wasm`) and [`exact-matching-wasm/manifest.json`](exact-matching-wasm/manifest.json) (source, toolchain and output hashes). The script never downloads; obtain the pinned package once outside the repository:
+
+```sh
+npm pack wabt@1.0.39 && tar -xzf wabt-1.0.39.tgz -C <dir>
+node packages/compute/exact-matching-wasm/build.mjs --wabt <dir>/package --check   # byte-identical rebuild, or omit --check to regenerate
+```
+
+The development repository's test suite (not part of the public source) checks the manifest against the sources and embedded bytes (and runs the rebuild check when `LM_WABT_DIR` points at the pinned package), and compares both variants with a definition-level oracle, `matchPacked`, the frozen RC5 oracle and `matchHamming32`. The public source includes the WAT sources, `build.mjs`, `manifest.json` and the toolchain pin so the embedded binaries can be reviewed and rebuilt.
 
 ### WebAssembly limits
 

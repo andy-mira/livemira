@@ -1,7 +1,7 @@
 /*! Copyright 2026 Andy (@andy-mira)
  * SPDX-License-Identifier: Apache-2.0
  */
-import { EngineError, recognitionTraceForResult, sanitizeMatchedPoints, validateTargetBundle, safeWorkerReason, WORKER_PROTOCOL_VERSION, type FramePacket, type TargetBundle, type TrackingResult, type VisionPipeline, type RecognitionTrace, type VisionWorkerRequest, type VisionWorkerResponse, type WorkerCapability, type WorkerFrameLease, type WorkerPipelineOptions, type WorkerTiming } from '@livemira/contracts';
+import { EngineError, recognitionTraceForResult, sanitizeMatchedPoints, snapshotCpuFeatureOptions, validateTargetBundle, safeWorkerReason, WORKER_PROTOCOL_VERSION, type FramePacket, type TargetBundle, type TrackingResult, type VisionPipeline, type RecognitionTrace, type VisionWorkerRequest, type VisionWorkerResponse, type WorkerCapability, type WorkerFrameLease, type WorkerPipelineOptions, type WorkerTiming } from '@livemira/contracts';
 
 export interface WorkerEndpoint {
   postMessage(message: unknown, transfer?: Transferable[]): void;
@@ -45,10 +45,15 @@ export class WorkerVisionPipeline implements VisionPipeline {
   private readonly options: WorkerPipelineOptions;
   private readonly timeout: number;
   constructor(private readonly config: WorkerPipelineConfig) {
-    this.options = { trackingMode: 'absolute', backendPreference: 'cpu', ...config.options };
+    // cpuFeatures is replaced by a validated frozen copy so later caller mutation cannot change the Worker configuration.
+    const options = { ...config.options };
+    const cpuFeatures = snapshotCpuFeatureOptions(options.cpuFeatures);
+    this.options = { trackingMode: 'absolute', backendPreference: 'cpu', ...options, ...(cpuFeatures ? { cpuFeatures } : {}) };
     if (this.options.collectMatchedPoints !== undefined && typeof this.options.collectMatchedPoints !== 'boolean') throw new EngineError('INVALID_CONFIG',false,'collectMatchedPoints must be a boolean');
     if (this.options.observeRecognition !== undefined && typeof this.options.observeRecognition !== 'boolean') throw new EngineError('INVALID_CONFIG',false,'observeRecognition must be a boolean');
     if (this.options.legacyScaleSearch !== undefined && typeof this.options.legacyScaleSearch !== 'boolean') throw new EngineError('INVALID_CONFIG',false,'legacyScaleSearch must be a boolean');
+    if (this.options.cpuMatching !== undefined && this.options.cpuMatching !== 'js' && this.options.cpuMatching !== 'wasm-experimental') throw new EngineError('INVALID_CONFIG',false,"cpuMatching must be 'js' or 'wasm-experimental'");
+    if (this.options.cpuMatching === 'wasm-experimental' && this.options.backendPreference === 'webgpu') throw new EngineError('INVALID_CONFIG',false,"cpuMatching 'wasm-experimental' cannot be combined with backendPreference 'webgpu'");
     this.timeout = config.requestTimeoutMs ?? 30000;
     if (!config.prepareFrame || !Number.isFinite(this.timeout) || this.timeout < 100 || this.timeout > 120000) throw new EngineError('INVALID_CONFIG',false,'Invalid worker configuration');
   }

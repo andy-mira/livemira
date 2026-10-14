@@ -44,6 +44,7 @@ const EMBEDDED_ASSETS = [
   ['packages/compute/artifacts/scalar/compute.wasm', 'WebAssembly binary (scalar preprocessing), embedded in the Worker source'],
   ['packages/compute/artifacts/scalar/compute.mjs', 'Emscripten glue for the scalar module'],
   ['packages/compute/shaders/hamming.wgsl', 'WebGPU Hamming matcher shader source'],
+  ['packages/compute/src/exact-matching-wasm-binaries.mjs', 'Exact Hamming matcher WebAssembly (scalar and SIMD, base64 text; cpuMatching wasm-experimental), assembled from packages/compute/exact-matching-wasm/*.wat'],
 ];
 // Closure gates: nothing under these paths or with these names may be part of the production runtime.
 const FORBIDDEN_INPUT = [/^(tests?|apps|reports|benchmarks?|scripts|docs|datasets|references|reference-code|artifacts)\//, /(^|\/)(mock|replay|diagnostics)\.(?:ts|mjs|js)$/, /recorder|phone-trial|benchmark|target-quality|tracking-visuals|recognition-diagnostics|point-stats/i];

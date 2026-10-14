@@ -1,8 +1,8 @@
-# LiveMira 0.2.0
+# LiveMira 0.2.1
 
 [English](livemira-release.md) | [简体中文](livemira-release.zh-CN.md)
 
-LiveMira 是一个用于图像目标 AR 的浏览器引擎：它在实时相机画面中识别准备好的图像目标，对其进行跟踪，并在其上显示视频。0.2.0 是首个稳定版本。识别、匹配、尺度重试、相机和跟踪均未发生变动。视频呈现增加了黑色半透明加载层和旋转加载指示器（spinner），并在有解码帧可用时从中心进行边缘柔和的圆形展开。软件包名称、分发文件名和导入路径遵循 `docs` 目录中 `NAMING.md` 内的 LiveMira 命名规则。
+LiveMira 是一个用于图像目标 AR 的浏览器引擎：它在实时相机画面中识别准备好的图像目标，对其进行跟踪，并在其上显示视频。0.2.1 是首个稳定版本（0.2.0）的补丁版本。识别、匹配结果、尺度重试、相机和跟踪的行为与之前一致；两项结果逐位一致的 CPU 优化现在默认开启（见“CPU 默认值”）。视频呈现沿用 0.2.0 引入的黑色半透明加载层和旋转加载指示器（spinner），并在有解码帧可用时从中心进行边缘柔和的圆形展开，本版本未改动。软件包名称、分发文件名和导入路径遵循 `docs` 目录中 `NAMING.md` 内的 LiveMira 命名规则。
 
 ## 目录布局
 
@@ -47,13 +47,24 @@ import { createEngine, createWorkerPipeline, CameraFrameSource,
 
 ## 支持范围
 
-现有的识别和相机/媒体行为已在 iPhone 浏览器 Demo 集成中进行了测试。其他设备和环境均为试验性质。加载遮罩和圆形展开效果已在 iPhone Chrome Demo 中使用发布候选版本（release candidate）得到确认。最终晋级仅更改了版本元数据和公开文档；最终产物未直接在手机上进行测试。`productionReady` 为 false：稳定渠道并不意味着已完成全面的商业验证。
+现有的识别和相机/媒体行为已在 iPhone 浏览器 Demo 集成中进行了测试。其他设备和环境均为试验性质。加载遮罩和圆形展开效果已在 iPhone Chrome Demo 中使用发布候选版本（release candidate）得到确认。0.2.1 将两项优化设为共享默认值：精确 WebAssembly 匹配与 BRIEF 采样位置复用。显式开启这两项的候选构建曾在两台标记为 14 PM 与 18 PM 的手机上实机测试（输入到结果 p95 约 55 → 28 ms 与 62 → 28 ms；测试者感觉差异很小或不明显；输入并非物理配对）。该证据仅被沿用而非重新标注：最终 0.2.1 产物未直接在手机上测试，打包后的默认值与该候选的一致性另经自动化比对核对。快速移动时的匹配丢失与横竖屏叠加层变形仍然存在。`productionReady` 为 false：稳定渠道并不意味着已完成全面的商业验证。
 
 默认呈现方式使用 55% 黑色的加载层、旋转环以及边缘柔和的 420 ms 圆形展开效果。它会等待当前视频解码出第一帧；不需要下载整个视频。配置 `new CssVideoRenderSink({ geometryForResult, presentation: { revealMs: 420, loadingTimeoutMs: 15000, overlayOpacity: 0.55 } })`，或使用 `presentation: false` 将其禁用。减弱动态效果设置使用短暂的淡入淡出。请求代际可防止旧的回调展开已被替换或停止的视频。呈现状态转换可在现有的 `mediaState` 事件和数值日志导出中获取。
 
 ## 已知问题
 
-横竖屏切换可能会使视频覆盖层发生变形。这在 0.2.0 中仍未解决。当需要保持一致的对齐时，请使用固定方向。
+横竖屏切换可能会使视频覆盖层发生变形。这在 0.2.1 中仍未解决。当需要保持一致的对齐时，请使用固定方向。
+
+快速移动时匹配仍可能丢失。0.2.1 的默认值并不能解决此问题，也不声称主观效果有明显改善。
+
+## CPU 默认值
+
+自 0.2.1 起，省略 `cpuMatching` 和 `cpuFeatures` 时：
+
+- 传统家族的精确汉明匹配器在 Worker 内以内嵌 WebAssembly 运行：SIMD 经验证并通过自检时使用 SIMD，否则使用标量模块，再否则使用 JavaScript 匹配器。能力信息的 `operators.matching` 报告 `wasm-simd`、`wasm-scalar` 或 `cpu`（回退时附带 `matchingFallback` 与 `fallbackReason: 'WASM_MATCHING_JS_FALLBACK'`）。字符串 `'wasm-experimental'` 作为该默认值的兼容写法保留；
+- BRIEF 采样位置按每个金字塔层预先计算一次（`cpuFeatures: { briefOffsets: true }`；能力信息报告 `recognitionFeatures: 'cpu-brief-offsets'`）。部分指定或 `undefined` 的 `cpuFeatures` 使用同样的默认值。
+
+可用 `cpuMatching: 'js'` 与 `cpuFeatures: { briefOffsets: false }` 关闭。结果、已编译目标以及算法和模式标识均不变。`backendPreference: 'webgpu'` 仍需显式开启并保留其自身匹配器（CPU WebAssembly 匹配器不应用于它）；oriented-v2 目标保持使用 JavaScript 匹配器。两台手机的输入到结果 p95 延迟分别从约 55 降至 28 ms、从 62 降至 28 ms；人工测试者感觉差异很小或不明显，且输入并非物理配对，因此这不是用户可见的修复。`productionReady` 仍为 false。
 
 ## 兼容性
 

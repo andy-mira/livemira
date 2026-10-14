@@ -1,6 +1,6 @@
 {
   "name": "@livemira/sdk",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "license": "Apache-2.0",
   "author": "Andy (@andy-mira)",
   "private": true,
@@ -26,6 +26,6 @@
     }
   },
   "dependencies": {
-    "@livemira/contracts": "0.2.0"
+    "@livemira/contracts": "0.2.1"
   }
 }

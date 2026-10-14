@@ -9,11 +9,25 @@ export interface WorkerFrame { metadata: WorkerFrameMetadata; image: WorkerImage
 /** Main-side owned COPY only. After successful postMessage, call markTransferred; release closes only untransferred copies. */
 export interface WorkerFrameLease { frame: WorkerFrame; transfer: Transferable[]; copiedBytes: number | null; preparationDurationUs: number; markTransferred(): void; release(): void }
 export type WorkerTrackingMode = 'absolute' | 'hybrid-experimental' | 'subpixel-experimental';
-export interface WorkerPipelineOptions { trackingMode: WorkerTrackingMode; backendPreference: BackendKind; algorithmVersion?: string; /** Default false. When true, measured TRACKING results carry matchedPoints (the accepted observation's inlier image points; no extra feature extraction). Fixed for the lifetime of the Worker. */ collectMatchedPoints?: boolean;
+/** CPU exact descriptor matcher for the legacy BRIEF family (greedy and ANMS): the exact WebAssembly matcher (default; 'wasm-experimental' is the retained compatibility spelling) or the 'js' matcher. */
+export type WorkerCpuMatching = 'js' | 'wasm-experimental';
+export interface WorkerPipelineOptions { trackingMode: WorkerTrackingMode; backendPreference: BackendKind; algorithmVersion?: string;
+  /** Default 'wasm-experimental' (since 0.2.1; the string is a retained compatibility spelling) unless backendPreference is 'webgpu', where the GPU matcher keeps
+   * its existing behavior. It runs the legacy-family exact Hamming matcher (same contract and results as the JS matcher) in
+   * WebAssembly: SIMD when the engine validates it and it passes a self-test, else scalar, else the JS matcher. The capability's
+   * `operators.matching` names the operator actually used ('wasm-simd' | 'wasm-scalar' | 'cpu'). 'js' opts out. oriented-v2 targets keep the JS matcher.
+   * An explicit 'wasm-experimental' cannot be combined with backendPreference 'webgpu'. Not a fast-motion fix. Fixed for the lifetime of the Worker. */
+  cpuMatching?: WorkerCpuMatching; /** Default false. When true, measured TRACKING results carry matchedPoints (the accepted observation's inlier image points; no extra feature extraction). Fixed for the lifetime of the Worker. */ collectMatchedPoints?: boolean;
   /** Default false: nothing is copied, posted or retained. When true, each result message may carry the bounded RecognitionTrace of the recognition pass that produced that exact frame's result. Fixed for the lifetime of the Worker. A transport seam only: all interpretation belongs to optional companions. */
   observeRecognition?: boolean;
   /** Default true. false skips the half-octave scale retry of the legacy-family algorithms after a global miss. Intended for diagnostic comparison only; do not disable in normal use. Ignored by the v2 algorithm (it never retries). Fixed for the lifetime of the Worker. */
-  legacyScaleSearch?: boolean }
+  legacyScaleSearch?: boolean;
+  /** Default { briefOffsets: true } (since 0.2.1); omitted, undefined or partial objects use defaults. Validated and snapshotted at construction; fixed for the lifetime of the Worker. */
+  cpuFeatures?: CpuFeatureOptions }
+/** CPU legacy-family feature implementation choices. Every option produces bit-identical features and bundles; only speed may differ. */
+export interface CpuFeatureOptions {
+  /** Default true (since 0.2.1). Precomputes the BRIEF sample offsets once per pyramid layer; false uses the reference sampling. Legacy family only; ignored by the v2 algorithm. */
+  briefOffsets?: boolean }
 /**
  * Plain numeric/enumerated facts of ONE recognition pass, as the recognizer already computed them (no point coordinates, no pixels, no URLs).
  * Bounded: at most MAX_TRACE_REJECTIONS entries, reasons of at most 64 characters. Identity (sessionId/frameId) must equal the accompanying result.
@@ -83,7 +97,9 @@ export const WORKER_SAFE_REASONS: readonly string[] = Object.freeze([
 export const WORKER_GENERIC_REASON = 'Worker operation failed';
 export function safeWorkerReason(reason: unknown): string { return typeof reason === 'string' && WORKER_SAFE_REASONS.includes(reason) ? reason : WORKER_GENERIC_REASON; }
 /** copiedBytes is null when the total browser-internal copy volume is unobservable (legacy field; no longer width*height). */
-export interface WorkerTiming { prepareDurationUs: number; computeDurationUs: number; totalDurationUs: number; copiedBytes: number | null; inputPreparationDurationUs?: number; inputCopiedBytes?: number | null }
+/** Optional diagnostic breakdown of standard-frame preparation; disabled unless recognition observation is requested. Browser-internal copy volume is not inferred. */
+export interface WorkerPrepareStages { inputPackingDurationUs: number; inputUploadDurationUs: number; standardDrawDurationUs: number; readbackDurationUs: number; grayscaleDurationUs: number }
+export interface WorkerTiming { prepareStages?: WorkerPrepareStages; prepareDurationUs: number; computeDurationUs: number; totalDurationUs: number; copiedBytes: number | null; inputPreparationDurationUs?: number; inputCopiedBytes?: number | null }
 interface RequestEnvelope { protocol: 1; requestId: number; generation: number }
 export type VisionWorkerRequest = RequestEnvelope & (
   { type: 'init'; options: WorkerPipelineOptions } |

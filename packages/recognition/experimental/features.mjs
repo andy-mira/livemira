@@ -37,6 +37,28 @@ let seed = 0x9e3779b9;
 const offset = () => { seed ^= seed << 13; seed ^= seed >>> 17; seed ^= seed << 5; return (seed >>> 0) % 17 - 8; };
 const pattern = Array.from({ length: 256 }, () => [offset(), offset(), offset(), offset()]);
 
+// Opt-in (briefOffsets) BRIEF sampling with exact index arithmetic:
+// (y + ay) * w + x + ax === (y * w + x) + (ay * w + ax) for the small integers involved
+// (|index| < 2^23), so each comparison reads the same two smoothed bytes as the default loop.
+// Centers lie in [10, w - 10) x [10, h - 10) and offsets in [-8, 8], so every read stays in the layer.
+// One flat [a0, b0, a1, b1, ...] table is built per pyramid layer width; nothing is kept across calls.
+function briefOffsetTable(w) {
+  const table = new Int32Array(512);
+  for (let bit = 0; bit < 256; bit++) {
+    const p = pattern[bit];
+    table[2 * bit] = p[1] * w + p[0];
+    table[2 * bit + 1] = p[3] * w + p[2];
+  }
+  return table;
+}
+function describeWithOffsets(data, center, table) {
+  const descriptor = Array(32).fill(0);
+  for (let bit = 0, k = 0; bit < 256; bit++, k += 2) {
+    if (data[center + table[k]] < data[center + table[k + 1]]) descriptor[bit >> 3] |= 1 << (bit & 7);
+  }
+  return descriptor;
+}
+
 // Integer equivalence proof:
 // Each pixel is an unsigned 8-bit integer in [0, 255].
 // For row y, the horizontal sum of 3 neighboring pixels is:
@@ -122,9 +144,10 @@ function harrisScores(data, w, h, scale, roi, scores, rows) {
   }
 }
 
-export function extractFeatures(image, { maxFeatures = 384, levels = 3, roi = null, selection = 'greedy-min-distance' } = {}) {
+export function extractFeatures(image, { maxFeatures = 384, levels = 3, roi = null, selection = 'greedy-min-distance', briefOffsets = false } = {}) {
   validateGray(image);
   if (!SELECTIONS.includes(selection)) throw new Error('INVALID_SELECTION');
+  if (typeof briefOffsets !== 'boolean') throw new Error('INVALID_BRIEF_OFFSETS');
   if (!Number.isInteger(maxFeatures) || maxFeatures < 16 || maxFeatures > LIMITS.features) throw new Error('INVALID_FEATURE_LIMIT');
   if (roi && (!['x', 'y', 'width', 'height'].every(k => Number.isFinite(roi[k])) || roi.width <= 0 || roi.height <= 0 ||
       roi.x < 0 || roi.y < 0 || roi.x + roi.width > image.width || roi.y + roi.height > image.height)) throw new Error('INVALID_ROI');
@@ -159,12 +182,18 @@ export function extractFeatures(image, { maxFeatures = 384, levels = 3, roi = nu
     candidates.sort((a, b) => b.score - a.score || a.y - b.y || a.x - b.x);
     const selected = [], quota = Math.floor(maxFeatures / layers.length) + (level < maxFeatures % layers.length ? 1 : 0);
     const anms = selection === 'anms', ordered = anms ? selectAnms(candidates, quota) : candidates;
+    const table = briefOffsets ? briefOffsetTable(w) : null;
     for (const point of ordered) {
       if (!anms && selected.some(p => (p.x - point.x) ** 2 + (p.y - point.y) ** 2 < 36)) continue;
-      const descriptor = Array(32).fill(0);
-      for (let bit = 0; bit < 256; bit++) {
-        const [ax, ay, bx, by] = pattern[bit];
-        if (data[(point.y + ay) * w + point.x + ax] < data[(point.y + by) * w + point.x + bx]) descriptor[bit >> 3] |= 1 << (bit & 7);
+      let descriptor;
+      if (table) descriptor = describeWithOffsets(data, point.y * w + point.x, table);
+      else {
+        // Default reference path (briefOffsets off).
+        descriptor = Array(32).fill(0);
+        for (let bit = 0; bit < 256; bit++) {
+          const [ax, ay, bx, by] = pattern[bit];
+          if (data[(point.y + ay) * w + point.x + ax] < data[(point.y + by) * w + point.x + bx]) descriptor[bit >> 3] |= 1 << (bit & 7);
+        }
       }
       selected.push(point);
       features.push({ x: (point.x + 0.5) * scale - 0.5, y: (point.y + 0.5) * scale - 0.5, level, score: point.score, descriptor });

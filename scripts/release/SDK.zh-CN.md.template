@@ -14,6 +14,8 @@ SDK 与精选包的稳定生产入口相同：`import { createEngine } from '{{P
 
 可选工具分别从 `/target-quality`、`/tracking-visuals`、`/recognition-diagnostics` 导入；工具还提供 `/single`，有压缩版本时也提供 `/single/min`。类型声明可独立使用，不依赖工作区源码或路径别名。
 
+CPU 默认值：Worker 默认用精确 WebAssembly 匹配器匹配传统家族描述符（SIMD、标量、JavaScript 依次回退），并复用预先计算的 BRIEF 采样位置；设置 `cpuMatching: 'js'` 或 `cpuFeatures: { briefOffsets: false }` 可分别关闭。WebGPU 仍需显式开启。结果与算法/模式标识不变；快速移动时的匹配丢失是已知问题，这些默认值并不能解决。
+
 `engine-package-manifest.json` 记录各文件的 SHA-256、布局类别及源码提交/脏状态。指南中的语言切换链接会按分发文件名调整，原文来源和原始哈希仍保留在清单中。
 
 适用范围限定此前已测 iPhone 浏览器 Demo；其他设备试用，尚未声明 `productionReady`。横竖屏切换的视频叠加层变形仍是已知问题。包内 `private: true` 仅防止误发布到 npm，不限制 Apache-2.0 许可授予的使用权。

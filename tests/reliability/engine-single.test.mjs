@@ -96,7 +96,7 @@ for (const id of VARIANT_IDS) test(`audit [${id}]: input hashes are real, closur
   }
   for (const required of ['packages/sdk/src/browser.ts', 'packages/renderer/src/index.ts', 'packages/camera/src/sdk-source.mjs']) assert.ok(audit.mainClosure.includes(required), required);
   for (const required of ['packages/sdk/src/worker-entry.ts', 'packages/sdk/src/worker-runtime.ts', 'packages/compute/artifacts/scalar/compute.wasm', 'packages/compute/shaders/hamming.wgsl']) assert.ok(audit.workerClosure.includes(required), required);
-  assert.deepEqual(audit.embeddedAssets.map(a => a.path).sort(), ['packages/compute/artifacts/scalar/compute.mjs', 'packages/compute/artifacts/scalar/compute.wasm', 'packages/compute/shaders/hamming.wgsl']);
+  assert.deepEqual(audit.embeddedAssets.map(a => a.path).sort(), ['packages/compute/artifacts/scalar/compute.mjs', 'packages/compute/artifacts/scalar/compute.wasm', 'packages/compute/shaders/hamming.wgsl', 'packages/compute/src/exact-matching-wasm-binaries.mjs']);
   for (const asset of audit.embeddedAssets) assert.equal(asset.sha256, sha(await readFile(path.join(repo, asset.path))), asset.path);
   assert.ok(!JSON.stringify(audit).includes(repo), 'audit has no absolute workspace path');
   // The runtime itself: no development identifiers, no absolute paths, maps, Node APIs or network URLs.
@@ -165,6 +165,8 @@ function texture(seed, width = 320, height = 240) {
   return { data, width, height };
 }
 /** Stands in for the browser's Worker: loads the Blob source as a data: module (non-hierarchical import.meta.url, like a blob: Worker). */
+// Process-wide, so every fake Worker evaluates a fresh module instance instead of hitting the data: module cache.
+let workerScopes = 0;
 function installFakeWorker() {
   const log = { created: [], terminated: 0, revoked: [], fetches: 0, scopes: 0 };
   const saved = { Worker: globalThis.Worker, fetch: globalThis.fetch, postMessage: globalThis.postMessage, addEventListener: globalThis.addEventListener, revoke: URL.revokeObjectURL };
@@ -179,7 +181,7 @@ function installFakeWorker() {
         globalThis.postMessage = message => setImmediate(() => { if (!this.dead) for (const l of this.listeners.message) l({ data: structuredClone(message) }); });
         globalThis.addEventListener = (type, listener) => { if (type === 'message') this.handler = listener; };
         log.scopes++;
-        await import('data:text/javascript;base64,' + Buffer.from(source + `\n//${log.scopes}`).toString('base64'));
+        await import('data:text/javascript;base64,' + Buffer.from(source + `\n//${++workerScopes}`).toString('base64'));
       })();
     }
     postMessage(message, transfer) { const copy = structuredClone(message, { transfer }); this.ready.then(() => { if (!this.dead) this.handler({ data: copy }); }); }
@@ -254,6 +256,39 @@ for (const id of VARIANT_IDS) test(`embedded Worker end to end [${id}]: real rec
   assert.equal(fake.log.terminated, 1);
   assert.deepEqual(fake.log.revoked, [fake.log.created[0].url]);
   assert.equal(resolveObjectURL(fake.log.created[0].url), undefined, 'Blob URL released on termination');
+});
+for (const id of VARIANT_IDS) test(`embedded Worker cpuMatching [${id}]: the Blob Worker selects the embedded SIMD matcher without fetching and posts the same results as 'js'`, async () => {
+  const { module: single } = variants[id];
+  const images = [texture(101), texture(102)], targets = [];
+  for (const [i, image] of images.entries()) targets.push(await single.compileGrayTarget(image, { targetId: `t${i}` }));
+  const run = async (cpuMatching, cpuFeatures) => {
+    const fake = installFakeWorker(), capabilities = [], results = [];
+    let pipeline;
+    try {
+      pipeline = single.createWorkerPipeline({ options: { trackingMode: 'absolute', backendPreference: 'cpu', ...(cpuMatching ? { cpuMatching } : {}), ...(cpuFeatures ? { cpuFeatures } : {}) }, prepareFrame: (frame, signal) => single.prepareWorkerFrame(frame, null, signal), onCapability: c => capabilities.push(c) });
+      await pipeline.loadTargets(targets);await pipeline.reset('s1');
+      for (let frameId = 1; frameId <= 6; frameId++) {
+        const t = frameId * 33333, data = (frameId < 5 ? images[1] : texture(777)).data;
+        results.push(await pipeline.process({ sessionId: 's1', frameId, sourceTimestampUs: t, timestampSource: 'callback', captureTimeUs: null, arrivalTimeUs: t, mappedObservationTimeUs: t, imageIdentity: `img-${frameId}`,
+          width: 320, height: 240, pixelFormat: 'gray8', rotation: 0, mirrored: false, calibrationId: null, imageHandle: { kind: 'gray8', data, released: false, release() {} } }, new AbortController().signal));
+      }
+      assert.equal(fake.log.fetches, 0, 'no network request for engine assets');
+    } finally { try { await pipeline?.dispose(); } finally { fake.restore(); } }
+    // Each run owns exactly one Worker, evaluated as its own module instance, terminated with its Blob URL revoked.
+    assert.equal(fake.log.created.length, 1);assert.equal(fake.log.scopes, 1);assert.equal(fake.log.terminated, 1);
+    assert.deepEqual(fake.log.revoked, [fake.log.created[0].url]);assert.equal(resolveObjectURL(fake.log.created[0].url), undefined);
+    return { capability: capabilities.at(-1), results };
+  };
+  const js = await run('js'), wasm = await run('wasm-experimental'), omitted = await run(undefined), reference = await run('js', { briefOffsets: false });
+  assert.equal(js.capability.operators.matching, 'cpu');assert.equal(js.capability.operators.cpuMatching, undefined);
+  assert.deepEqual(wasm.capability.operators, { ...js.capability.operators, matching: 'wasm-simd', cpuMatching: 'wasm-experimental', matchingScope: 'legacy-family', matchingSelection: 'simd:selected', matchingFallback: 'none' });
+  assert.equal(wasm.capability.fallbackReason, null);
+  assert.ok(js.results.some(r => r.state === 'TRACKING' && r.targetId === 't1'), js.results.map(r => r.state).join());
+  assert.deepStrictEqual(wasm.results, js.results);
+  // 0.2.1 defaults: with both options omitted the Blob Worker runs the embedded WebAssembly matcher and BRIEF offsets; both opt-outs reproduce the same results.
+  assert.deepStrictEqual(omitted.capability, wasm.capability);assert.equal(omitted.capability.operators.recognitionFeatures, 'cpu-brief-offsets');assert.equal(omitted.capability.operators.matching, 'wasm-simd');
+  assert.equal(reference.capability.operators.recognitionFeatures, undefined);assert.equal(reference.capability.operators.matching, 'cpu');
+  assert.deepStrictEqual(omitted.results, reference.results);
 });
 
 test('Worker seams: createWasmPreprocessor moduleFactory, runtime asset config, bootstrap without import side effects', async () => {

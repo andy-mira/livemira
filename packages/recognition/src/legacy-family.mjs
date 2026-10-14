@@ -14,7 +14,7 @@ export function selectionFor(version) {
   if (!isLegacyFamily(version)) throw new Error('UNSUPPORTED_ALGORITHM');
   return version === ANMS_ALGORITHM ? 'anms' : 'greedy-min-distance';
 }
-/** extractFeatures for a legacy-family algorithm identity; the budget and level options are the caller's (template 384, live 512, 3 levels). */
+/** extractFeatures for a legacy-family algorithm identity; the budget, level and briefOffsets options are the caller's (template 384, live 512, 3 levels). */
 export function extractLegacyFamily(image, version, options = {}) {
   return extractFeatures(image, { ...options, selection: selectionFor(version) });
 }

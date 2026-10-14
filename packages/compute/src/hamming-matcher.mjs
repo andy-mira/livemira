@@ -40,7 +40,8 @@ export function matchHamming32(target,frame) {
   return pairsFromResults(out,n,m);
 }
 
-/** Worker-safe exact matcher. GPU targets persist; result reductions alone are read back. */
+/** Worker-safe exact matcher. GPU targets persist; a batch of up to ten of them shares one frame upload and one submission, and only the
+ * per-descriptor result reductions are read back. */
 export class HammingMatcher {
   #device=null; #pipeline=null; #targets=new Map(); #active=null; #disposed=false;
   #generation=1; #fallbackReason=null; #listeners=new Set();
@@ -90,7 +91,7 @@ export class HammingMatcher {
   async matchBatch(targetIds,frame,signal){
     if(this.#disposed)throw new Error('Matcher disposed');abort(signal);
     if(this.#active)throw new Error('One matching batch at a time');
-    if(!Array.isArray(targetIds)||targetIds.length>3||new Set(targetIds).size!==targetIds.length||targetIds.some(id=>!this.#targets.has(id)))throw new RangeError('Expected at most three loaded targets');
+    if(!Array.isArray(targetIds)||targetIds.length>10||new Set(targetIds).size!==targetIds.length||targetIds.some(id=>!this.#targets.has(id)))throw new RangeError('Expected at most ten loaded targets');
     descriptors(frame);const start=performance.now(),owned=frame.slice(),ids=[...targetIds];
     const cpu=()=>ids.map(targetId=>({targetId,pairs:matchHamming32(this.#targets.get(targetId).data,owned)}));
     const job=Promise.resolve().then(async()=>{

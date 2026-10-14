@@ -4,11 +4,11 @@
 
 本指南随 `@livemira/engine` 软件包一同提供（作为其 `docs` 目录中的 `INTEGRATION.md`），同时也包含在源码仓库中（`packages/sdk/README.md`）；两份副本完全相同。您无需检出源码即可遵循本指南。
 
-状态：LiveMira 0.2.0（首个稳定版本），未发布到 npm，未声明达到生产就绪状态。下方的 API 对照提供的声明进行了检查，并由 Node 级别的测试进行了演练（导入、严格 TypeScript、伪 DOM 循环/宽限期行为）。引擎已在 iPhone 浏览器 Demo 集成中进行了测试；其他设备和环境均为试验性质。下方的示例本身**尚未**在手机上或使用任何特定的打包工具运行过。
+状态：LiveMira 0.2.1（首个稳定版本 0.2.0 的补丁版本），未发布到 npm，未声明达到生产就绪状态。下方的 API 对照提供的声明进行了检查，并由 Node 级别的测试进行了演练（导入、严格 TypeScript、伪 DOM 循环/宽限期行为）。引擎已在 iPhone 浏览器 Demo 集成中进行了测试；其他设备和环境均为试验性质。下方的示例本身**尚未**在手机上或使用任何特定的打包工具运行过。
 
 ## 获取软件包
 
-从源码构建软件包（`npm ci && npm run build && npm run engine:package -- <fresh-id>`）或获取其目录。其名称为 `@livemira/engine`（任何目录名称均可；其 `package.json` 注明为 `@livemira/engine` 0.2.0）。将其放置在您的项目可以导入的位置，例如 `node_modules/@livemira/engine`，或者在您自己的包管理器中通过本地路径引用它。软件包目录包含构建好的完整运行时、本指南、`LICENSE`、`NOTICE`、第三方声明以及 `engine-package-manifest.json`（每个文件的 SHA-256、源码 commit、dirty 标志）。
+从源码构建软件包（`npm ci && npm run build && npm run engine:package -- <fresh-id>`）或获取其目录。其名称为 `@livemira/engine`（任何目录名称均可；其 `package.json` 注明为 `@livemira/engine` 0.2.1）。将其放置在您的项目可以导入的位置，例如 `node_modules/@livemira/engine`，或者在您自己的包管理器中通过本地路径引用它。软件包目录包含构建好的完整运行时、本指南、`LICENSE`、`NOTICE`、第三方声明以及 `engine-package-manifest.json`（每个文件的 SHA-256、源码 commit、dirty 标志）。
 
 **生产接口**（在 SDK 软件包中与在精简生产发布包中完全相同，后者没有 `shared/runtime/`）：`.` 和 `./browser`（压缩核心文件 `core/lm-engine.min.mjs`）、`./single`（可读核心文件 `core/lm-engine.mjs`）、`./single/min`，以及工具入口 `./target-quality`、`./tracking-visuals`、`./recognition-diagnostics`（每个工具亦带有 `/single`，并在存在压缩文件时带有 `/single/min`）。每一个都解析为 `core/` 或 `tools/` 中的独立文件；没有已记录的生产导入依赖于内部目录，并且没有通配符导出。类型声明是自包含的（不需要路径别名或工作区源码）；TypeScript 项目需要 `lib: ["DOM"]`。
 
@@ -16,7 +16,7 @@
 
 兼容性：补丁版本保持生产接口和目标模式不变；次版本仅向生产接口添加内容；新的目标模式或算法版本在次版本中引入，且引擎绝不在单个实例中混用算法版本。参见源码仓库中的 `docs/release/livemira-release.md`（作为生产发布包的 `README.md` 提供）。
 
-视频呈现默认在目标平面内使用 55% 黑色的加载层和旋转环，然后在当前视频拥有解码帧后从其中心展开历时 420 ms 的柔和圆形展开效果。使用 `new CssVideoRenderSink({ geometryForResult, presentation: { revealMs: 420, loadingTimeoutMs: 15000, overlayOpacity: 0.55 } })` 进行配置；`presentation: false` 禁用它。第一帧回调属于其自身的媒体请求，并在替换或停止时取消。现有的 `mediaState` 事件增加了加载/首帧/展开/失败等状态转换以及有界的 `media.presentation` 遥测；数值诊断导出保留这些字段。详情请参阅渲染器指南。该呈现在 iPhone Chrome Demo 中使用发布候选版本得到了确认。横竖屏切换可能会使视频覆盖层发生变形；这在 0.2.0 中仍未解决。
+视频呈现默认在目标平面内使用 55% 黑色的加载层和旋转环，然后在当前视频拥有解码帧后从其中心展开历时 420 ms 的柔和圆形展开效果。使用 `new CssVideoRenderSink({ geometryForResult, presentation: { revealMs: 420, loadingTimeoutMs: 15000, overlayOpacity: 0.55 } })` 进行配置；`presentation: false` 禁用它。第一帧回调属于其自身的媒体请求，并在替换或停止时取消。现有的 `mediaState` 事件增加了加载/首帧/展开/失败等状态转换以及有界的 `media.presentation` 遥测；数值诊断导出保留这些字段。详情请参阅渲染器指南。该呈现在 iPhone Chrome Demo 中使用发布候选版本得到了确认。横竖屏切换可能会使视频覆盖层发生变形；这在 0.2.1 中仍未解决。
 
 ## 完整最小示例（浏览器）
 
@@ -194,13 +194,23 @@ const numericSnapshot = diagnostics.snapshot();
 
 `WorkerPipelineOptions.legacyScaleSearch`（亦被 `createCpuPipeline` 和 `CpuRecognizer` 接受）是一个布尔值，默认 `true`：在全局未命中后，传统家族算法（贪婪和 ANMS）以半倍频程尺度重试一次。`false` 跳过该重试。它**仅供诊断比对；在正常使用中切勿将其关闭**，因为它移除了针对保存的描述符与实时图像之间尺度差距的恢复机制。任何非布尔值（`null`、字符串、数字）均会被拒绝并抛出 `INVALID_CONFIG`；v2 算法从不重试，因此它会忽略该选项。该选项在 Worker 的整个生命周期内固定不变。
 
+## CPU 特征实现选项
+
+`WorkerPipelineOptions.cpuFeatures`（亦被 `createCpuPipeline`、`CpuRecognizer` 和 `compileGrayTarget` 接受）为可选项。自 0.2.1 起默认值为 `{ briefOffsets: true }`，在省略、为 `undefined` 或只给出部分字段时适用；`{ briefOffsets: false }` 选用参考提取。`briefOffsets` 对传统家族的 BRIEF-256 采样偏移按每个金字塔层计算一次，而不是对每个采样对重复计算；特征、描述符、选择顺序和编译出的目标包均逐位相同，算法标识、预算、层数和阈值保持不变。v2 算法会忽略该选项。其值必须是仅含布尔值 `briefOffsets` 一个键的对象（不能是数组）；`null`、字符串、数组、其他键或非布尔值均会被拒绝并抛出 `INVALID_CONFIG`。该值在构造时被复制，并在 Worker 的整个生命周期内固定不变。对传统家族算法启用时，能力信息报告 `operators.recognitionFeatures: 'cpu-brief-offsets'`（`briefOffsets: false` 时不出现）。该选项并不能确立在特定设备上的速度表现。`compileGrayTarget` 仍只在显式指定时启用该选项；无论是否启用，其目标包都逐字节相同。
+
+## WebAssembly 精确匹配（默认）
+
+`WorkerPipelineOptions.cpuMatching` 取值为 `'wasm-experimental'` 或 `'js'`。自 0.2.1 起，默认值（省略或 `undefined`）为 WebAssembly 匹配器，但当 `backendPreference` 为 `'webgpu'` 时 GPU 匹配器保持原有行为，不应用 CPU WebAssembly 匹配器；`'wasm-experimental'` 仍是其公开写法（为兼容而保留，并不表示该功能不稳定），`'js'` 表示关闭。该 WebAssembly 匹配器在 Worker 内运行传统家族（贪婪和 ANMS）的精确 BRIEF 汉明匹配器，契约与结果和 JavaScript 匹配器完全相同（`hamming32-mutual-ratio075-max64/1`）：目标描述符常驻于固定的 256 KiB WebAssembly 内存中，每帧描述符每个批次仅复制一次，只返回被接受的 `(targetIndex, frameIndex, distance)` 三元组。初始化时，若引擎验证通过 SIMD 模块且其在内置自检中复现 JavaScript 参考结果，则 Worker 选择 SIMD 模块，否则选择标量模块，再否则使用 JavaScript 匹配器。`onCapability` 报告实际运行的算子：`operators.matching` 为 `'wasm-simd'`、`'wasm-scalar'` 或 `'cpu'`，并附带 `cpuMatching`、`matchingScope`、`matchingSelection`（每次尝试及其结果）和 `matchingFallback`；回退到 JavaScript 时还会设置 `fallbackReason: 'WASM_MATCHING_JS_FALLBACK'`。若某帧处理中 WebAssembly 失败，该模块即被禁用，该帧本身改由 JavaScript 匹配，并随该帧结果公布变化后的能力。oriented-v2 目标保持使用 JavaScript 匹配器（`matchingFallback: 'ORIENTED_V2_USES_JS_MATCHER'`）。显式将 `'wasm-experimental'` 与 `backendPreference: 'webgpu'` 组合使用，或使用任何其他取值，均以 `INVALID_CONFIG` 拒绝。单文件引擎内嵌两个模块（WebAssembly 合计 1,844 字节，base64 文本约 2.5 KB），不会发起任何请求。严格的 CSP 需要 `script-src ... 'wasm-unsafe-eval'`，否则将报告使用 JavaScript 匹配器。取 `'js'` 时运行 JavaScript 匹配器，且能力信息不含 `cpuMatching` 相关字段。耗时差异仅在特定设备上测得，不作保证；该选项不能解决快速移动时的匹配丢失。该选项在 Worker 的整个生命周期内固定不变。
+
 ## ANMS 测试算法
 
 旧的引擎/编译器默认项仍为 `m0-harris-brief256-v1`。显式指定的 `ANMS_ALGORITHM_VERSION`（`m0-harris-anms-brief256-v1`）使用鲁棒性为 0.9 的 Brown/Szeliski/Winder CVPR 2005 §3 抑制半径选择。工作量限制在每个金字塔层级最强的 1024 个候选之内，且现有的逐层特征配额保持不变（384 个模板 / 512 个实时特征，三个层级）。这是一份记录在案的近似实现，而非论文中完整的 MOPS 管线。算法变更需要重新编译目标并构建匹配的管线；混用的包将被拒绝。更多的内点并不能保证更准确的角点；在手机上的改善尚未确立。跟踪有效性仍为 100 ms，且可配置的 500 ms 视觉宽限期不会延长它。
 
+显式请求 `observeRecognition: true` 时，每帧 `onTiming` 还提供可选的 `prepareStages`：输入整理/上传、标准图像绘制、像素读回及灰度转换，单位为微秒。默认不增加这些时钟读取和字段。这些值描述实测操作，不代表浏览器内部总复制量、相机曝光或屏幕可见延迟。
+
 ## CPU 回退、Worker 与静态资源
 
-- `createWorkerPipeline` 在模块 Worker 中运行识别与跟踪（`shared/runtime/sdk/src/worker-pipeline.js` 内部的 `new Worker(new URL('./vision-worker.js', import.meta.url), { type: 'module' })`）。`backendPreference: 'cpu'` 在 Worker 内部完全使用 CPU 运行所有内容；`'wasm'` 增加标量 WASM 灰度预处理；`'webgpu'` 增加 GPU 匹配（需要 oriented v2 算法）。Worker 通过 `onCapability` 报告其实际使用的配置，包括 `fallbackReason`。
+- `createWorkerPipeline` 在模块 Worker 中运行识别与跟踪（`shared/runtime/sdk/src/worker-pipeline.js` 内部的 `new Worker(new URL('./vision-worker.js', import.meta.url), { type: 'module' })`）。`backendPreference: 'cpu'` 在 Worker 内部完全使用 CPU 运行所有内容；`'wasm'` 增加标量 WASM 灰度预处理；`'webgpu'` 显式请求传统/ANMS 和 oriented-v2 目标的实验性精确 GPU 匹配。默认仍为 CPU；请求 GPU 不代表一定更快。通过 `operators.matching` 确认实际匹配后端，识别与跟踪仍在 CPU 上。Worker 通过 `onCapability` 报告其实际使用的配置，包括 `fallbackReason`。
 - 来自仅供 SDK 的 `@livemira/engine/development/cpu` 的 `createCpuPipeline` 在调用线程上运行相同的识别器。它可能会阻塞页面，是针对不支持模块 Worker 环境的回退方案；引擎本身从不自行切换到该方案。
 - **静态复制（受支持的布局）：** 这是 SDK 软件包可选的多文件开发布局（`./development/...` 入口）；保持 `shared/runtime/` 完整并将其作为静态文件提供服务（生产环境的 `core/` 文件不需要其中的任何内容）。Worker、`shared/runtime/compute/artifacts/{scalar,simd}/compute.{mjs,wasm}` 以及 `shared/runtime/compute/shaders/*.wgsl` 均位于相对于加载它们的模块的位置。
 - **打包工具：** Worker URL、WASM 和 WGSL 文件必须作为静态资源输出，并保持其相对布局，或者您向 `createWorkerPipeline` 传递 `workerFactory: () => new Worker(yourWorkerUrl, { type: 'module' })`。尚未针对任何特定的打包工具进行过测试。

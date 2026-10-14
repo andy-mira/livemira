@@ -1,7 +1,7 @@
 /*! Copyright 2026 Andy (@andy-mira)
  * SPDX-License-Identifier: Apache-2.0
  */
-import { EngineError, normalizeHomography, type FramePacket, type RecognitionObservation, type TargetBundle } from '@livemira/contracts';
+import { EngineError, normalizeHomography, resolveCpuFeatureOptions, type CpuFeatureOptions, type FramePacket, type RecognitionObservation, type TargetBundle } from '@livemira/contracts';
 import { LIMITS, type GrayImage, type LocalRoi } from '../experimental/features.mjs';
 import { extractLegacyFamily, isLegacyFamily } from './legacy-family.mjs';
 import { verifyGeometry, hullArea, validateHomography } from '../experimental/geometry.mjs';
@@ -14,7 +14,9 @@ export interface ExactMatchRequest { targetId: string; descriptors: Uint8Array }
 export interface ExactMatchResult { targetId: string; pairs: {targetIndex:number;frameIndex:number;distance:number}[] }
 export interface ExactMatchingOutput { backend: 'cpu'|'webgpu'|'wasm'; matches: ExactMatchResult[] }
 export type ExactMatchingOperator = (targets: readonly ExactMatchRequest[], frameDescriptors: Uint8Array, signal?: AbortSignal) => Promise<ExactMatchingOutput>;
-export interface CpuRecognizerOptions { exactMatching?: ExactMatchingOperator; /** Default true: retry a global miss once at a half-octave scale (legacy family only). Must be a boolean when given; false is for diagnostic comparison. */ legacyScaleSearch?: boolean; /** Default false: when true, `diagnostics.passes` carries one bounded fact record per recognition pass (no extra work, no extra feature extraction). */ capturePasses?: boolean; /** When set, only bundles compiled with exactly this algorithm identity load; otherwise the identity comes from the (uniform) bundles, as before. */ algorithmVersion?: string }
+/** Same exact matching for the legacy BRIEF family; resolves null when no accelerator is live, and the built-in CPU matcher then runs. */
+export type LegacyExactMatchingOperator = (targets: readonly ExactMatchRequest[], frameDescriptors: Uint8Array, signal?: AbortSignal) => Promise<ExactMatchingOutput | null>;
+export interface CpuRecognizerOptions { /** v2 (oriented) only. */ exactMatching?: ExactMatchingOperator; /** Default undefined: the built-in matcher; the Worker supplies WASM exact matching for the legacy family by default. */ legacyExactMatching?: LegacyExactMatchingOperator; /** Default true: retry a global miss once at a half-octave scale (legacy family only). Must be a boolean when given; false is for diagnostic comparison. */ legacyScaleSearch?: boolean; /** Default false: when true, `diagnostics.passes` carries one bounded fact record per recognition pass (no extra work, no extra feature extraction). */ capturePasses?: boolean; /** When set, only bundles compiled with exactly this algorithm identity load; otherwise the identity comes from the (uniform) bundles, as before. */ algorithmVersion?: string; /** Default { briefOffsets: true } (0.2.1); omitted, undefined or partial objects use defaults. Validated and snapshotted here (INVALID_CONFIG otherwise); legacy family only, ignored by v2. */ cpuFeatures?: CpuFeatureOptions }
 /** Facts of ONE pass, snapshotted before any accumulation. prepareMs is the input preparation (resampling) of that pass and is not part of its featureMs. */
 export interface RecognitionPassFacts { scale: number; prepareMs: number; featureMs: number; retrievalMs: number; matchMs: number; geometryMs: number; totalMs: number; featureCount: number; candidateCount: number; observationCount: number; ambiguous: boolean; budgetExhausted: boolean; rejected: { targetId: string; reason: string }[] }
 export interface RecognitionBatch { observations: RecognitionObservation[]; ambiguous: boolean; rejected: { targetId: string; reason: string }[];
@@ -33,16 +35,19 @@ export class CpuRecognizer {
   #cache: {features: ReturnType<typeof featuresFromTarget>;packed: Uint32Array;bytes: Uint8Array;diagnostics: ReturnType<typeof diagnoseFeatures>}[] = [];
   #index: TargetIndex | null = null;
   #exactMatching?: ExactMatchingOperator;
+  #legacyExactMatching?: LegacyExactMatchingOperator;
   #pending = false;
   #legacyScaleSearch: boolean;
   #algorithmVersion?: string;
   #capturePasses: boolean;
+  #briefOffsets: boolean;
   constructor(options: CpuRecognizerOptions = {}) {
     if (options.legacyScaleSearch !== undefined && typeof options.legacyScaleSearch !== 'boolean') throw new EngineError('INVALID_CONFIG', false, 'legacyScaleSearch must be a boolean');
     if (options.capturePasses !== undefined && typeof options.capturePasses !== 'boolean') throw new EngineError('INVALID_CONFIG', false, 'capturePasses must be a boolean');
     this.#capturePasses = options.capturePasses === true;
+    this.#briefOffsets = resolveCpuFeatureOptions(options.cpuFeatures).briefOffsets;
     if (options.algorithmVersion !== undefined && !SUPPORTED_ALGORITHM_VERSIONS.includes(options.algorithmVersion)) throw new EngineError('INVALID_CONFIG', false, 'Unsupported recognition algorithm');
-    this.#exactMatching = options.exactMatching; this.#legacyScaleSearch=options.legacyScaleSearch??true; this.#algorithmVersion=options.algorithmVersion;
+    this.#exactMatching = options.exactMatching; this.#legacyExactMatching = options.legacyExactMatching; this.#legacyScaleSearch=options.legacyScaleSearch??true; this.#algorithmVersion=options.algorithmVersion;
   }
   async loadTargets(targets: readonly TargetBundle[]): Promise<void> {
     this.#alive();
@@ -89,7 +94,7 @@ export class CpuRecognizer {
     if (!this.#targets.length) throw new EngineError('INVALID_TARGET', false, 'No targets loaded');
     if (!identity.sessionId || !Number.isSafeInteger(identity.frameId) || identity.frameId < 0) throw new EngineError('FRAME_FAILED', false, 'Invalid frame identity');
     const start = performance.now(), algorithmVersion = this.#targets[0].algorithmVersion, oriented = algorithmVersion === ORIENTED_ALGORITHM;
-    const { features } = oriented ? extractOriented(image, { maxFeatures: 512, levels: 6, roi: options.roi }) : extractLegacyFamily(image, algorithmVersion, { maxFeatures: 512, levels: 3, roi: options.roi });
+    const { features } = oriented ? extractOriented(image, { maxFeatures: 512, levels: 6, roi: options.roi }) : extractLegacyFamily(image, algorithmVersion, { maxFeatures: 512, levels: 3, roi: options.roi, briefOffsets: this.#briefOffsets });
     // Restore points before matching/geometric validation: threshold stays 3 ORIGINAL pixels.
     if(featureImageScale!==1)for(const f of features){f.x=(f.x+.5)/featureImageScale-.5;f.y=(f.y+.5)/featureImageScale-.5;}
     const featureMs = performance.now()-start, retrievalStart = performance.now();
@@ -97,15 +102,18 @@ export class CpuRecognizer {
     const indices = retrieval?.indices ?? this.#targets.map((_, i) => i), packed = retrieval?.packed ?? packDescriptors(features);
     const diagnostics: RecognitionBatch['diagnostics'] = {algorithmVersion,matchingBackend:'cpu',legacyScalePasses:1,featureMs,retrievalMs:performance.now()-retrievalStart,matchMs:0,geometryMs:0,totalMs:0,featureCount:features.length,candidateCount:indices.length,retrievalComparisons:retrieval?.comparisons??0,bucketVisits:retrieval?.bucketVisits??0,budgetExhausted:retrieval?.exhausted??false,fineComparisons:0};
     let accelerated: Map<string, ExactMatchResult['pairs']> | null = null;
-    if (oriented && this.#exactMatching && indices.length) {
+    const operator = oriented ? this.#exactMatching : this.#legacyExactMatching;
+    if (operator && indices.length) {
       const requested = indices.filter(i=>!this.#cache[i].diagnostics.length).map(i=>({targetId:this.#targets[i].targetId,descriptors:this.#cache[i].bytes}));
       if (requested.length) {
         const matchStart=performance.now(), generation=this.#generation;
-        const output = await this.#exactMatching(requested,new Uint8Array(features.flatMap(f=>f.descriptor)),options.signal);
+        const result = await operator(requested,new Uint8Array(features.flatMap(f=>f.descriptor)),options.signal);
         abort(options.signal);this.#alive();
         if(generation!==this.#generation)throw new EngineError('ABORTED',true,'Recognition generation changed');
+        // A legacy operator without a live accelerator leaves matching to the CPU loop below.
+        if(result!==null||oriented){const output=result as ExactMatchingOutput;
         if(!['cpu','webgpu','wasm'].includes(output.backend)||output.matches.length!==requested.length||new Set(output.matches.map(m=>m.targetId)).size!==requested.length||output.matches.some(m=>!requested.some(r=>r.targetId===m.targetId)))throw new EngineError('FRAME_FAILED',false,'Invalid exact matching batch');
-        accelerated=new Map(output.matches.map(m=>[m.targetId,m.pairs]));diagnostics.matchingBackend=output.backend;diagnostics.matchMs=performance.now()-matchStart;
+        accelerated=new Map(output.matches.map(m=>[m.targetId,m.pairs]));diagnostics.matchingBackend=output.backend;diagnostics.matchMs=performance.now()-matchStart;}
       }
     }
     const observations: RecognitionObservation[] = [], rejected: RecognitionBatch['rejected'] = [];

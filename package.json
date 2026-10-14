@@ -1,6 +1,6 @@
 {
   "name": "livemira",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "LiveMira engine source: browser image-target AR with an embedded Worker, WebAssembly and WebGPU shaders.",
   "license": "Apache-2.0",
   "author": "Andy (@andy-mira)",

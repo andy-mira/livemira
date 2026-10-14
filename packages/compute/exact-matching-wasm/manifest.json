@@ -1,0 +1,40 @@
+{
+  "schema": "lm-exact-matching-wasm/1",
+  "matchingVersion": "hamming32-mutual-ratio075-max64/1",
+  "abi": 1,
+  "description": "Exact BRIEF Hamming matcher assembled from original WAT sources (Apache-2.0). The WebAssembly contains no third-party code; wabt is the assembler only and is not redistributed.",
+  "buildScript": "packages/compute/exact-matching-wasm/build.mjs",
+  "generatedModule": "packages/compute/src/exact-matching-wasm-binaries.mjs",
+  "generatedModuleSha256": "b84f4a9f1d0a3f1dc16eaa2cac0b27793871f4336e5c39ead46c8f1e7ac535c6",
+  "toolchain": {
+    "package": "wabt",
+    "version": "1.0.39",
+    "license": "Apache-2.0",
+    "repository": "https://github.com/AssemblyScript/wabt.js",
+    "tarball": "https://registry.npmjs.org/wabt/-/wabt-1.0.39.tgz",
+    "integrity": "sha512-ba+dRL/75VQQY7RkU/CgriGbkoWAfS8TDyUlJfJhJ8KhtXgMl5dhNvoPNUcQ9IWRhW8u41glMSuZeTvsYq2rRg==",
+    "tarballSha256": "a10d4f4b15b91de8ab2ccb4700ef12185736f0bc96ee809e53ab17f7ea743fd2",
+    "indexJsSha256": "cecf06ab5c65c3b7c05bafe601bbba61a45e4939889c5c51351e8817ac06f48d",
+    "role": "WAT assembler only (build time). Not a dependency of the package, not in package-lock.json and not redistributed."
+  },
+  "variants": [
+    {
+      "id": "scalar",
+      "source": "packages/compute/exact-matching-wasm/hamming-exact-scalar.wat",
+      "sourceSha256": "af50be6ee084029bf9bdca81ce2b090cc4dbb0a1ecb2da96904ab6963bb38595",
+      "features": [],
+      "bytes": 647,
+      "sha256": "5692cd0c74822126695c29720dc8ff6d283ea802487cb5629564d784fdd98fe1"
+    },
+    {
+      "id": "simd",
+      "source": "packages/compute/exact-matching-wasm/hamming-exact-simd.wat",
+      "sourceSha256": "8a6302ec703d05bc781337ca61f905eac9516f3995097abc064f8df6fec9c50e",
+      "features": [
+        "simd"
+      ],
+      "bytes": 1197,
+      "sha256": "93b68db7070a353ec49abdaf5afc852a7d8a48ba96b4deaee9f466aa38fe7c06"
+    }
+  ]
+}

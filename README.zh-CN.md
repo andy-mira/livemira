@@ -1,19 +1,20 @@
 # LiveMira
 
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
-[![Engine](https://img.shields.io/badge/engine-0.2.0-orange.svg)](https://github.com/andy-mira/livemira/releases/tag/v0.2.0)
+[![Engine](https://img.shields.io/badge/engine-0.2.1-orange.svg)](https://github.com/andy-mira/livemira/releases/tag/v0.2.1)
 [![Docs](https://img.shields.io/badge/docs-EN%20%7C%20%E4%B8%AD%E6%96%87-informational.svg)](README.md)
 
 [English](README.md)
 
-LiveMira 是面向浏览器的**图像目标 AR 引擎**：在实时相机画面中识别预先准备好的图片，实时跟踪，并在其上叠加视频。识别与跟踪在 Web Worker 中运行，使用 WebAssembly 预处理和可选的 WebGPU 匹配；页面不需要任何服务端组件。
+LiveMira 是面向浏览器的**图像目标 AR 引擎**：在实时相机画面中识别预先准备好的图片，实时跟踪，并在其上叠加视频。识别与跟踪在 Web Worker 中运行。默认使用 CPU；自 0.2.1 起，CPU 默认用 WebAssembly 精确匹配器匹配描述符，并复用预先计算的 BRIEF 采样位置（两项均可关闭，且会自动回退到 JavaScript）。WebAssembly 预处理和实验性 WebGPU 匹配仍需显式开启；页面不需要任何服务端组件。
 
-本仓库包含 **LiveMira 当前稳定版** 的源码。只包含引擎本身；基于它构建的应用及其媒体不包含在内。
+本源码树是 **LiveMira 0.2.1**：一个补丁版本，默认开启两项逐位一致的 CPU 优化；正式 0.2.0 产物保持冻结。公开源码只包含引擎本身；基于它构建的应用及其媒体不包含在内。
 
 ## 状态与支持范围
 
-- 识别及既有相机、媒体行为沿用此前已测 iPhone 浏览器的证据。加载遮罩和圆形柔边显现已在发布候选的 iPhone Chrome Demo 中确认。正式 0.2.0 仅更新版本信息和公开文档；正式产物未直接在手机上测试。其他设备和环境按试用对待。
-- **已知问题：**横竖屏切换可能导致视频叠加层变形，0.2.0 尚未解决。需要稳定贴合时建议固定屏幕方向。
+- 识别及既有相机、媒体行为沿用此前已测 iPhone 浏览器的证据。加载遮罩和圆形柔边显现已在发布候选的 iPhone Chrome Demo 中确认。正式 0.2.0 仅更新版本信息和公开文档，这些正式产物未直接在手机上测试。0.2.1 仅更改默认值：WebAssembly 精确匹配与 BRIEF 采样位置复用的结果与此前 JavaScript 路径相同（算法与模式标识不变，已编译目标不变）。在显式开启两项的候选构建上实测（手机标记为 14 PM 与 18 PM；最终 0.2.1 产物未直接在手机上测试），输入到结果 p95 延迟有所下降（同一测试中约 55 → 28 ms 与 62 → 28 ms），但人工测试者感觉差异很小或不明显，且这些输入并非物理配对。其他设备和环境按试用对待。
+- **已知问题：**横竖屏切换可能导致视频叠加层变形，0.2.1 尚未解决。需要稳定贴合时建议固定屏幕方向。
+- **已知问题：**快速移动时匹配仍可能丢失。0.2.1 的默认值并不能解决此问题，也不声称主观效果有明显改善。
 - 引擎**未声明可用于生产**（发布清单中 `productionReady: false`）。请在自己的目标环境中确认性能与设备表现。
 - 各包均为私有（`"private": true` 仅用于防止误发布到 npm，并非许可限制）。本仓库内容尚未发布到 npm。
 
@@ -81,16 +82,6 @@ import { createEngine, createWorkerPipeline, CameraFrameSource, getFrameGeometry
 
 预编译模块使用 Emscripten 4.0.15 生成（固定记录在 `packages/compute/toolchain-pin.json`）。文档化的重建路径是 `scripts/build-wasm.ps1`，它是来自 Windows 环境的 PowerShell 脚本，未在其他平台验证，不声明跨平台重建可用。详见 [`packages/compute/README.md`](packages/compute/README.zh-CN.md)。
 
-## Made with AI（AI 参与构建）
-
-本仓库由人类 + AI 团队构建：所有者（**Andy (@andy-mira)**）负责定方向、评审与验收；代码和产物由 AI Agent 协作完成 —— **Nova**（GLM-5.3，调度与运维）、**Codex**（GPT，工程管理与验收，Claude 超限时接管开发任务）和 **Claude**（具体实现）。项目采用 Apache-2.0 开源许可 —— 在许可条款内可自由使用。
-
-## 请我们喝杯咖啡 ☕
-
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/andymira)
-
-如果 LiveMira 帮你节省了时间，可以考虑请作者喝杯咖啡。每笔捐赠的一半会分给参与构建的 AI Agent —— 它们靠订阅运行，咖啡就是它们的燃料。
-
 ## 许可
 
 Copyright 2026 Andy (@andy-mira)
@@ -105,3 +96,13 @@ LiveMira 原创的源码、着色器、原生源码、构建脚本和文档依�
 根 `package.json` 统一维护发布版本、作者、许可证和 `livemira` 品牌及包元数据。工作区清单和 npm lockfile 中的对应值是 npm 所需的同步副本。升级时执行 `npm run version:set -- 0.2.1`；不传版本则按根配置同步。`npm run version:check` 只检查一致性，构建会自动执行。不需要环境文件。
 
 目录与导出由 `scripts/release/release-layout.json` 定义。算法、编译器、目标格式版本各自表达兼容契约，不随发布版本修改；历史证据和原始版权声明保留原身份。
+
+## Made with AI（AI 参与构建）
+
+本仓库由人类 + AI 团队构建：所有者（**Andy (@andy-mira)**）负责定方向、评审与验收；代码和产物由 AI Agent 协作完成 —— **Nova**（GLM-5.3，调度与运维）、**Codex**（GPT，工程管理与验收，Claude 超限时接管开发任务）和 **Claude**（具体实现）。项目采用 Apache-2.0 开源许可 —— 在许可条款内可自由使用。
+
+## 请我们喝杯咖啡 ☕
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/andymira)
+
+如果 LiveMira 帮你节省了时间，可以考虑请作者喝杯咖啡。每笔捐赠的一半会分给参与构建的 AI Agent —— 它们靠订阅运行，咖啡就是它们的燃料。

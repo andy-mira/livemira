@@ -12,3 +12,10 @@ export function createExactMatchingAdapter(matcher) {
     return matcher.matchBatch(targets.map(t=>t.targetId),frameDescriptors,signal);
   };
 }
+/** Opt-in for the legacy BRIEF family: delegates only while the matcher holds a live WebGPU device. Otherwise it resolves null and the
+ * recognizer keeps its own CPU matcher instead of the matcher's slower CPU fallback. A device lost during a batch still yields that batch's
+ * exact CPU result, reported with backend 'cpu'. */
+export function createGpuExactMatchingAdapter(matcher) {
+  const exact=createExactMatchingAdapter(matcher);
+  return async(targets,frameDescriptors,signal)=>matcher.diagnostics.backend==='webgpu'?exact(targets,frameDescriptors,signal):null;
+}

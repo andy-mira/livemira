@@ -1,7 +1,7 @@
 /*! Copyright 2026 Andy (@andy-mira)
  * SPDX-License-Identifier: Apache-2.0
  */
-import { EngineError, validateTargetBundle, type TargetBundle, type QualityDiagnostic, type Point2 } from '@livemira/contracts';
+import { EngineError, snapshotCpuFeatureOptions, validateTargetBundle, type CpuFeatureOptions, type TargetBundle, type QualityDiagnostic, type Point2 } from '@livemira/contracts';
 import { ALGORITHM, ANMS_ALGORITHM, LIMITS, hamming, pyramid, validateGray, type GrayImage, type LocalFeature } from '../../recognition/experimental/features.mjs';
 import { ANMS_SELECTION_ID, extractLegacyFamily } from '../../recognition/src/legacy-family.mjs';
 import { hullArea } from '../../recognition/experimental/geometry.mjs';
@@ -17,7 +17,7 @@ export const SUPPORTED_ALGORITHM_VERSIONS: readonly string[] = Object.freeze([AL
 const compilerVersionFor = (algorithmVersion: string): string => algorithmVersion === ORIENTED_ALGORITHM ? ORIENTED_COMPILER_VERSION : algorithmVersion === ANMS_ALGORITHM ? ANMS_COMPILER_VERSION : COMPILER_VERSION;
 export const ORIENTED_COMPILER_VERSION = 'webar-gray8-cpu/0.2.0';
 export const MAX_SERIALIZED_BYTES = 24_000_000;
-export interface CompileGrayOptions { targetId: string; physicalWidthMeters?: number | null; maxFeatures?: number; levels?: number; algorithmVersion?: string }
+export interface CompileGrayOptions { targetId: string; physicalWidthMeters?: number | null; maxFeatures?: number; levels?: number; algorithmVersion?: string; /** Default absent: reference extraction. Every option yields a byte-identical bundle; legacy family only, ignored by v2. Invalid values throw INVALID_CONFIG. */ cpuFeatures?: CpuFeatureOptions }
 const invalid = (reason: string): never => { throw new EngineError('INVALID_TARGET', false, reason); };
 const encoder = new TextEncoder();
 async function hash(bytes: Uint8Array): Promise<string> {
@@ -38,11 +38,12 @@ export async function compileGrayTarget(image: GrayImage, options: CompileGrayOp
   // Snapshot before the first await so caller mutation cannot desynchronize hash/features.
   const snapshot = { ...image, data: new Uint8Array(image.data) };
   const { targetId, physicalWidthMeters = null, algorithmVersion = ALGORITHM } = options;
+  const briefOffsets = snapshotCpuFeatureOptions(options.cpuFeatures)?.briefOffsets === true;
   if (!SUPPORTED_ALGORITHM_VERSIONS.includes(algorithmVersion)) invalid('Unsupported target algorithm; explicit recompilation required');
   const oriented = algorithmVersion === ORIENTED_ALGORITHM;
   const { maxFeatures = oriented ? 512 : 384, levels = oriented ? ORIENTED_LEVELS : 3 } = options;
   if (!/^[A-Za-z0-9_.-]{1,128}$/.test(targetId) || (physicalWidthMeters !== null && (!Number.isFinite(physicalWidthMeters) || physicalWidthMeters <= 0))) invalid('Invalid target identity or physical width');
-  const { features } = oriented ? extractOriented(snapshot, { maxFeatures, levels }) : extractLegacyFamily(snapshot, algorithmVersion, { maxFeatures, levels });
+  const { features } = oriented ? extractOriented(snapshot, { maxFeatures, levels }) : extractLegacyFamily(snapshot, algorithmVersion, { maxFeatures, levels, briefOffsets });
   const result: TargetBundle = {
     schemaVersion: 1, compilerVersion: compilerVersionFor(algorithmVersion), algorithmVersion, targetId,
     imageHash: await hash(snapshot.data), imageHashDomain: 'canonical-gray8', widthPx: snapshot.width, heightPx: snapshot.height,

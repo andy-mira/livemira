@@ -1,8 +1,8 @@
-# LiveMira 0.2.0
+# LiveMira 0.2.1
 
 [English](livemira-release.md) | [简体中文](livemira-release.zh-CN.md)
 
-LiveMira is a browser engine for image-target AR: it recognizes a prepared image target in the live camera feed, tracks it, and shows a video on it. 0.2.0 is the first stable edition. Recognition, matching, scale retry, camera and tracking are unchanged. Video presentation adds a black translucent loading layer and spinner, followed by a soft circular reveal from the centre when a decoded frame is available. The package name, distribution file names and import paths follow the LiveMira naming in `NAMING.md` of the `docs` directory.
+LiveMira is a browser engine for image-target AR: it recognizes a prepared image target in the live camera feed, tracks it, and shows a video on it. 0.2.1 is a patch release of the first stable edition (0.2.0). Recognition, matching results, scale retry, camera and tracking behave as before; two CPU optimizations that produce bit-identical results are now on by default (see "CPU defaults"). Video presentation keeps the black translucent loading layer and spinner, followed by a soft circular reveal from the centre when a decoded frame is available, as introduced in 0.2.0 and unchanged here. The package name, distribution file names and import paths follow the LiveMira naming in `NAMING.md` of the `docs` directory.
 
 ## Layout
 
@@ -47,13 +47,24 @@ Only the SDK package contains the multi-file modules (`shared/runtime/`). They a
 
 ## Support scope
 
-Existing recognition and camera/media behavior were tested in an iPhone browser Demo integration. Other devices and environments are trial. The loading mask and circular reveal were confirmed in an iPhone Chrome Demo using the release candidate. Final promotion changes only version metadata and public documentation; the final artifacts were not tested directly on a phone. `productionReady` is false: a stable channel does not mean that full commercial validation has been completed.
+Existing recognition and camera/media behavior were tested in an iPhone browser Demo integration. Other devices and environments are trial. The loading mask and circular reveal were confirmed in an iPhone Chrome Demo using the release candidate. Release 0.2.1 makes two optimizations the shared defaults: exact WebAssembly matching and BRIEF offset reuse. The candidate build with both options explicitly enabled was physically tested on two phones, labelled 14 PM and 18 PM (input-to-result p95 about 55 → 28 ms and 62 → 28 ms; testers saw little or no clear difference; the inputs were not physically paired). That evidence is reused, not relabelled: the final 0.2.1 artifacts were not tested directly on a phone, and parity between the packaged defaults and that candidate was checked separately by automated comparison. Fast-motion matching loss and the portrait/landscape overlay deformation remain. `productionReady` is false: a stable channel does not mean that full commercial validation has been completed.
 
 The default presentation uses a 55% black loading layer, a rotating ring and a 420 ms circular reveal with a soft edge. It waits for the current video's first decoded frame; downloading the entire video is not required. Configure `new CssVideoRenderSink({ geometryForResult, presentation: { revealMs: 420, loadingTimeoutMs: 15000, overlayOpacity: 0.55 } })`, or use `presentation: false` to disable it. Reduced-motion settings use a short fade. Request generations prevent old callbacks from revealing a replaced or stopped video. Presentation transitions are available in the existing `mediaState` event and numeric log export.
 
 ## Known issue
 
-Portrait/landscape transitions can deform the video overlay. This remains unresolved in 0.2.0. Use a fixed orientation when consistent alignment is required.
+Portrait/landscape transitions can deform the video overlay. This remains unresolved in 0.2.1. Use a fixed orientation when consistent alignment is required.
+
+Matching can still be lost during fast motion. The 0.2.1 defaults do not fix this, and no clear subjective improvement is claimed.
+
+## CPU defaults
+
+Since 0.2.1, when `cpuMatching` and `cpuFeatures` are omitted:
+
+- the legacy-family exact Hamming matcher runs in embedded WebAssembly inside the Worker: SIMD when validated and self-tested, else scalar, else the JavaScript matcher. The capability's `operators.matching` reports `wasm-simd`, `wasm-scalar` or `cpu` (with `matchingFallback` and `fallbackReason: 'WASM_MATCHING_JS_FALLBACK'` on fallback). The string `'wasm-experimental'` is kept as a compatibility spelling of this default;
+- BRIEF sample offsets are precomputed once per pyramid layer (`cpuFeatures: { briefOffsets: true }`; the capability reports `recognitionFeatures: 'cpu-brief-offsets'`). A partial or `undefined` `cpuFeatures` uses the same defaults.
+
+Opt out with `cpuMatching: 'js'` and `cpuFeatures: { briefOffsets: false }`. Results, compiled targets, and algorithm and schema identifiers are unchanged. `backendPreference: 'webgpu'` stays opt-in and keeps its own matcher (the CPU WebAssembly matcher is not applied to it); oriented-v2 targets keep the JavaScript matcher. In the two phone input-to-result p95 measurements the latency dropped from about 55 to 28 ms and from 62 to 28 ms; human testers saw little or no clear difference, and the inputs were not physically paired, so this is not a user-visible fix. `productionReady` remains false.
 
 ## Compatibility
 
