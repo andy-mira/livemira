@@ -1,0 +1,27 @@
+{
+  "name": "@livemira/engine",
+  "version": "0.4.1",
+  "private": true,
+  "description": "Public engine entry: assembles the modules, schedules sessions and frames, owns the vision Worker protocol and runtime, and hosts extensions.",
+  "license": "Apache-2.0",
+  "author": "Andy (@andy-mira)",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "dependencies": {
+    "@livemira/contracts": "0.4.1",
+    "@livemira/compute": "0.4.1",
+    "@livemira/recognition": "0.4.1",
+    "@livemira/tracking": "0.4.1",
+    "@livemira/target-compiler": "0.4.1",
+    "@livemira/camera": "0.4.1",
+    "@livemira/media": "0.4.1",
+    "@livemira/renderer": "0.4.1",
+    "@livemira/diagnostics": "0.4.1"
+  }
+}

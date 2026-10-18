@@ -1,0 +1,257 @@
+{
+  "schema": "livemira-release/1",
+  "name": "LiveMira",
+  "version": "0.4.1",
+  "buildId": "ae3ae8bdbef21130fdf395506cf283611a5029395bff0505bb2fe0490a8f64ab",
+  "buildIds": {
+    "livemira-engine.min.mjs": "ae3ae8bdbef21130fdf395506cf283611a5029395bff0505bb2fe0490a8f64ab",
+    "livemira-engine.mjs": "ead49413c2b51a532c34b61afe5a55fa33f1aee84c3d918d6a25aec4a49ef42f"
+  },
+  "files": [
+    {
+      "path": "CHANGELOG.md",
+      "bytes": 6011,
+      "sha256": "fde97855c759e8fc148dc6d76681409d465be42f7d833a3b3f1547a4839f6287"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 11334,
+      "sha256": "4e451b153e550b98d20d289668d78ccbc54999ffe754212304c6415ef11f291f"
+    },
+    {
+      "path": "NOTICE",
+      "bytes": 792,
+      "sha256": "40558e3519dab90f522ce5e110ae0bdc8db2d8fb878103fcc5f4463899aa5945"
+    },
+    {
+      "path": "README.md",
+      "bytes": 1524,
+      "sha256": "2f5f62f336d0c39d44da1461f1ad1da75d6acc9e8a338fae799bdd7669b2a1db"
+    },
+    {
+      "path": "README.zh-CN.md",
+      "bytes": 1459,
+      "sha256": "1006e927e53f30ee61cf9981acb341a90bc3551dec0d46ac1eab0c667a419ff5"
+    },
+    {
+      "path": "demo/assets/CREDITS.md",
+      "bytes": 1000,
+      "sha256": "d6c3b8b1d1566af10e4e0e4bd710a6391cb165326ba78690c338912d3bc55c80"
+    },
+    {
+      "path": "demo/assets/bird-01.png",
+      "bytes": 477212,
+      "sha256": "cc943ff3666bccd656c8d8b846abccabf900777b83cdf9665e59489ee28943ec"
+    },
+    {
+      "path": "demo/assets/forest-03.png",
+      "bytes": 526111,
+      "sha256": "484dbae4fdaff3c094b099b89a3b6d7983ddd0d5b91c357055f3a9c5d63b2929"
+    },
+    {
+      "path": "demo/assets/mountain-01.png",
+      "bytes": 285006,
+      "sha256": "b10d8b1dc53d463240b73cee667e2a9658ac889ae9b78e40b2e44e3dfd6aeafe"
+    },
+    {
+      "path": "demo/assets/original-grid.webm",
+      "bytes": 123433,
+      "sha256": "05a7e27da2d6fd686ca096a2d6236097e16440acc074457cd845f2cb1c2d200d"
+    },
+    {
+      "path": "demo/assets/ship-01.png",
+      "bytes": 209822,
+      "sha256": "d225f5f94663129e635a72048c7df6cb8fe090dd8c50337c1fb0ba9e28d76f36"
+    },
+    {
+      "path": "demo/demo.js",
+      "bytes": 18095,
+      "sha256": "cf0acc607c743ad2ec097b76d7bc08fdec6ce188012461930603fe2d1f500daf"
+    },
+    {
+      "path": "demo/index.html",
+      "bytes": 336,
+      "sha256": "4a208d027b39774c54d7a7ea7d78fac6e0afe0e50ea70324331a581839bc9963"
+    },
+    {
+      "path": "demo/livemira-engine.mjs",
+      "bytes": 182058,
+      "sha256": "8b1cef9b059de94b3ac52e323a8103bc73500fca44fe6a4f679bc41a2b4db560"
+    },
+    {
+      "path": "demo/livemira-tracking-visuals.mjs",
+      "bytes": 4221,
+      "sha256": "3dcc8166dce45d20ff56d3a7f4c4c038cd5e1e29f4f939a2730009049f6ed8e2"
+    },
+    {
+      "path": "documentation/engine.md",
+      "bytes": 16901,
+      "sha256": "258e424fd3daa3e6bf833b0f6b5f28396da4ef646065c454f4698a6f2c5b25e1"
+    },
+    {
+      "path": "documentation/engine.zh-CN.md",
+      "bytes": 15755,
+      "sha256": "af400e9fcfca1f7d28b5612470238d1ab4e7a8da0ae35706fa5667da2e84064c"
+    },
+    {
+      "path": "documentation/migration-0.2-to-0.3.md",
+      "bytes": 13099,
+      "sha256": "ac89c2127d629dac52315da4a901186e263ea343c428c3db5b2747d60d4c45e2"
+    },
+    {
+      "path": "documentation/migration-0.2-to-0.3.zh-CN.md",
+      "bytes": 12377,
+      "sha256": "ffa7724a815f6b6272456521c781dead9bd0c51a848a0ac980cc1402cabcc0d3"
+    },
+    {
+      "path": "documentation/recognition-diagnostics.md",
+      "bytes": 3052,
+      "sha256": "d16c6a3331b22490ebebd7e3afd87298f846e97b3ae8142af1219cc236739df3"
+    },
+    {
+      "path": "documentation/recognition-diagnostics.zh-CN.md",
+      "bytes": 2745,
+      "sha256": "626dbcc5b52e9a5dea2b44786c71abfa20b932bf7e2e48b650eb3f3c08dd999e"
+    },
+    {
+      "path": "documentation/target-quality.md",
+      "bytes": 2619,
+      "sha256": "d3bfa3e04d9416c370f6d9dfd75875b19e55792b19bdca9c0da6f78487a3b2bb"
+    },
+    {
+      "path": "documentation/target-quality.zh-CN.md",
+      "bytes": 2470,
+      "sha256": "9110a8148209f930fe565d5e818d249c3e60ab4a45696be193a971ff23ffa27a"
+    },
+    {
+      "path": "documentation/tracking-visuals.md",
+      "bytes": 2079,
+      "sha256": "b82255418d22544119f9278632220c4bf4cdb62342a01acaaf232f431b6a38ff"
+    },
+    {
+      "path": "documentation/tracking-visuals.zh-CN.md",
+      "bytes": 1963,
+      "sha256": "fff2d7c125a64034d3f898dd12194c3af118b8ef4772ad7df9c664866d235604"
+    },
+    {
+      "path": "documentation/ui.md",
+      "bytes": 8711,
+      "sha256": "6cdb30b1aa6d39803743d99df338ac51cb57a1b640ec4210f378db2c62416b14"
+    },
+    {
+      "path": "documentation/ui.zh-CN.md",
+      "bytes": 8421,
+      "sha256": "9e1df58a998c57e3ff397b6dd107d4510d1f92340a0cef3c68b0ddf0c2f7f86e"
+    },
+    {
+      "path": "files/livemira-engine-worker.min.mjs",
+      "bytes": 51912,
+      "sha256": "3d5f02fdbd93aa0faa132959bfa2d13ee35fc5ecf95accf95cee2c599038476d"
+    },
+    {
+      "path": "files/livemira-engine-worker.mjs",
+      "bytes": 95635,
+      "sha256": "6a928bf1e0767fc98f258052021e7257e7545202112989793351c07cbed6cf46"
+    },
+    {
+      "path": "files/livemira-engine.d.ts",
+      "bytes": 39496,
+      "sha256": "760ff417821f3034e4d7e3ba8159c0c49318ef7ad8220bdcdca0fa5273a51e98"
+    },
+    {
+      "path": "files/livemira-engine.min.mjs",
+      "bytes": 182058,
+      "sha256": "8b1cef9b059de94b3ac52e323a8103bc73500fca44fe6a4f679bc41a2b4db560"
+    },
+    {
+      "path": "files/livemira-engine.mjs",
+      "bytes": 332179,
+      "sha256": "e809b38156b42354c3ad1782134071f536900c7e661d7427a1cbc0b778fd2c29"
+    },
+    {
+      "path": "files/livemira-recognition-diagnostics.d.ts",
+      "bytes": 12425,
+      "sha256": "4add99bf2c70a9bf09d9cf575bfa7cc9c1e781aa7224a488697e0eedc7012093"
+    },
+    {
+      "path": "files/livemira-recognition-diagnostics.min.mjs",
+      "bytes": 10472,
+      "sha256": "56ece93d3eee2c2a3574f249bf2d7a29a65162d5306ef7af7ab6f4326db097e0"
+    },
+    {
+      "path": "files/livemira-recognition-diagnostics.mjs",
+      "bytes": 18812,
+      "sha256": "c25352fb16b03263714603399dd1ce7b48118d252ae828c36ce95e28788a5f68"
+    },
+    {
+      "path": "files/livemira-target-quality.d.ts",
+      "bytes": 8082,
+      "sha256": "4137a8e6414a4db0450dd22c5ec4377f0d3b57527daf992fa1eca2b8fb2035cc"
+    },
+    {
+      "path": "files/livemira-target-quality.min.mjs",
+      "bytes": 18587,
+      "sha256": "65986586378323b897799d5160069d8328cb3ba08aac6c1da69dff9d6f3cacc3"
+    },
+    {
+      "path": "files/livemira-target-quality.mjs",
+      "bytes": 34177,
+      "sha256": "e9bbba2390290a898d52672bf533b32e327c269b913e2ced338d08ec73eaef21"
+    },
+    {
+      "path": "files/livemira-tracking-visuals.d.ts",
+      "bytes": 8712,
+      "sha256": "acff82fc28af0ac0069960f7d2e5129f8e6de94a22b30afa3763e38203fdbf4a"
+    },
+    {
+      "path": "files/livemira-tracking-visuals.min.mjs",
+      "bytes": 4221,
+      "sha256": "3dcc8166dce45d20ff56d3a7f4c4c038cd5e1e29f4f939a2730009049f6ed8e2"
+    },
+    {
+      "path": "files/livemira-tracking-visuals.mjs",
+      "bytes": 7137,
+      "sha256": "ff3caf76a860ff237aa3883c8ffb11828b5c9d18a1ae652713877aa8e36683a9"
+    },
+    {
+      "path": "files/livemira-ui.d.ts",
+      "bytes": 51815,
+      "sha256": "2a31710ed6b79613c142d3c77d4b3d0782948f47014b2637b65881e11076f267"
+    },
+    {
+      "path": "files/livemira-ui.min.mjs",
+      "bytes": 24700,
+      "sha256": "d652c0dab733af63f8c1d833ca2db212a9f6deae5831de5da4e3ae17653aad14"
+    },
+    {
+      "path": "files/livemira-ui.mjs",
+      "bytes": 40348,
+      "sha256": "7a43afd50aff8858216769a009600f288cfd72e1e7361b0ca97fab92d47b29a8"
+    },
+    {
+      "path": "npm/livemira-engine-0.4.1.tgz",
+      "bytes": 191796,
+      "sha256": "1d041f4fff70d6135b2e8b43ac5e8dc271e8fb5ec2deaea482966bdfbd869425"
+    },
+    {
+      "path": "npm/livemira-recognition-diagnostics-0.4.1.tgz",
+      "bytes": 26831,
+      "sha256": "ff8e0cc88c8dd541982b3291a44aef934086013993b5c6dcc5397ef5ac5b4a32"
+    },
+    {
+      "path": "npm/livemira-target-quality-0.4.1.tgz",
+      "bytes": 33594,
+      "sha256": "a388691a1c4fe51371aa3367d4b3707481c6f4fca8b8f90677dd4aefa07e7e2e"
+    },
+    {
+      "path": "npm/livemira-tracking-visuals-0.4.1.tgz",
+      "bytes": 20577,
+      "sha256": "fa60eadf5aa3a6351b7eaf89c4f0503fea72fafd6d605408e15e86f2b93f8979"
+    },
+    {
+      "path": "npm/livemira-ui-0.4.1.tgz",
+      "bytes": 52318,
+      "sha256": "1fbebe2013658432ce7224e1f5c290c9b5589b3a73a86d05e8106ad1e62ab47b"
+    }
+  ]
+}

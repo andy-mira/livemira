@@ -1,0 +1,18 @@
+LiveMira
+Copyright 2026 Andy (@andy-mira)
+
+This product includes software developed by Andy (@andy-mira).
+
+All LiveMira source code, including the WebAssembly text sources of the exact
+Hamming matcher (packages/compute/src/matching/wasm/*.wat) and the modules
+generated from them, build tools and documentation, is licensed under the
+Apache License, Version 2.0. See the LICENSE file.
+
+The WebAssembly modules are assembled from those text sources with wabt
+(https://github.com/WebAssembly/wabt), a development tool that is not
+redistributed. No third-party code is bundled into the engine or the optional
+extensions.
+
+The sample photographs of the demo (apps/demo/assets) are public-domain (CC0
+1.0) works by their authors; see apps/demo/assets/CREDITS.md. They are not
+covered by the Apache License of this project.

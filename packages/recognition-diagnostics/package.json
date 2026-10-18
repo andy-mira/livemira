@@ -1,0 +1,22 @@
+{
+  "name": "@livemira/recognition-diagnostics",
+  "version": "0.4.1",
+  "private": true,
+  "description": "Optional extension that aggregates bounded numeric recognition diagnostics.",
+  "license": "Apache-2.0",
+  "author": "Andy (@andy-mira)",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "dependencies": {
+    "@livemira/contracts": "0.4.1"
+  },
+  "peerDependencies": {
+    "@livemira/engine": "0.4.1"
+  }
+}

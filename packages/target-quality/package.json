@@ -1,0 +1,20 @@
+{
+  "name": "@livemira/target-quality",
+  "version": "0.4.1",
+  "private": true,
+  "description": "Optional standalone scorer that rates how suitable an image is as a target (0 to 5).",
+  "license": "Apache-2.0",
+  "author": "Andy (@andy-mira)",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "dependencies": {
+    "@livemira/contracts": "0.4.1",
+    "@livemira/recognition": "0.4.1"
+  }
+}

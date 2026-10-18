@@ -1,0 +1,219 @@
+{
+  "schema": "livemira-regression/1",
+  "fixtures": {
+    "target/pattern-a": "fb3759ecf07095796aa44f1ff0873abf477269f4d4632d1d99d4f424dc6b772f",
+    "target/pattern-b": "0f35f75fb764a846ad9f50ffe17c73575b14818614c9567150701756733466f3",
+    "target/pattern-c": "405bca3e802021e6c090a21ac5b3eb72d68f5c52e31c735d945f097871ad08e7",
+    "target/unloaded": "163a49b4be2451f740e1e67d51036a49aa91e58518e3591f38e1d4659597e50a",
+    "rgba/rgba-16x9": "bb3c1b951dda58e4b4006138de10a51f76088b34666a71b9ce613831496c3442",
+    "rgba/rgba-7x5-padded": "aa6554082c4dabfede433109573b968771b9d0ba6532febf87b0f1f30ba7250f",
+    "scene/pattern-a-frontal": "531bb12d2417ef66bafc1a83c54bce4ecc273135c77360992d336034d07d7602",
+    "scene/pattern-a-turned": "1d50a4f7dd1394dda42a6a0df61c8257399abfa46493c5fba1540e6c8a1ef20e",
+    "scene/pattern-a-tilted": "518d17fa835de5bfd125942726f60667520679354111c7b643341a7e016b818f",
+    "scene/pattern-b-frontal": "a314956272446e66ef52acae13f96cd386a1d277119be0a439f1a9023f061866",
+    "scene/pattern-b-turned": "b0333a73dcbb54ae5d251966f45dbd66fe8f9ff2a433e06b5c78187d11062d14",
+    "scene/pattern-b-tilted": "1e6d8788ace7dcedd8f6de2978ba51f14391fc1c90333e8e13a5cfb11c2d64be",
+    "scene/pattern-c-frontal": "d14fc568092baf528832cb3b4f399b0bc506f64f35197a61c205d76ab06af86e",
+    "scene/pattern-c-turned": "fe860b512dc088b528901d9fcd15c0abcd76e21e021ec225b81c8423e3f9cdcb",
+    "scene/pattern-c-tilted": "e1afecdbd13655f1232e01542631f0c9fdc224030b7b11864b0f76dc11ac1564",
+    "scene/empty": "46af6476387b96c185a6b65f660abc25263c5cfe095b56035035efc6eb85bf07",
+    "scene/unloaded": "514b9f2dd045f59eecb34cc99c449963994a852eac3f3e2a7db3e6581ed50cb1",
+    "scene/pair-a-b": "855210b59eaf35caf006f9b88842f94e89da6c93a01087ec1b05ddce83288e7d",
+    "sequence/hold-gap-recover": "005937b2fd4b1bf067c1211d175caa246fca576552455ca531d2111d4ab96c95",
+    "sequence/switch-targets": "a7c1504e064784f31bf58d9ffa0843e7d436fe440290653841f9f654cef43303"
+  },
+  "outputs": {
+    "gray/rgba-16x9": {
+      "sha256": "c44b6f3f2b6d216c0c2305510f6f9b9ea4f42b96c18227b23d75e79a46ac649c",
+      "summary": "16x9"
+    },
+    "gray/rgba-7x5-padded": {
+      "sha256": "4ad1d8e2473ca6dea2cf8073c89d54cf6954db8847b749897e55cd6dcb0fbaf9",
+      "summary": "7x5"
+    },
+    "geometry/landscape-default": {
+      "sha256": "34795ba60ca7aaec518089ad61ff2f3627a57c56b50b179efacb0205efd0dc28",
+      "summary": "standard 640x360"
+    },
+    "geometry/portrait-cover-dpr3": {
+      "sha256": "27d9d28f3df409a42242986943066122711afb558cd4b97f66e867262b881ee2",
+      "summary": "standard 360x640"
+    },
+    "geometry/mirrored-contain": {
+      "sha256": "42adbd76bd2177cdcae44dc8eaba6928741f50a2bcb28def6bac45b13955984c",
+      "summary": "standard 480x270"
+    },
+    "geometry/cropped-rotated-native": {
+      "sha256": "ba0429c07e5a602937c7c44df941acd25d0b11b2045f628b267cd92dc044ee27",
+      "summary": "standard 768x1024"
+    },
+    "geometry/viewport-mirrored-960": {
+      "sha256": "6cfdea4c4af78497f67be07039ef11e3523c522d4fc8d93d49b6659adf1511de",
+      "summary": "standard 960x720"
+    },
+    "compile/pattern-a": {
+      "sha256": "2115dea7e280798cb89a2c37ac5684de7523e3f5fdffb7bd5150af6d9c16d22a",
+      "summary": "310 features"
+    },
+    "compile/pattern-b": {
+      "sha256": "4c1a528646f68254a7e3646300bf29f296cb7ea51f65957c6e656af579dc9b29",
+      "summary": "311 features"
+    },
+    "compile/pattern-c": {
+      "sha256": "31c80755681bccc56d838f1c8116b06eda360ddcdce979d264c440f765f2de2f",
+      "summary": "318 features"
+    },
+    "recognition/js/pattern-a-frontal": {
+      "sha256": "b28a4dc8199ce364bc313909a88e1e32d387a2db682084b778bb7f26bfc0ae87",
+      "summary": "pattern-a; 2 rejected; 1 pass(es)"
+    },
+    "recognition/js/pattern-a-turned": {
+      "sha256": "c77c34c4cf44229f6e6638cc5fabe4ceebb62e8b0b71cad06e4554fba4fc8297",
+      "summary": "pattern-a; 2 rejected; 1 pass(es)"
+    },
+    "recognition/js/pattern-a-tilted": {
+      "sha256": "f90a179e3b40f6003e0d50b2bc7cd459c16a0db727da471344ffd9d492a3a1b1",
+      "summary": "pattern-a; 2 rejected; 1 pass(es)"
+    },
+    "recognition/js/pattern-b-frontal": {
+      "sha256": "d0b695e8c6db4d557603a821e890e04fbef395ed7bd08c724b662d780a2f8d84",
+      "summary": "pattern-b; 2 rejected; 1 pass(es)"
+    },
+    "recognition/js/pattern-b-turned": {
+      "sha256": "bebf8b09bca2bfc2fac6c8352442fa1a302e102d974196fa889f40340ab18b64",
+      "summary": "pattern-b; 2 rejected; 1 pass(es)"
+    },
+    "recognition/js/pattern-b-tilted": {
+      "sha256": "37c47a19b3acbb3900fdb4d4841c34c65bd36cbc3b77c6a0deff9b3e78fa199c",
+      "summary": "pattern-b; 2 rejected; 1 pass(es)"
+    },
+    "recognition/js/pattern-c-frontal": {
+      "sha256": "c14d50427cdba40a4f6d25365f5f8c044c074c8e4f66fcb813e3afed2d3d411d",
+      "summary": "pattern-c; 2 rejected; 1 pass(es)"
+    },
+    "recognition/js/pattern-c-turned": {
+      "sha256": "0159656b4fc9e94eedd4d5237f309124aaec9ddfb2fd751f16355e65f89d0cd7",
+      "summary": "pattern-c; 2 rejected; 1 pass(es)"
+    },
+    "recognition/js/pattern-c-tilted": {
+      "sha256": "29cffe1257f2801e04465ae0b4d89a856d543d8731c5aeedd6d44098ba335b80",
+      "summary": "pattern-c; 2 rejected; 1 pass(es)"
+    },
+    "recognition/js/empty": {
+      "sha256": "49308b795abae693614dad291dfc6d26fe0a1f1df1d87719b6a8e2f6381311fa",
+      "summary": "none; 3 rejected; 2 pass(es)"
+    },
+    "recognition/js/unloaded": {
+      "sha256": "3307381920c4ec0f094cc40cbcee5064a89072e39c1d87e9af1b5e615b6980bd",
+      "summary": "none; 3 rejected; 2 pass(es)"
+    },
+    "recognition/js/pair-a-b": {
+      "sha256": "6d3c34c59f085531836d52ffa4c00af07a4bbbb8e96464e9fff42158bdee4951",
+      "summary": "pattern-b+pattern-a; 1 rejected; 1 pass(es)"
+    },
+    "recognition/wasm-scalar/pattern-a-frontal": {
+      "sha256": "cb1449acbcb9229b6202a60face8701f3f9e618d5b6cdec1d131ee176990bee6",
+      "summary": "pattern-a; 2 rejected; 1 pass(es)"
+    },
+    "recognition/wasm-scalar/pattern-a-turned": {
+      "sha256": "78f8a1e24bbb5a9eb9900fefc6dd7fd5a5ed06480da726765271dd54ceb35a1d",
+      "summary": "pattern-a; 2 rejected; 1 pass(es)"
+    },
+    "recognition/wasm-scalar/pattern-a-tilted": {
+      "sha256": "d9464c4ad47a6541f079a5d085ad2e617d1e1fa7b40b252c87e767e296604c0a",
+      "summary": "pattern-a; 2 rejected; 1 pass(es)"
+    },
+    "recognition/wasm-scalar/pattern-b-frontal": {
+      "sha256": "834b14cfa7a38395bfcacad3f8babac3e78d5bc027f4b9d7b95485839fd212a8",
+      "summary": "pattern-b; 2 rejected; 1 pass(es)"
+    },
+    "recognition/wasm-scalar/pattern-b-turned": {
+      "sha256": "efc4763cd0a23cf97b23115017fd52687f46fbb79f3159b88df660ae6a1f1143",
+      "summary": "pattern-b; 2 rejected; 1 pass(es)"
+    },
+    "recognition/wasm-scalar/pattern-b-tilted": {
+      "sha256": "d9ed2bf6d868d722b9af537ca1c7ef5d8bd894a4f31d73a860d99e933a167dc5",
+      "summary": "pattern-b; 2 rejected; 1 pass(es)"
+    },
+    "recognition/wasm-scalar/pattern-c-frontal": {
+      "sha256": "c84956d4da127d3fd2a293864a4e66f6b98fbef2b874e3cf652901dc83ce9b36",
+      "summary": "pattern-c; 2 rejected; 1 pass(es)"
+    },
+    "recognition/wasm-scalar/pattern-c-turned": {
+      "sha256": "980cf7e7ffdef7864ad6304f4d2e295f16e6b5956973f46513a6909a6c39c51b",
+      "summary": "pattern-c; 2 rejected; 1 pass(es)"
+    },
+    "recognition/wasm-scalar/pattern-c-tilted": {
+      "sha256": "2834ae4db4353404b14857e192f1162a042be0335f8a3a76d727095c1f4f68c8",
+      "summary": "pattern-c; 2 rejected; 1 pass(es)"
+    },
+    "recognition/wasm-scalar/empty": {
+      "sha256": "815b4bf382205833399eed7ab466d289c285b96b194cdbadd11849aad914f9f1",
+      "summary": "none; 3 rejected; 2 pass(es)"
+    },
+    "recognition/wasm-scalar/unloaded": {
+      "sha256": "4d1e7d959986a57d7de43998da3afda78938dd744648c840002d52f4549b1e11",
+      "summary": "none; 3 rejected; 2 pass(es)"
+    },
+    "recognition/wasm-scalar/pair-a-b": {
+      "sha256": "af30488aaf527fe71b0e4293032ce1ceea0e5439ee3dacababc6ea6919ee3e8b",
+      "summary": "pattern-b+pattern-a; 1 rejected; 1 pass(es)"
+    },
+    "recognition/wasm-simd/pattern-a-frontal": {
+      "sha256": "cb1449acbcb9229b6202a60face8701f3f9e618d5b6cdec1d131ee176990bee6",
+      "summary": "pattern-a; 2 rejected; 1 pass(es)"
+    },
+    "recognition/wasm-simd/pattern-a-turned": {
+      "sha256": "78f8a1e24bbb5a9eb9900fefc6dd7fd5a5ed06480da726765271dd54ceb35a1d",
+      "summary": "pattern-a; 2 rejected; 1 pass(es)"
+    },
+    "recognition/wasm-simd/pattern-a-tilted": {
+      "sha256": "d9464c4ad47a6541f079a5d085ad2e617d1e1fa7b40b252c87e767e296604c0a",
+      "summary": "pattern-a; 2 rejected; 1 pass(es)"
+    },
+    "recognition/wasm-simd/pattern-b-frontal": {
+      "sha256": "834b14cfa7a38395bfcacad3f8babac3e78d5bc027f4b9d7b95485839fd212a8",
+      "summary": "pattern-b; 2 rejected; 1 pass(es)"
+    },
+    "recognition/wasm-simd/pattern-b-turned": {
+      "sha256": "efc4763cd0a23cf97b23115017fd52687f46fbb79f3159b88df660ae6a1f1143",
+      "summary": "pattern-b; 2 rejected; 1 pass(es)"
+    },
+    "recognition/wasm-simd/pattern-b-tilted": {
+      "sha256": "d9ed2bf6d868d722b9af537ca1c7ef5d8bd894a4f31d73a860d99e933a167dc5",
+      "summary": "pattern-b; 2 rejected; 1 pass(es)"
+    },
+    "recognition/wasm-simd/pattern-c-frontal": {
+      "sha256": "c84956d4da127d3fd2a293864a4e66f6b98fbef2b874e3cf652901dc83ce9b36",
+      "summary": "pattern-c; 2 rejected; 1 pass(es)"
+    },
+    "recognition/wasm-simd/pattern-c-turned": {
+      "sha256": "980cf7e7ffdef7864ad6304f4d2e295f16e6b5956973f46513a6909a6c39c51b",
+      "summary": "pattern-c; 2 rejected; 1 pass(es)"
+    },
+    "recognition/wasm-simd/pattern-c-tilted": {
+      "sha256": "2834ae4db4353404b14857e192f1162a042be0335f8a3a76d727095c1f4f68c8",
+      "summary": "pattern-c; 2 rejected; 1 pass(es)"
+    },
+    "recognition/wasm-simd/empty": {
+      "sha256": "815b4bf382205833399eed7ab466d289c285b96b194cdbadd11849aad914f9f1",
+      "summary": "none; 3 rejected; 2 pass(es)"
+    },
+    "recognition/wasm-simd/unloaded": {
+      "sha256": "4d1e7d959986a57d7de43998da3afda78938dd744648c840002d52f4549b1e11",
+      "summary": "none; 3 rejected; 2 pass(es)"
+    },
+    "recognition/wasm-simd/pair-a-b": {
+      "sha256": "af30488aaf527fe71b0e4293032ce1ceea0e5439ee3dacababc6ea6919ee3e8b",
+      "summary": "pattern-b+pattern-a; 1 rejected; 1 pass(es)"
+    },
+    "tracking/hold-gap-recover": {
+      "sha256": "a7fb7bc4aaef4d625350e5206f2411117d7d9d28c104219bb5659fbc508d0fba",
+      "summary": "ACQUIRING ACQUIRING TRACKING:pattern-a TRACKING:pattern-a TRACKING:pattern-a TRACKING:pattern-a LIMITED:pattern-a LIMITED:pattern-a LIMITED:pattern-a LOST ACQUIRING ACQUIRING TRACKING:pattern-a TRACKING:pattern-a"
+    },
+    "tracking/switch-targets": {
+      "sha256": "2106cce4beea803220f10fbf43811cc8919322eda83a4368e946a0e7b5d5e475",
+      "summary": "ACQUIRING ACQUIRING TRACKING:pattern-b TRACKING:pattern-b TRACKING:pattern-b LIMITED:pattern-b LIMITED:pattern-b LIMITED:pattern-b LOST ACQUIRING ACQUIRING TRACKING:pattern-c TRACKING:pattern-c"
+    }
+  }
+}

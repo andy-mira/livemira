@@ -1,0 +1,61 @@
+# Local-only files
+/Docs/
+
+# Dependencies and build output
+node_modules/
+dist/
+build/
+# Build tests are source, not output.
+!/tests/build/
+out/
+coverage/
+*.tsbuildinfo
+.cache/
+.turbo/
+.parcel-cache/
+
+# Logs, test output and run artifacts
+logs/
+*.log
+npm-debug.log*
+test-results/
+playwright-report/
+reports/
+artifacts/
+tmp/
+temp/
+
+# Development evidence (device logs, recordings, captures)
+evidence/
+device-test-logs/
+*.mp4
+*.mov
+*.MP4
+*.MOV
+*.har
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+
+# Local editor configuration and OS files
+.vscode/
+.idea/
+.claude/
+.codex/
+AGENTS.md
+CLAUDE.md
+*.swp
+.DS_Store
+Thumbs.db
+
+# Local integration configuration
+.mcp.json
+.mcp.json.backup.*
+
+.aoci/
+aoci*.txt

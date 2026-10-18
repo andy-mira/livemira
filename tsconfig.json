@@ -1,0 +1,66 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "composite": false,
+    "declaration": false,
+    "declarationMap": false,
+    "emitDeclarationOnly": false,
+    "sourceMap": false,
+    "noEmit": true,
+    "allowJs": true,
+    "checkJs": true,
+    "types": ["node"]
+  },
+  "files": ["eslint.config.mjs"],
+  "references": [
+    {
+      "path": "./packages/contracts"
+    },
+    {
+      "path": "./packages/compute"
+    },
+    {
+      "path": "./packages/recognition"
+    },
+    {
+      "path": "./packages/tracking"
+    },
+    {
+      "path": "./packages/target-compiler"
+    },
+    {
+      "path": "./packages/camera"
+    },
+    {
+      "path": "./packages/media"
+    },
+    {
+      "path": "./packages/renderer"
+    },
+    {
+      "path": "./packages/diagnostics"
+    },
+    {
+      "path": "./packages/sdk"
+    },
+    {
+      "path": "./packages/tracking-visuals"
+    },
+    {
+      "path": "./packages/recognition-diagnostics"
+    },
+    {
+      "path": "./packages/target-quality"
+    },
+    {
+      "path": "./packages/ui"
+    },
+    {
+      "path": "./apps/page-shell"
+    },
+    {
+      "path": "./apps/demo"
+    }
+  ],
+  "include": ["tools", "tests", "packages/*/test"]
+}

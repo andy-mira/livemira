@@ -1,0 +1,24 @@
+{
+  "name": "@livemira/ui",
+  "version": "0.4.1",
+  "private": true,
+  "description": "Optional full-screen AR camera for the engine: photos become targets, videos load once recognized, with a default view in Chinese and English.",
+  "license": "Apache-2.0",
+  "author": "Andy (@andy-mira)",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "peerDependencies": {
+    "@livemira/engine": "0.4.1"
+  },
+  "peerDependenciesMeta": {
+    "@livemira/engine": {
+      "optional": true
+    }
+  }
+}

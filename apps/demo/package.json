@@ -1,0 +1,14 @@
+{
+  "name": "@livemira/demo",
+  "version": "0.4.1",
+  "private": true,
+  "description": "Public full-screen demo of the LiveMira engine.",
+  "license": "Apache-2.0",
+  "author": "Andy (@andy-mira)",
+  "type": "module",
+  "dependencies": {
+    "@livemira/engine": "0.4.1",
+    "@livemira/page-shell": "0.4.1",
+    "@livemira/tracking-visuals": "0.4.1"
+  }
+}
