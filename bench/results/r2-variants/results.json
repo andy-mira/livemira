@@ -1,0 +1,5212 @@
+[
+  {
+    "id": "N3-F1-r60-async",
+    "title": "双环 D4（慢环并发，0.5 Hz）：C1 + ESM + E2 + 帧锁定 F1",
+    "tier": "mid",
+    "sweep": {
+      "recall": {
+        "roll": {
+          "0": 1,
+          "10": 1,
+          "15": 1,
+          "20": 1,
+          "30": 1,
+          "45": 1,
+          "60": 1,
+          "90": 1,
+          "135": 1,
+          "180": 1
+        },
+        "longPx": {
+          "48": 0,
+          "64": 0,
+          "80": 0,
+          "96": 0,
+          "128": 0.5,
+          "160": 1,
+          "220": 1,
+          "300": 1,
+          "450": 1,
+          "640": 1
+        },
+        "tilt": {
+          "0": 1,
+          "20": 1,
+          "40": 1,
+          "50": 1,
+          "60": 0.625,
+          "65": 0.125,
+          "70": 0,
+          "75": 0
+        },
+        "gain": {
+          "1": 1,
+          "0.15": 1,
+          "0.25": 1,
+          "0.4": 1,
+          "0.6": 1,
+          "1.6": 1,
+          "2.5": 0.125
+        },
+        "blurPx": {
+          "0": 1,
+          "4": 1,
+          "8": 1,
+          "12": 1,
+          "16": 0.5,
+          "24": 0,
+          "32": 0
+        },
+        "occlusion": {
+          "0": 1,
+          "0.2": 1,
+          "0.35": 1,
+          "0.5": 0.25,
+          "0.65": 0.375,
+          "0.8": 0
+        },
+        "noise": {
+          "0": 1,
+          "3": 1,
+          "6": 1,
+          "10": 1
+        }
+      },
+      "rollCoverageDeg": 180,
+      "minLongPx": 160,
+      "maxTiltDeg": 50,
+      "minGain": 0.15,
+      "maxBlurPx": 12,
+      "maxOcclusion": 0.35,
+      "maxNoise": 10,
+      "falsePerThousand": 0,
+      "meanErrorPct": 0.09537721772038212,
+      "detectP50Ms": 13.921896499998184
+    },
+    "sequences": [
+      {
+        "sequence": "T2-pan",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 66.66666666666667,
+          "survival": 1,
+          "errP50": 0.000698454050074982,
+          "errP95": 0.0007764235711935638,
+          "hfJitterPx": 0.01894555261579086,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.3329999999851,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 7.692230769230778,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.0209580962825336,
+          "staticJitterPx": 123.14436783535321
+        },
+        "computeP50Ms": 5.591081999999005,
+        "computeP95Ms": 6.4028332000016235,
+        "processedRatio": 1,
+        "cpuPerFrameMs": 6.666273173333999,
+        "stages": {
+          "pyramid": 0.3899375000037253,
+          "track": 0.9991249999948195,
+          "detect": 13.768874999994296,
+          "total": 1.3973130000013043,
+          "background": 12.109312500004307
+        }
+      },
+      {
+        "sequence": "T3-shake",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 66.66666666666667,
+          "survival": 1,
+          "errP50": 0.0011223873289487622,
+          "errP95": 0.001438458621881052,
+          "hfJitterPx": 0.10438234374358436,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.3329999999851,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 7.692230769230778,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.167636302673078,
+          "staticJitterPx": 32.08724751675184
+        },
+        "computeP50Ms": 5.9904979999992065,
+        "computeP95Ms": 6.503400599976884,
+        "processedRatio": 1,
+        "cpuPerFrameMs": 6.9726855466673925,
+        "stages": {
+          "pyramid": 0.3913124999962747,
+          "track": 1.099916499995743,
+          "detect": 14.350250000003143,
+          "total": 1.4966874999954598,
+          "background": 11.646603999994113
+        }
+      },
+      {
+        "sequence": "T5-roll",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 66.66666666666667,
+          "survival": 1,
+          "errP50": 0.0007063029041772151,
+          "errP95": 0.0007529613595944744,
+          "hfJitterPx": 0.01685128927159,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.3329999999851,
+          "backgroundRefresh": 0.9999999999999971,
+          "backgroundLagMs": 8.263612813370486,
+          "vsyncs": 359
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.01855631203758145,
+          "staticJitterPx": 184.344121023021
+        },
+        "computeP50Ms": 5.630665999982739,
+        "computeP95Ms": 6.412226200010627,
+        "processedRatio": 1,
+        "cpuPerFrameMs": 6.779212822222811,
+        "stages": {
+          "pyramid": 0.3937710000027437,
+          "track": 1.0065415000062785,
+          "detect": 13.90625,
+          "total": 1.4071665000083158,
+          "background": 11.589334000003873
+        }
+      },
+      {
+        "sequence": "T7-occlusion",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 66.66666666666667,
+          "survival": 0.9669811320754716,
+          "errP50": 0.000737331007570192,
+          "errP95": 0.011538014809630476,
+          "hfJitterPx": 0.46206369784980844,
+          "ghostRate": 0.030100334448160536,
+          "reacquireMs": 0,
+          "overlayAgeMs": 45.33300000000326,
+          "backgroundRefresh": 0.8859060402684565,
+          "backgroundLagMs": 27.870615384615405,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 0.9719626168224299,
+          "hfJitterPx": 0.6257510849981938,
+          "staticJitterPx": 13.323669633730589
+        },
+        "computeP50Ms": 6.2538320000167005,
+        "computeP95Ms": 52.33891759996186,
+        "processedRatio": 0.9,
+        "cpuPerFrameMs": 15.709228986666615,
+        "stages": {
+          "pyramid": 0.3962500000052387,
+          "track": 1.1301249999960419,
+          "detect": 11.571291999993264,
+          "total": 1.5630419999943115,
+          "background": 10.84595850000187
+        }
+      },
+      {
+        "sequence": "T9-blur",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 66.66666666666667,
+          "survival": 1,
+          "errP50": 0.0007077746281926212,
+          "errP95": 0.001892483930586384,
+          "hfJitterPx": 0.12107119595095757,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.3329999999851,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 7.692230769230778,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.18912892102848733,
+          "staticJitterPx": 59.37605063532927
+        },
+        "computeP50Ms": 5.827083999989554,
+        "computeP95Ms": 6.731706999990273,
+        "processedRatio": 1,
+        "cpuPerFrameMs": 6.893834533331683,
+        "stages": {
+          "pyramid": 0.3978129999959492,
+          "track": 1.0394999999989523,
+          "detect": 14.37941699998919,
+          "total": 1.4559169999993173,
+          "background": 11.482750499999383
+        }
+      },
+      {
+        "sequence": "T2-pan",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 66.66666666666667,
+          "survival": 1,
+          "errP50": 0.0005922335938341438,
+          "errP95": 0.0009464243738998875,
+          "hfJitterPx": 0.01948594018087032,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.3329999999851,
+          "backgroundRefresh": 0.9932885906040272,
+          "backgroundLagMs": 7.8037123745819486,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.02123322773283478,
+          "staticJitterPx": 123.11800725392526
+        },
+        "computeP50Ms": 7.07291799999075,
+        "computeP95Ms": 8.761183199996594,
+        "processedRatio": 1,
+        "cpuPerFrameMs": 8.145567733331506,
+        "stages": {
+          "pyramid": 0.39462500000809086,
+          "track": 1.3657920000041486,
+          "detect": 14.994166999997105,
+          "total": 1.767791499994928,
+          "background": 11.734020500000042
+        }
+      },
+      {
+        "sequence": "T3-shake",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 66.66666666666667,
+          "survival": 1,
+          "errP50": 0.0005650747377423954,
+          "errP95": 0.0006836835232460954,
+          "hfJitterPx": 0.02672146417738405,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.3329999999851,
+          "backgroundRefresh": 0.9932885906040272,
+          "backgroundLagMs": 7.8037123745819486,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.036154887954535586,
+          "staticJitterPx": 32.07550370879765
+        },
+        "computeP50Ms": 7.379666000022553,
+        "computeP95Ms": 8.567406999965895,
+        "processedRatio": 1,
+        "cpuPerFrameMs": 8.39400653333015,
+        "stages": {
+          "pyramid": 0.39924999998766,
+          "track": 1.4176874999975553,
+          "detect": 15.247249999985797,
+          "total": 1.8441874999989523,
+          "background": 12.023228999998537
+        }
+      },
+      {
+        "sequence": "T5-roll",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 66.66666666666667,
+          "survival": 1,
+          "errP50": 0.000618562760332265,
+          "errP95": 0.0006675632921213938,
+          "hfJitterPx": 0.015847955584034207,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.3329999999851,
+          "backgroundRefresh": 0.9999999999999971,
+          "backgroundLagMs": 8.263612813370486,
+          "vsyncs": 359
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.017557778592876525,
+          "staticJitterPx": 184.31631250611437
+        },
+        "computeP50Ms": 6.065000000002328,
+        "computeP95Ms": 7.049547400063601,
+        "processedRatio": 1,
+        "cpuPerFrameMs": 7.296588955555732,
+        "stages": {
+          "pyramid": 0.39087499999732245,
+          "track": 1.1149165000097128,
+          "detect": 14.974500000011176,
+          "total": 1.5157500000059372,
+          "background": 11.871124999976018
+        }
+      },
+      {
+        "sequence": "T7-occlusion",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 66.66666666666667,
+          "survival": 0.9814814814814815,
+          "errP50": 0.0006695662504926795,
+          "errP95": 0.01692982951468205,
+          "hfJitterPx": 0.42342889218619656,
+          "ghostRate": 0.013377926421404682,
+          "reacquireMs": 66.66666666666652,
+          "overlayAgeMs": 45.33333333333209,
+          "backgroundRefresh": 0.8724832214765104,
+          "backgroundLagMs": 30.769167224080302,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 0.9809523809523809,
+          "hfJitterPx": 0.2871162221149136,
+          "staticJitterPx": 10.651125081316508
+        },
+        "computeP50Ms": 8.630083999945782,
+        "computeP95Ms": 59.95728360004723,
+        "processedRatio": 0.88,
+        "cpuPerFrameMs": 16.448228853330946,
+        "stages": {
+          "pyramid": 0.39314549999835435,
+          "track": 1.6972084999870276,
+          "detect": 12.322146000005887,
+          "total": 2.1571045000018785,
+          "background": 11.238687500008382
+        }
+      },
+      {
+        "sequence": "T9-blur",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 66.66666666666667,
+          "survival": 1,
+          "errP50": 0.0006483137943315804,
+          "errP95": 0.0012188751119690034,
+          "hfJitterPx": 0.04838672049416557,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.3329999999851,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 7.692230769230778,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.08399279485216272,
+          "staticJitterPx": 59.33203822676312
+        },
+        "computeP50Ms": 7.039250000030734,
+        "computeP95Ms": 8.694816400052511,
+        "processedRatio": 1,
+        "cpuPerFrameMs": 7.886893439992952,
+        "stages": {
+          "pyramid": 0.3943125000077998,
+          "track": 1.3416039999865461,
+          "detect": 14.609166000009282,
+          "total": 1.7589165000099456,
+          "background": 11.681520999991335
+        }
+      }
+    ],
+    "targets": [
+      {
+        "id": "poster-7",
+        "compileMs": 333.72277766666673,
+        "bytes": 254266,
+        "gzipBytes": 96588
+      },
+      {
+        "id": "photo-7",
+        "compileMs": 321.0828616666667,
+        "bytes": 251457,
+        "gzipBytes": 176595
+      },
+      {
+        "id": "graphic-7",
+        "compileMs": 331.1557356666666,
+        "bytes": 254771,
+        "gzipBytes": 95134
+      }
+    ],
+    "determinismPct": 100,
+    "metrics": {
+      "rollCoverageDeg": 180,
+      "minLongPx": 160,
+      "maxTiltDeg": 50,
+      "minGain": 0.15,
+      "maxBlurPx": 12,
+      "falsePerThousand": 0,
+      "staticJitterPx": null,
+      "hfJitterPx": 0.060073841403349156,
+      "survivalPct": 99.5291499777481,
+      "maxOcclusion": 0.35,
+      "ghostPct": 0.43478260869565216,
+      "reacquireMs": 33.33333333333326,
+      "registrationP95Pct": 0.10610710725635736,
+      "overlayAgeMs": 45.3329999999851,
+      "backgroundLagMs": 7.8037123745819486,
+      "backgroundRefresh": 0.9999999999999971,
+      "computeP95Ms": 7.808477200014748,
+      "mainThreadMs": 1.5,
+      "processedRatio": 1,
+      "cpuPerFrameMs": 7.591741197774342,
+      "engineKb": 23.17578125,
+      "targetKb": 94.32421875,
+      "ttfpMs": 66.66666666666667,
+      "determinismPct": 100,
+      "maxModuleLoc": 416
+    },
+    "scorecard": {
+      "dimensions": {
+        "D1": {
+          "score": 7.333333333333334,
+          "measured": 1
+        },
+        "D2": {
+          "score": 8.57108282361604,
+          "measured": 0.7000000000000001
+        },
+        "D3": {
+          "score": 9.588121962096354,
+          "measured": 1
+        },
+        "D4": {
+          "score": 8.293940349998156,
+          "measured": 0.7
+        },
+        "D5": {
+          "score": 9.109369791666666,
+          "measured": 0.8
+        },
+        "D6": {
+          "score": 6.6,
+          "measured": 0
+        },
+        "D7": {
+          "score": 8.532,
+          "measured": 0.6499999999999999
+        }
+      },
+      "total": 8.281456277640324,
+      "metricScores": {
+        "rollCoverageDeg": 10,
+        "minLongPx": 4,
+        "maxTiltDeg": 4,
+        "minGain": 10,
+        "maxBlurPx": 4,
+        "falsePerThousand": 10,
+        "hfJitterPx": 9.798523171933017,
+        "survivalPct": 10,
+        "maxOcclusion": 4,
+        "ghostPct": 7.413043478260869,
+        "reacquireMs": 10,
+        "registrationP95Pct": 10,
+        "overlayAgeMs": 9.28893333333532,
+        "backgroundLagMs": 8.43925752508361,
+        "backgroundRefresh": 9.999999999999885,
+        "computeP95Ms": 8.095761399992625,
+        "mainThreadMs": 7,
+        "processedRatio": 10,
+        "engineKb": 10,
+        "targetKb": 9.113515625,
+        "ttfpMs": 9.333333333333334,
+        "determinismPct": 10,
+        "maxModuleLoc": 8.84
+      },
+      "caps": []
+    },
+    "totalCi": {
+      "low": 8.243316644369832,
+      "high": 8.30798565887373
+    }
+  },
+  {
+    "id": "R2",
+    "title": "R2 轻量全兼容：D3 + 1 Hz 串行 + E1 + F4（无预测）",
+    "tier": "mid",
+    "sweep": {
+      "recall": {
+        "roll": {
+          "0": 1,
+          "10": 1,
+          "15": 1,
+          "20": 1,
+          "30": 1,
+          "45": 1,
+          "60": 1,
+          "90": 1,
+          "135": 1,
+          "180": 1
+        },
+        "longPx": {
+          "48": 0,
+          "64": 0,
+          "80": 0,
+          "96": 0,
+          "128": 0.5,
+          "160": 1,
+          "220": 1,
+          "300": 1,
+          "450": 1,
+          "640": 1
+        },
+        "tilt": {
+          "0": 1,
+          "20": 1,
+          "40": 1,
+          "50": 1,
+          "60": 0.625,
+          "65": 0.125,
+          "70": 0,
+          "75": 0
+        },
+        "gain": {
+          "1": 1,
+          "0.15": 1,
+          "0.25": 1,
+          "0.4": 1,
+          "0.6": 1,
+          "1.6": 1,
+          "2.5": 0.125
+        },
+        "blurPx": {
+          "0": 1,
+          "4": 1,
+          "8": 1,
+          "12": 0.875,
+          "16": 0,
+          "24": 0,
+          "32": 0
+        },
+        "occlusion": {
+          "0": 1,
+          "0.2": 1,
+          "0.35": 1,
+          "0.5": 1,
+          "0.65": 0.5,
+          "0.8": 0
+        },
+        "noise": {
+          "0": 1,
+          "3": 1,
+          "6": 1,
+          "10": 1
+        }
+      },
+      "rollCoverageDeg": 180,
+      "minLongPx": 160,
+      "maxTiltDeg": 50,
+      "minGain": 0.15,
+      "maxBlurPx": 8,
+      "maxOcclusion": 0.5,
+      "maxNoise": 10,
+      "falsePerThousand": 0,
+      "meanErrorPct": 0.10284772340147481,
+      "detectP50Ms": 19.18627050000032
+    },
+    "sequences": [
+      {
+        "sequence": "T2-pan",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 266.66666666666663,
+          "survival": 0.773851590106007,
+          "errP50": 0.012493485886300271,
+          "errP95": 0.02694326213648367,
+          "hfJitterPx": 1.8125525405805056,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 61.999666666659294,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.14038895297033502,
+          "staticJitterPx": 123.035912248875
+        },
+        "computeP50Ms": 27.79649999999674,
+        "computeP95Ms": 29.483516800013604,
+        "processedRatio": 0.9533333333333334,
+        "cpuPerFrameMs": 28.518932293334515,
+        "stages": {
+          "pyramid": 0.39187500000116415,
+          "track": 6.525499999988824,
+          "detect": 11.116395999997621,
+          "total": 6.945665999999619
+        }
+      },
+      {
+        "sequence": "T3-shake",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": null,
+          "survival": 0,
+          "errP50": 0.14600893681948027,
+          "errP95": 0.20354675478874976,
+          "hfJitterPx": 11.950167193916691,
+          "ghostRate": 0.802675585284281,
+          "reacquireMs": null,
+          "overlayAgeMs": 162.00033333333627,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 0.9814814814814815,
+          "hfJitterPx": 1.511431668755717,
+          "staticJitterPx": 30.51512517857671
+        },
+        "computeP50Ms": 96.45824999999604,
+        "computeP95Ms": 99.94202719999885,
+        "processedRatio": 0.36,
+        "cpuPerFrameMs": 34.28353770666796,
+        "stages": {
+          "pyramid": 0.4013120000017807,
+          "track": 6.1549585000029765,
+          "detect": 17.573958000008133,
+          "total": 24.10943699999916
+        }
+      },
+      {
+        "sequence": "T5-roll",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 166.66666666666666,
+          "survival": 0.6991404011461319,
+          "errP50": 0.01985999501730048,
+          "errP95": 0.03723333087392616,
+          "hfJitterPx": 2.2845533679239316,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 61.9996666666586,
+          "backgroundRefresh": 0.9999999999999971,
+          "backgroundLagMs": 0,
+          "vsyncs": 359
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.1281010163505438,
+          "staticJitterPx": 184.41840918752348
+        },
+        "computeP50Ms": 27.689749999990454,
+        "computeP95Ms": 30.21385739998659,
+        "processedRatio": 0.9666666666666667,
+        "cpuPerFrameMs": 28.38243520000024,
+        "stages": {
+          "pyramid": 0.39585449999867706,
+          "track": 6.5102084999889485,
+          "detect": 11.399791499999992,
+          "total": 6.920562500003143
+        }
+      },
+      {
+        "sequence": "T7-occlusion",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 83.33333333333334,
+          "survival": 1,
+          "errP50": 0.0018573242975458938,
+          "errP95": 0.0037246981085326983,
+          "hfJitterPx": 0.15739850795356025,
+          "ghostRate": 0,
+          "reacquireMs": 0,
+          "overlayAgeMs": 61.99966666665976,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.11830191846097861,
+          "staticJitterPx": 2.3417046653012648
+        },
+        "computeP50Ms": 27.579750000004424,
+        "computeP95Ms": 30.55034980001801,
+        "processedRatio": 0.96,
+        "cpuPerFrameMs": 28.33306986666712,
+        "stages": {
+          "pyramid": 0.3950829999957932,
+          "track": 6.461416499994812,
+          "detect": 11.226645999995526,
+          "total": 6.893354499996349
+        }
+      },
+      {
+        "sequence": "T9-blur",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 83.33333333333334,
+          "survival": 0.8979591836734694,
+          "errP50": 0.0015871617722688057,
+          "errP95": 0.25044047004237235,
+          "hfJitterPx": 5.2229389752791535,
+          "ghostRate": 0.0802675585284281,
+          "reacquireMs": null,
+          "overlayAgeMs": 61.99966666666663,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 0.9708029197080292,
+          "hfJitterPx": 6.113427455098732,
+          "staticJitterPx": 60.00910222639941
+        },
+        "computeP50Ms": 27.8668319999706,
+        "computeP95Ms": 74.56590079996967,
+        "processedRatio": 0.9133333333333333,
+        "cpuPerFrameMs": 29.301231119999034,
+        "stages": {
+          "pyramid": 0.3986659999936819,
+          "track": 6.52204100000381,
+          "detect": 11.885374999998021,
+          "total": 6.96279200000572
+        }
+      },
+      {
+        "sequence": "T2-pan",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 366.66666666666674,
+          "survival": 0.7689530685920578,
+          "errP50": 0.013277555625374627,
+          "errP95": 0.03718888890492847,
+          "hfJitterPx": 1.9068365044473892,
+          "ghostRate": 0.0033444816053511705,
+          "reacquireMs": null,
+          "overlayAgeMs": 61.99966666666488,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.0911494925284444,
+          "staticJitterPx": 123.01130284708397
+        },
+        "computeP50Ms": 29.171167999971658,
+        "computeP95Ms": 34.494751200039175,
+        "processedRatio": 0.9533333333333334,
+        "cpuPerFrameMs": 30.16208653333287,
+        "stages": {
+          "pyramid": 0.3931670000019949,
+          "track": 6.877542000001995,
+          "detect": 11.589770999999018,
+          "total": 7.290041000000201
+        }
+      },
+      {
+        "sequence": "T3-shake",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": null,
+          "survival": 0,
+          "errP50": 0.154862440931343,
+          "errP95": 0.20514721616642592,
+          "hfJitterPx": 12.327766468976959,
+          "ghostRate": 0.8160535117056856,
+          "reacquireMs": null,
+          "overlayAgeMs": 178.6663333333337,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 1.4078776212225221,
+          "staticJitterPx": 31.210727799533377
+        },
+        "computeP50Ms": 102.35066400002688,
+        "computeP95Ms": 107.16313519997057,
+        "processedRatio": 0.35333333333333333,
+        "cpuPerFrameMs": 34.4156267466691,
+        "stages": {
+          "pyramid": 0.3993750000081491,
+          "track": 6.5683330000028946,
+          "detect": 18.726708000001963,
+          "total": 25.58179100000416
+        }
+      },
+      {
+        "sequence": "T5-roll",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 166.66666666666666,
+          "survival": 0.6418338108882522,
+          "errP50": 0.019915074392983564,
+          "errP95": 0.03735893667628678,
+          "hfJitterPx": 2.1668497260447563,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 61.99966666666349,
+          "backgroundRefresh": 0.9999999999999971,
+          "backgroundLagMs": 0,
+          "vsyncs": 359
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.08067999749197309,
+          "staticJitterPx": 184.35811064487999
+        },
+        "computeP50Ms": 28.879084000072908,
+        "computeP95Ms": 31.895757400029105,
+        "processedRatio": 0.9666666666666667,
+        "cpuPerFrameMs": 29.615348266669834,
+        "stages": {
+          "pyramid": 0.3961039999994682,
+          "track": 6.793999499990605,
+          "detect": 12.088813000009395,
+          "total": 7.217770999995992
+        }
+      },
+      {
+        "sequence": "T7-occlusion",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 83.33333333333334,
+          "survival": 1,
+          "errP50": 0.0018982381248432332,
+          "errP95": 0.003741719123545805,
+          "hfJitterPx": 0.1689069243485728,
+          "ghostRate": 0,
+          "reacquireMs": 0,
+          "overlayAgeMs": 61.999666666661625,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.10537136912590553,
+          "staticJitterPx": 2.546162532293695
+        },
+        "computeP50Ms": 29.04283199994825,
+        "computeP95Ms": 33.28846640002447,
+        "processedRatio": 0.9666666666666667,
+        "cpuPerFrameMs": 29.781833333332713,
+        "stages": {
+          "pyramid": 0.39533400000073016,
+          "track": 6.843874999991385,
+          "detect": 11.455249999999069,
+          "total": 7.258709000016097
+        }
+      },
+      {
+        "sequence": "T9-blur",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 100.00000000000001,
+          "survival": 0.8976109215017065,
+          "errP50": 0.0016459844958084642,
+          "errP95": 0.32192697351393884,
+          "hfJitterPx": 5.801276460207603,
+          "ghostRate": 0.0802675585284281,
+          "reacquireMs": null,
+          "overlayAgeMs": 61.99966666666686,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 0.9708029197080292,
+          "hfJitterPx": 7.100651727159474,
+          "staticJitterPx": 60.305151841657235
+        },
+        "computeP50Ms": 29.450332000036724,
+        "computeP95Ms": 76.47270000001876,
+        "processedRatio": 0.9133333333333333,
+        "cpuPerFrameMs": 30.633533199996066,
+        "stages": {
+          "pyramid": 0.3986250000016298,
+          "track": 6.913499999995111,
+          "detect": 12.828333000012208,
+          "total": 7.360000000015134
+        }
+      }
+    ],
+    "targets": [
+      {
+        "id": "poster-7",
+        "compileMs": 287.235916,
+        "bytes": 254266,
+        "gzipBytes": 96588
+      },
+      {
+        "id": "photo-7",
+        "compileMs": 316.82716700000003,
+        "bytes": 251457,
+        "gzipBytes": 176595
+      },
+      {
+        "id": "graphic-7",
+        "compileMs": 319.34537499999993,
+        "bytes": 254771,
+        "gzipBytes": 95134
+      }
+    ],
+    "determinismPct": 100,
+    "metrics": {
+      "rollCoverageDeg": 180,
+      "minLongPx": 160,
+      "maxTiltDeg": 50,
+      "minGain": 0.15,
+      "maxBlurPx": 8,
+      "falsePerThousand": 0,
+      "staticJitterPx": null,
+      "hfJitterPx": 0.1342449846604394,
+      "survivalPct": 99.2308732089754,
+      "maxOcclusion": 0.5,
+      "ghostPct": 17.82608695652174,
+      "reacquireMs": 0,
+      "registrationP95Pct": 20.434698547758785,
+      "overlayAgeMs": 61.99966666666418,
+      "backgroundLagMs": 0,
+      "backgroundRefresh": 1,
+      "computeP95Ms": 33.89160880003182,
+      "mainThreadMs": 1.5,
+      "processedRatio": 0.9533333333333334,
+      "cpuPerFrameMs": 29.698590800001273,
+      "engineKb": 23.17578125,
+      "targetKb": 94.32421875,
+      "ttfpMs": 133.33333333333334,
+      "determinismPct": 100,
+      "maxModuleLoc": 416
+    },
+    "scorecard": {
+      "dimensions": {
+        "D1": {
+          "score": 7.111111111111112,
+          "measured": 1
+        },
+        "D2": {
+          "score": 7.453787999735119,
+          "measured": 0.7000000000000001
+        },
+        "D3": {
+          "score": 3,
+          "measured": 1
+        },
+        "D4": {
+          "score": 6.576490775757095,
+          "measured": 0.7
+        },
+        "D5": {
+          "score": 8.529369791666666,
+          "measured": 0.8
+        },
+        "D6": {
+          "score": 7.6,
+          "measured": 0
+        },
+        "D7": {
+          "score": 8.812,
+          "measured": 0.6499999999999999
+        }
+      },
+      "total": 6.769945039649218,
+      "metricScores": {
+        "rollCoverageDeg": 10,
+        "minLongPx": 4,
+        "maxTiltDeg": 4,
+        "minGain": 10,
+        "maxBlurPx": 2,
+        "falsePerThousand": 10,
+        "hfJitterPx": 8.315100306791212,
+        "survivalPct": 9.64116427863386,
+        "maxOcclusion": 6,
+        "ghostPct": 0.3623188405797102,
+        "reacquireMs": 10,
+        "registrationP95Pct": 0,
+        "overlayAgeMs": 7.0667111111114425,
+        "backgroundLagMs": 10,
+        "backgroundRefresh": 10,
+        "computeP95Ms": 3.9459631030283746,
+        "mainThreadMs": 7,
+        "processedRatio": 8.133333333333336,
+        "engineKb": 10,
+        "targetKb": 9.113515625,
+        "ttfpMs": 7.333333333333333,
+        "determinismPct": 10,
+        "maxModuleLoc": 8.84
+      },
+      "caps": [
+        "Y-1 p95 >8% → D3 ≤3"
+      ]
+    },
+    "totalCi": {
+      "low": 6.759235266330749,
+      "high": 6.830271068458979
+    }
+  },
+  {
+    "id": "R2a",
+    "title": "R2a 预测兼容：D2 轻量 + 1 Hz 串行 + E2 + F2",
+    "tier": "mid",
+    "sweep": {
+      "recall": {
+        "roll": {
+          "0": 1,
+          "10": 1,
+          "15": 1,
+          "20": 1,
+          "30": 1,
+          "45": 1,
+          "60": 1,
+          "90": 1,
+          "135": 1,
+          "180": 1
+        },
+        "longPx": {
+          "48": 0,
+          "64": 0,
+          "80": 0,
+          "96": 0,
+          "128": 0.5,
+          "160": 1,
+          "220": 1,
+          "300": 1,
+          "450": 1,
+          "640": 1
+        },
+        "tilt": {
+          "0": 1,
+          "20": 1,
+          "40": 1,
+          "50": 1,
+          "60": 0.625,
+          "65": 0.125,
+          "70": 0,
+          "75": 0
+        },
+        "gain": {
+          "1": 1,
+          "0.15": 1,
+          "0.25": 1,
+          "0.4": 1,
+          "0.6": 1,
+          "1.6": 1,
+          "2.5": 0.125
+        },
+        "blurPx": {
+          "0": 1,
+          "4": 1,
+          "8": 1,
+          "12": 1,
+          "16": 0.5,
+          "24": 0,
+          "32": 0
+        },
+        "occlusion": {
+          "0": 1,
+          "0.2": 1,
+          "0.35": 1,
+          "0.5": 0.75,
+          "0.65": 0.375,
+          "0.8": 0
+        },
+        "noise": {
+          "0": 1,
+          "3": 1,
+          "6": 1,
+          "10": 1
+        }
+      },
+      "rollCoverageDeg": 180,
+      "minLongPx": 160,
+      "maxTiltDeg": 50,
+      "minGain": 0.15,
+      "maxBlurPx": 12,
+      "maxOcclusion": 0.35,
+      "maxNoise": 10,
+      "falsePerThousand": 0,
+      "meanErrorPct": 0.10956363302287651,
+      "detectP50Ms": 13.75202100000024
+    },
+    "sequences": [
+      {
+        "sequence": "T2-pan",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 66.66666666666667,
+          "survival": 1,
+          "errP50": 0.0007045026690138677,
+          "errP95": 0.0012004184654225436,
+          "hfJitterPx": 0.08633238844889954,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.33299999998882,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.021091194798082056,
+          "staticJitterPx": 123.1442915583192
+        },
+        "computeP50Ms": 4.539500000013504,
+        "computeP95Ms": 5.540224999986818,
+        "processedRatio": 1,
+        "cpuPerFrameMs": 6.367147919997806,
+        "stages": {
+          "pyramid": 0.39458299999387236,
+          "track": 0.7316250000003492,
+          "detect": 10.784687500010477,
+          "total": 1.1342920000024606
+        }
+      },
+      {
+        "sequence": "T3-shake",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 66.66666666666667,
+          "survival": 0.8305084745762712,
+          "errP50": 0.0011642693776150559,
+          "errP95": 0.02956464121518939,
+          "hfJitterPx": 2.8773208602180995,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.33299999999069,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.16441972458152884,
+          "staticJitterPx": 32.08558795699956
+        },
+        "computeP50Ms": 4.530499999993481,
+        "computeP95Ms": 5.361660399998072,
+        "processedRatio": 1,
+        "cpuPerFrameMs": 6.352310959997121,
+        "stages": {
+          "pyramid": 0.3915409999972326,
+          "track": 0.7315624999973807,
+          "detect": 10.938186999999743,
+          "total": 1.1319579999981215
+        }
+      },
+      {
+        "sequence": "T5-roll",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 66.66666666666667,
+          "survival": 1,
+          "errP50": 0.0007211543604180084,
+          "errP95": 0.0010625657019773971,
+          "hfJitterPx": 0.0784410883433639,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.33299999999162,
+          "backgroundRefresh": 0.9999999999999971,
+          "backgroundLagMs": 0,
+          "vsyncs": 359
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.018827885950745006,
+          "staticJitterPx": 184.3450448677069
+        },
+        "computeP50Ms": 4.569418000028236,
+        "computeP95Ms": 5.593783400012761,
+        "processedRatio": 1,
+        "cpuPerFrameMs": 6.478543577777196,
+        "stages": {
+          "pyramid": 0.39547899999888614,
+          "track": 0.7363124999901629,
+          "detect": 11.622707999995328,
+          "total": 1.1413124999962747
+        }
+      },
+      {
+        "sequence": "T7-occlusion",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 66.66666666666667,
+          "survival": 0.9433962264150944,
+          "errP50": 0.0007801997048936569,
+          "errP95": 0.021585880937979335,
+          "hfJitterPx": 0.637497442125273,
+          "ghostRate": 0.010033444816053512,
+          "reacquireMs": 0,
+          "overlayAgeMs": 45.33333333332837,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 0.9626168224299065,
+          "hfJitterPx": 0.5670411866269279,
+          "staticJitterPx": 8.827862453815557
+        },
+        "computeP50Ms": 4.613000000012107,
+        "computeP95Ms": 51.69776720002992,
+        "processedRatio": 0.9,
+        "cpuPerFrameMs": 15.113861066670312,
+        "stages": {
+          "pyramid": 0.3921669999981532,
+          "track": 0.7248340000078315,
+          "detect": 11.311541999995825,
+          "total": 1.1523339999985183
+        }
+      },
+      {
+        "sequence": "T9-blur",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 66.66666666666667,
+          "survival": 0.9864406779661017,
+          "errP50": 0.0007140717224085122,
+          "errP95": 0.0025004722877621857,
+          "hfJitterPx": 1.0607350621937002,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.33299999998975,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.2163416148431206,
+          "staticJitterPx": 59.37819737984414
+        },
+        "computeP50Ms": 4.512833999993745,
+        "computeP95Ms": 5.3123109999723965,
+        "processedRatio": 1,
+        "cpuPerFrameMs": 6.352739946663302,
+        "stages": {
+          "pyramid": 0.38991649999661604,
+          "track": 0.7250619999977062,
+          "detect": 11.075312500004657,
+          "total": 1.1276460000008228
+        }
+      },
+      {
+        "sequence": "T2-pan",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 66.66666666666667,
+          "survival": 1,
+          "errP50": 0.0006324502986404766,
+          "errP95": 0.0011250976661453503,
+          "hfJitterPx": 0.10032465575900534,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.33299999999069,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.021084634814895774,
+          "staticJitterPx": 123.12063678514883
+        },
+        "computeP50Ms": 6.0980839999974705,
+        "computeP95Ms": 7.2133750000153665,
+        "processedRatio": 1,
+        "cpuPerFrameMs": 8.104940000000255,
+        "stages": {
+          "pyramid": 0.39962549999472685,
+          "track": 1.116771000000881,
+          "detect": 11.798937500003376,
+          "total": 1.523853999999119
+        }
+      },
+      {
+        "sequence": "T3-shake",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 66.66666666666667,
+          "survival": 0.8169491525423729,
+          "errP50": 0.0005927609281120886,
+          "errP95": 0.03029567117012594,
+          "hfJitterPx": 3.4895972732445815,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.33299999999069,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.03499068194767892,
+          "staticJitterPx": 32.07537712513039
+        },
+        "computeP50Ms": 6.167333999997936,
+        "computeP95Ms": 7.157607600005568,
+        "processedRatio": 1,
+        "cpuPerFrameMs": 8.135356533329468,
+        "stages": {
+          "pyramid": 0.3988954999949783,
+          "track": 1.131458499992732,
+          "detect": 12.196832999994513,
+          "total": 1.5407710000145016
+        }
+      },
+      {
+        "sequence": "T5-roll",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 66.66666666666667,
+          "survival": 1,
+          "errP50": 0.0006301275925674595,
+          "errP95": 0.0009151654248539371,
+          "hfJitterPx": 0.08203176367242124,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.33299999999162,
+          "backgroundRefresh": 0.9999999999999971,
+          "backgroundLagMs": 0,
+          "vsyncs": 359
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.017562260984822664,
+          "staticJitterPx": 184.3163370052813
+        },
+        "computeP50Ms": 6.023083999985829,
+        "computeP95Ms": 6.9585584000044,
+        "processedRatio": 1,
+        "cpuPerFrameMs": 7.938289022221903,
+        "stages": {
+          "pyramid": 0.389875499997288,
+          "track": 1.1071874999906868,
+          "detect": 11.600542000000132,
+          "total": 1.505146000010427
+        }
+      },
+      {
+        "sequence": "T7-occlusion",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 66.66666666666667,
+          "survival": 0.9481132075471698,
+          "errP50": 0.0007744092227532217,
+          "errP95": 0.02009640525276104,
+          "hfJitterPx": 0.9766113362930128,
+          "ghostRate": 0.04013377926421405,
+          "reacquireMs": 100.00000000000047,
+          "overlayAgeMs": 45.33333333333326,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 0.9716981132075472,
+          "hfJitterPx": 0.6131004667972364,
+          "staticJitterPx": 11.337093504235755
+        },
+        "computeP50Ms": 6.152915999991819,
+        "computeP95Ms": 53.44316580005106,
+        "processedRatio": 0.8933333333333333,
+        "cpuPerFrameMs": 15.562303600000062,
+        "stages": {
+          "pyramid": 0.3905415000044741,
+          "track": 1.115354000008665,
+          "detect": 11.690708999987692,
+          "total": 1.5376039999973727
+        }
+      },
+      {
+        "sequence": "T9-blur",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 66.66666666666667,
+          "survival": 0.9864406779661017,
+          "errP50": 0.0006624359892724695,
+          "errP95": 0.0013219550360121627,
+          "hfJitterPx": 1.0303523902237153,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.33299999999069,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.09047695138736016,
+          "staticJitterPx": 59.33225484542379
+        },
+        "computeP50Ms": 6.100750000041444,
+        "computeP95Ms": 6.881131999974604,
+        "processedRatio": 1,
+        "cpuPerFrameMs": 8.02587429334099,
+        "stages": {
+          "pyramid": 0.3988329999992857,
+          "track": 1.11083299999882,
+          "detect": 11.425020499984385,
+          "total": 1.524271000016597
+        }
+      }
+    ],
+    "targets": [
+      {
+        "id": "poster-7",
+        "compileMs": 279.1754583333337,
+        "bytes": 254266,
+        "gzipBytes": 96588
+      },
+      {
+        "id": "photo-7",
+        "compileMs": 314.42841633333336,
+        "bytes": 251457,
+        "gzipBytes": 176595
+      },
+      {
+        "id": "graphic-7",
+        "compileMs": 321.0645833333335,
+        "bytes": 254771,
+        "gzipBytes": 95134
+      }
+    ],
+    "determinismPct": 100,
+    "metrics": {
+      "rollCoverageDeg": 180,
+      "minLongPx": 160,
+      "maxTiltDeg": 50,
+      "minGain": 0.15,
+      "maxBlurPx": 12,
+      "falsePerThousand": 0,
+      "staticJitterPx": null,
+      "hfJitterPx": 0.06273381666751954,
+      "survivalPct": 99.34314935637452,
+      "maxOcclusion": 0.35,
+      "ghostPct": 0.5016722408026756,
+      "reacquireMs": 50.000000000000234,
+      "registrationP95Pct": 2.9930156192657664,
+      "overlayAgeMs": 45.33299999999069,
+      "backgroundLagMs": 0,
+      "backgroundRefresh": 1,
+      "computeP95Ms": 6.919845199989503,
+      "mainThreadMs": 1.5,
+      "processedRatio": 1,
+      "cpuPerFrameMs": 7.982081657781446,
+      "engineKb": 23.17578125,
+      "targetKb": 94.32421875,
+      "ttfpMs": 66.66666666666667,
+      "determinismPct": 100,
+      "maxModuleLoc": 416
+    },
+    "scorecard": {
+      "dimensions": {
+        "D1": {
+          "score": 7.333333333333334,
+          "measured": 1
+        },
+        "D2": {
+          "score": 8.194096941921615,
+          "measured": 0.7000000000000001
+        },
+        "D3": {
+          "score": 7.484747710397968,
+          "measured": 1
+        },
+        "D4": {
+          "score": 8.285019350001313,
+          "measured": 0.7
+        },
+        "D5": {
+          "score": 9.229369791666667,
+          "measured": 0.8
+        },
+        "D6": {
+          "score": 7.6,
+          "measured": 0
+        },
+        "D7": {
+          "score": 8.812,
+          "measured": 0.6499999999999999
+        }
+      },
+      "total": 8.017887046147075,
+      "metricScores": {
+        "rollCoverageDeg": 10,
+        "minLongPx": 4,
+        "maxTiltDeg": 4,
+        "minGain": 10,
+        "maxBlurPx": 4,
+        "falsePerThousand": 10,
+        "hfJitterPx": 9.74532366664961,
+        "survivalPct": 9.790865808499367,
+        "maxOcclusion": 4,
+        "ghostPct": 7.245819397993311,
+        "reacquireMs": 9.999999999999991,
+        "registrationP95Pct": 4.805587504587387,
+        "overlayAgeMs": 9.288933333334574,
+        "backgroundLagMs": 10,
+        "backgroundRefresh": 10,
+        "computeP95Ms": 8.540077400005249,
+        "mainThreadMs": 7,
+        "processedRatio": 10,
+        "engineKb": 10,
+        "targetKb": 9.113515625,
+        "ttfpMs": 9.333333333333334,
+        "determinismPct": 10,
+        "maxModuleLoc": 8.84
+      },
+      "caps": []
+    },
+    "totalCi": {
+      "low": 7.951234162599273,
+      "high": 8.066622731520518
+    }
+  },
+  {
+    "id": "R2b",
+    "title": "R2b 轻量帧锁定：D2 轻量 + 1 Hz 串行 + E2 + F1",
+    "tier": "mid",
+    "sweep": {
+      "recall": {
+        "roll": {
+          "0": 1,
+          "10": 1,
+          "15": 1,
+          "20": 1,
+          "30": 1,
+          "45": 1,
+          "60": 1,
+          "90": 1,
+          "135": 1,
+          "180": 1
+        },
+        "longPx": {
+          "48": 0,
+          "64": 0,
+          "80": 0,
+          "96": 0,
+          "128": 0.5,
+          "160": 1,
+          "220": 1,
+          "300": 1,
+          "450": 1,
+          "640": 1
+        },
+        "tilt": {
+          "0": 1,
+          "20": 1,
+          "40": 1,
+          "50": 1,
+          "60": 0.625,
+          "65": 0.125,
+          "70": 0,
+          "75": 0
+        },
+        "gain": {
+          "1": 1,
+          "0.15": 1,
+          "0.25": 1,
+          "0.4": 1,
+          "0.6": 1,
+          "1.6": 1,
+          "2.5": 0.125
+        },
+        "blurPx": {
+          "0": 1,
+          "4": 1,
+          "8": 1,
+          "12": 1,
+          "16": 0.5,
+          "24": 0,
+          "32": 0
+        },
+        "occlusion": {
+          "0": 1,
+          "0.2": 1,
+          "0.35": 1,
+          "0.5": 0.75,
+          "0.65": 0.375,
+          "0.8": 0
+        },
+        "noise": {
+          "0": 1,
+          "3": 1,
+          "6": 1,
+          "10": 1
+        }
+      },
+      "rollCoverageDeg": 180,
+      "minLongPx": 160,
+      "maxTiltDeg": 50,
+      "minGain": 0.15,
+      "maxBlurPx": 12,
+      "maxOcclusion": 0.35,
+      "maxNoise": 10,
+      "falsePerThousand": 0,
+      "meanErrorPct": 0.10956363302287651,
+      "detectP50Ms": 13.79289549999885
+    },
+    "sequences": [
+      {
+        "sequence": "T2-pan",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 66.66666666666667,
+          "survival": 1,
+          "errP50": 0.0006991045628511818,
+          "errP95": 0.0007826115713553463,
+          "hfJitterPx": 0.018701588819750134,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.33299999998882,
+          "backgroundRefresh": 0.9798657718120808,
+          "backgroundLagMs": 8.695591973244156,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.021091194798082056,
+          "staticJitterPx": 123.1442915583192
+        },
+        "computeP50Ms": 4.519918000005418,
+        "computeP95Ms": 5.353974400012518,
+        "processedRatio": 1,
+        "cpuPerFrameMs": 6.313993306663275,
+        "stages": {
+          "pyramid": 0.39041700000234414,
+          "track": 0.7269165000034263,
+          "detect": 10.743541499999992,
+          "total": 1.1294794999921578
+        }
+      },
+      {
+        "sequence": "T3-shake",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 66.66666666666667,
+          "survival": 1,
+          "errP50": 0.0010840966498754144,
+          "errP95": 0.0013632480824732748,
+          "hfJitterPx": 0.09989260173574203,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.33299999998975,
+          "backgroundRefresh": 0.9932885906040272,
+          "backgroundLagMs": 8.918555183946498,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.16441972458152884,
+          "staticJitterPx": 32.08558795699956
+        },
+        "computeP50Ms": 4.5640000000130385,
+        "computeP95Ms": 5.572581999996327,
+        "processedRatio": 1,
+        "cpuPerFrameMs": 6.469634666670269,
+        "stages": {
+          "pyramid": 0.3976669999974547,
+          "track": 0.7363124999974389,
+          "detect": 11.490187999996124,
+          "total": 1.1403954999987036
+        }
+      },
+      {
+        "sequence": "T5-roll",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 66.66666666666667,
+          "survival": 1,
+          "errP50": 0.0007102382206263636,
+          "errP95": 0.0007592586884477292,
+          "hfJitterPx": 0.01704485000864205,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.33299999999162,
+          "backgroundRefresh": 0.9999999999999971,
+          "backgroundLagMs": 9.656384401114218,
+          "vsyncs": 359
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.018827885950745006,
+          "staticJitterPx": 184.3450448677069
+        },
+        "computeP50Ms": 4.572249999997439,
+        "computeP95Ms": 5.479191799994439,
+        "processedRatio": 1,
+        "cpuPerFrameMs": 6.4283582000000425,
+        "stages": {
+          "pyramid": 0.3991034999999101,
+          "track": 0.7336464999971213,
+          "detect": 11.321374999999534,
+          "total": 1.142499500005215
+        }
+      },
+      {
+        "sequence": "T7-occlusion",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 66.66666666666667,
+          "survival": 0.9579439252336449,
+          "errP50": 0.0007429499197345765,
+          "errP95": 0.01841984815680583,
+          "hfJitterPx": 0.37718910513932064,
+          "ghostRate": 0.0033444816053511705,
+          "reacquireMs": 0,
+          "overlayAgeMs": 45.33333333332837,
+          "backgroundRefresh": 0.8926174496644298,
+          "backgroundLagMs": 27.98208026755857,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 0.9719626168224299,
+          "hfJitterPx": 0.5243625990027234,
+          "staticJitterPx": 9.241142997564017
+        },
+        "computeP50Ms": 4.575168000010308,
+        "computeP95Ms": 50.13200000000652,
+        "processedRatio": 0.9,
+        "cpuPerFrameMs": 14.980713386670299,
+        "stages": {
+          "pyramid": 0.3910830000095302,
+          "track": 0.7257079999981215,
+          "detect": 11.21600000000035,
+          "total": 1.1432919999933802
+        }
+      },
+      {
+        "sequence": "T9-blur",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 66.66666666666667,
+          "survival": 1,
+          "errP50": 0.0007106824953180153,
+          "errP95": 0.002044883916908143,
+          "hfJitterPx": 0.13845526017605575,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.33299999998975,
+          "backgroundRefresh": 0.9932885906040272,
+          "backgroundLagMs": 8.918555183946498,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.2163416148431206,
+          "staticJitterPx": 59.37819737984414
+        },
+        "computeP50Ms": 4.548834000015631,
+        "computeP95Ms": 5.360275599986192,
+        "processedRatio": 1,
+        "cpuPerFrameMs": 6.414794453332822,
+        "stages": {
+          "pyramid": 0.3951874999984284,
+          "track": 0.7301670000015292,
+          "detect": 11.013937499999884,
+          "total": 1.1365419999929145
+        }
+      },
+      {
+        "sequence": "T2-pan",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 66.66666666666667,
+          "survival": 1,
+          "errP50": 0.0005922335433099968,
+          "errP95": 0.000926930528007759,
+          "hfJitterPx": 0.01885306229261649,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.33299999999069,
+          "backgroundRefresh": 0.9731543624161076,
+          "backgroundLagMs": 9.47597658862877,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.021084634814895774,
+          "staticJitterPx": 123.12063678514883
+        },
+        "computeP50Ms": 6.178248000011081,
+        "computeP95Ms": 7.1608576000318855,
+        "processedRatio": 1,
+        "cpuPerFrameMs": 8.176820133336198,
+        "stages": {
+          "pyramid": 0.3949789999969653,
+          "track": 1.133332999997947,
+          "detect": 11.938353999998071,
+          "total": 1.5440415000048233
+        }
+      },
+      {
+        "sequence": "T3-shake",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 66.66666666666667,
+          "survival": 1,
+          "errP50": 0.000565796227361996,
+          "errP95": 0.0006836754563340888,
+          "hfJitterPx": 0.02577796141185362,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.33299999999069,
+          "backgroundRefresh": 0.9731543624161076,
+          "backgroundLagMs": 9.475973244147168,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.03499068194767892,
+          "staticJitterPx": 32.07537712513039
+        },
+        "computeP50Ms": 6.17175199999474,
+        "computeP95Ms": 7.171599400055126,
+        "processedRatio": 1,
+        "cpuPerFrameMs": 8.163236826670667,
+        "stages": {
+          "pyramid": 0.39879199999268167,
+          "track": 1.1274165000068024,
+          "detect": 12.074979500001064,
+          "total": 1.541833499999484
+        }
+      },
+      {
+        "sequence": "T5-roll",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 66.66666666666667,
+          "survival": 1,
+          "errP50": 0.0006195122646902448,
+          "errP95": 0.0006675632922254681,
+          "hfJitterPx": 0.015590357992078828,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.33299999999162,
+          "backgroundRefresh": 0.9832402234636842,
+          "backgroundLagMs": 9.934941504178283,
+          "vsyncs": 359
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.017562260984822664,
+          "staticJitterPx": 184.3163370052813
+        },
+        "computeP50Ms": 6.077415999956429,
+        "computeP95Ms": 6.972126400045815,
+        "processedRatio": 1,
+        "cpuPerFrameMs": 7.937862066670399,
+        "stages": {
+          "pyramid": 0.39460400001553353,
+          "track": 1.1075624999939464,
+          "detect": 11.51804200001061,
+          "total": 1.5186875000072177
+        }
+      },
+      {
+        "sequence": "T7-occlusion",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 66.66666666666667,
+          "survival": 0.9815668202764977,
+          "errP50": 0.0006696125862566447,
+          "errP95": 0.014972326905637424,
+          "hfJitterPx": 0.37824660009733635,
+          "ghostRate": 0.023411371237458192,
+          "reacquireMs": 66.66666666666652,
+          "overlayAgeMs": 45.333333333333314,
+          "backgroundRefresh": 0.8657718120805371,
+          "backgroundLagMs": 30.100277591973274,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 0.9811320754716981,
+          "hfJitterPx": 0.5438805198175205,
+          "staticJitterPx": 28.07041802397689
+        },
+        "computeP50Ms": 6.340833999973256,
+        "computeP95Ms": 55.04004959999584,
+        "processedRatio": 0.8933333333333333,
+        "cpuPerFrameMs": 15.678242106665081,
+        "stages": {
+          "pyramid": 0.4008544999960577,
+          "track": 1.128479499995592,
+          "detect": 11.871958500007167,
+          "total": 1.5825630000035744
+        }
+      },
+      {
+        "sequence": "T9-blur",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 66.66666666666667,
+          "survival": 1,
+          "errP50": 0.0006475873198816314,
+          "errP95": 0.0012913082099837412,
+          "hfJitterPx": 0.051178606285670364,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.33299999999069,
+          "backgroundRefresh": 0.9865771812080539,
+          "backgroundLagMs": 9.25300668896322,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.09047695138736016,
+          "staticJitterPx": 59.33225484542379
+        },
+        "computeP50Ms": 6.050917999993544,
+        "computeP95Ms": 7.0757145999523265,
+        "processedRatio": 1,
+        "cpuPerFrameMs": 7.960800799995195,
+        "stages": {
+          "pyramid": 0.3911669999943115,
+          "track": 1.109666999996989,
+          "detect": 11.581458500004373,
+          "total": 1.5122914999956265
+        }
+      }
+    ],
+    "targets": [
+      {
+        "id": "poster-7",
+        "compileMs": 278.9660143333331,
+        "bytes": 254266,
+        "gzipBytes": 96588
+      },
+      {
+        "id": "photo-7",
+        "compileMs": 306.76193033333317,
+        "bytes": 251457,
+        "gzipBytes": 176595
+      },
+      {
+        "id": "graphic-7",
+        "compileMs": 318.9240973333335,
+        "bytes": 254771,
+        "gzipBytes": 95134
+      }
+    ],
+    "determinismPct": 100,
+    "metrics": {
+      "rollCoverageDeg": 180,
+      "minLongPx": 160,
+      "maxTiltDeg": 50,
+      "minGain": 0.15,
+      "maxBlurPx": 12,
+      "falsePerThousand": 0,
+      "staticJitterPx": null,
+      "hfJitterPx": 0.06273381666751954,
+      "survivalPct": 99.53094692294128,
+      "maxOcclusion": 0.35,
+      "ghostPct": 0.26755852842809363,
+      "reacquireMs": 33.33333333333326,
+      "registrationP95Pct": 0.10234617694036818,
+      "overlayAgeMs": 45.33299999999069,
+      "backgroundLagMs": 9.475974916387969,
+      "backgroundRefresh": 0.9815529976378825,
+      "computeP95Ms": 7.023920499999071,
+      "mainThreadMs": 1.5,
+      "processedRatio": 1,
+      "cpuPerFrameMs": 7.949331433332797,
+      "engineKb": 23.17578125,
+      "targetKb": 94.32421875,
+      "ttfpMs": 66.66666666666667,
+      "determinismPct": 100,
+      "maxModuleLoc": 416
+    },
+    "scorecard": {
+      "dimensions": {
+        "D1": {
+          "score": 7.333333333333334,
+          "measured": 1
+        },
+        "D2": {
+          "score": 8.30490891789042,
+          "measured": 0.7000000000000001
+        },
+        "D3": {
+          "score": 9.4272720716693,
+          "measured": 1
+        },
+        "D4": {
+          "score": 8.272009937500115,
+          "measured": 0.7
+        },
+        "D5": {
+          "score": 9.229369791666667,
+          "measured": 0.8
+        },
+        "D6": {
+          "score": 7.6,
+          "measured": 0
+        },
+        "D7": {
+          "score": 8.812,
+          "measured": 0.6499999999999999
+        }
+      },
+      "total": 8.366110931362407,
+      "metricScores": {
+        "rollCoverageDeg": 10,
+        "minLongPx": 4,
+        "maxTiltDeg": 4,
+        "minGain": 10,
+        "maxBlurPx": 4,
+        "falsePerThousand": 10,
+        "hfJitterPx": 9.74532366664961,
+        "survivalPct": 10,
+        "maxOcclusion": 4,
+        "ghostPct": 7.831103678929766,
+        "reacquireMs": 10,
+        "registrationP95Pct": 10,
+        "overlayAgeMs": 9.288933333334574,
+        "backgroundLagMs": 8.104805016722405,
+        "backgroundRefresh": 9.2621199055153,
+        "computeP95Ms": 8.488039750000464,
+        "mainThreadMs": 7,
+        "processedRatio": 10,
+        "engineKb": 10,
+        "targetKb": 9.113515625,
+        "ttfpMs": 9.333333333333334,
+        "determinismPct": 10,
+        "maxModuleLoc": 8.84
+      },
+      "caps": []
+    },
+    "totalCi": {
+      "low": 8.326087421639658,
+      "high": 8.421975737678709
+    }
+  },
+  {
+    "id": "R2c",
+    "title": "R2c 保留 NCC：D3 + 1 Hz 串行 + E2 + F2",
+    "tier": "mid",
+    "sweep": {
+      "recall": {
+        "roll": {
+          "0": 1,
+          "10": 1,
+          "15": 1,
+          "20": 1,
+          "30": 1,
+          "45": 1,
+          "60": 1,
+          "90": 1,
+          "135": 1,
+          "180": 1
+        },
+        "longPx": {
+          "48": 0,
+          "64": 0,
+          "80": 0,
+          "96": 0,
+          "128": 0.5,
+          "160": 1,
+          "220": 1,
+          "300": 1,
+          "450": 1,
+          "640": 1
+        },
+        "tilt": {
+          "0": 1,
+          "20": 1,
+          "40": 1,
+          "50": 1,
+          "60": 0.625,
+          "65": 0.125,
+          "70": 0,
+          "75": 0
+        },
+        "gain": {
+          "1": 1,
+          "0.15": 1,
+          "0.25": 1,
+          "0.4": 1,
+          "0.6": 1,
+          "1.6": 1,
+          "2.5": 0.125
+        },
+        "blurPx": {
+          "0": 1,
+          "4": 1,
+          "8": 1,
+          "12": 0.875,
+          "16": 0,
+          "24": 0,
+          "32": 0
+        },
+        "occlusion": {
+          "0": 1,
+          "0.2": 1,
+          "0.35": 1,
+          "0.5": 1,
+          "0.65": 0.5,
+          "0.8": 0
+        },
+        "noise": {
+          "0": 1,
+          "3": 1,
+          "6": 1,
+          "10": 1
+        }
+      },
+      "rollCoverageDeg": 180,
+      "minLongPx": 160,
+      "maxTiltDeg": 50,
+      "minGain": 0.15,
+      "maxBlurPx": 8,
+      "maxOcclusion": 0.5,
+      "maxNoise": 10,
+      "falsePerThousand": 0,
+      "meanErrorPct": 0.10284772340147481,
+      "detectP50Ms": 19.205375000005006
+    },
+    "sequences": [
+      {
+        "sequence": "T2-pan",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 183.33333333333331,
+          "survival": 1,
+          "errP50": 0.0015302443926110507,
+          "errP95": 0.003710718013816176,
+          "hfJitterPx": 1.1684573900532245,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 61.999666666660225,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.1692232818036078,
+          "staticJitterPx": 123.00233011415833
+        },
+        "computeP50Ms": 27.852999999944586,
+        "computeP95Ms": 30.34188559996546,
+        "processedRatio": 0.9533333333333334,
+        "cpuPerFrameMs": 28.588167679999405,
+        "stages": {
+          "pyramid": 0.39587500000197906,
+          "track": 6.537958000000799,
+          "detect": 11.071271000000706,
+          "total": 6.95929199999955
+        }
+      },
+      {
+        "sequence": "T3-shake",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": null,
+          "survival": 0,
+          "errP50": 0.22822004466382056,
+          "errP95": 0.37971898123436515,
+          "hfJitterPx": 27.939450280018313,
+          "ghostRate": 0.8294314381270903,
+          "reacquireMs": null,
+          "overlayAgeMs": 162.00033333332556,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 0.9818181818181818,
+          "hfJitterPx": 0.8154503607056635,
+          "staticJitterPx": 32.5173108484006
+        },
+        "computeP50Ms": 96.02500000002328,
+        "computeP95Ms": 102.32486439996865,
+        "processedRatio": 0.36666666666666664,
+        "cpuPerFrameMs": 34.18873885333461,
+        "stages": {
+          "pyramid": 0.4037090000056196,
+          "track": 6.140833000012208,
+          "detect": 17.520999999993364,
+          "total": 24.000374999988708
+        }
+      },
+      {
+        "sequence": "T5-roll",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 116.66666666666669,
+          "survival": 1,
+          "errP50": 0.0014027226108614668,
+          "errP95": 0.002842952256067416,
+          "hfJitterPx": 0.4126030927230342,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 61.999666666661625,
+          "backgroundRefresh": 0.9999999999999971,
+          "backgroundLagMs": 0,
+          "vsyncs": 359
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.14372719684904867,
+          "staticJitterPx": 184.4375962836359
+        },
+        "computeP50Ms": 27.676250000018626,
+        "computeP95Ms": 30.325082399995882,
+        "processedRatio": 0.9666666666666667,
+        "cpuPerFrameMs": 28.451748177776516,
+        "stages": {
+          "pyramid": 0.39552050000202144,
+          "track": 6.502833500002453,
+          "detect": 11.715374500003236,
+          "total": 6.915104000006977
+        }
+      },
+      {
+        "sequence": "T7-occlusion",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 83.33333333333334,
+          "survival": 1,
+          "errP50": 0.00124818440831638,
+          "errP95": 0.0033999975723307567,
+          "hfJitterPx": 0.43652760718822065,
+          "ghostRate": 0,
+          "reacquireMs": 0,
+          "overlayAgeMs": 61.9996666666586,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.18177062057471632,
+          "staticJitterPx": 2.5572648747627413
+        },
+        "computeP50Ms": 27.514500000019325,
+        "computeP95Ms": 31.89163539998116,
+        "processedRatio": 0.96,
+        "cpuPerFrameMs": 28.279754666664328,
+        "stages": {
+          "pyramid": 0.39460399999370566,
+          "track": 6.441812500001106,
+          "detect": 11.33629149999615,
+          "total": 6.873646000000008
+        }
+      },
+      {
+        "sequence": "T9-blur",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 83.33333333333334,
+          "survival": 0.8843537414965986,
+          "errP50": 0.0010625973931267332,
+          "errP95": 0.27698964707424023,
+          "hfJitterPx": 9.259295373898567,
+          "ghostRate": 0.09364548494983277,
+          "reacquireMs": null,
+          "overlayAgeMs": 61.99966666666663,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 0.9708029197080292,
+          "hfJitterPx": 6.506071998587138,
+          "staticJitterPx": 60.09539504800403
+        },
+        "computeP50Ms": 27.69283200002974,
+        "computeP95Ms": 73.85300000001443,
+        "processedRatio": 0.9133333333333333,
+        "cpuPerFrameMs": 29.128608960000577,
+        "stages": {
+          "pyramid": 0.3942499999975553,
+          "track": 6.503541999991285,
+          "detect": 11.86483400000725,
+          "total": 6.919708000001265
+        }
+      },
+      {
+        "sequence": "T2-pan",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 199.99999999999997,
+          "survival": 1,
+          "errP50": 0.0012266487095391149,
+          "errP95": 0.003337108368225322,
+          "hfJitterPx": 1.1564903909380326,
+          "ghostRate": 0.0033444816053511705,
+          "reacquireMs": null,
+          "overlayAgeMs": 61.999666666665114,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.1082021380525162,
+          "staticJitterPx": 122.97772380746221
+        },
+        "computeP50Ms": 29.18599999998696,
+        "computeP95Ms": 30.487766400008695,
+        "processedRatio": 0.9533333333333334,
+        "cpuPerFrameMs": 29.931714533335366,
+        "stages": {
+          "pyramid": 0.39358300001185853,
+          "track": 6.869291999988491,
+          "detect": 11.754812500003027,
+          "total": 7.292417000004207
+        }
+      },
+      {
+        "sequence": "T3-shake",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": null,
+          "survival": 0,
+          "errP50": 0.2355022637551775,
+          "errP95": 0.3804638150085734,
+          "hfJitterPx": 28.24127494499571,
+          "ghostRate": 0.8561872909698997,
+          "reacquireMs": null,
+          "overlayAgeMs": 178.66633333332743,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.32069051093278883,
+          "staticJitterPx": 31.901948975913204
+        },
+        "computeP50Ms": 101.69033399998443,
+        "computeP95Ms": 105.70980119997402,
+        "processedRatio": 0.3466666666666667,
+        "cpuPerFrameMs": 33.80051447999741,
+        "stages": {
+          "pyramid": 0.39835399998992216,
+          "track": 6.612437500007218,
+          "detect": 18.37524999998277,
+          "total": 25.417437500000233
+        }
+      },
+      {
+        "sequence": "T5-roll",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 116.66666666666669,
+          "survival": 1,
+          "errP50": 0.0010330111058340758,
+          "errP95": 0.002320676394767638,
+          "hfJitterPx": 0.341963713764168,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 61.99966666666488,
+          "backgroundRefresh": 0.9999999999999971,
+          "backgroundLagMs": 0,
+          "vsyncs": 359
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.09000542588949527,
+          "staticJitterPx": 184.37699998740604
+        },
+        "computeP50Ms": 28.916331999993417,
+        "computeP95Ms": 33.01190880001522,
+        "processedRatio": 0.9666666666666667,
+        "cpuPerFrameMs": 29.76762586666672,
+        "stages": {
+          "pyramid": 0.3968335000099614,
+          "track": 6.81581250000454,
+          "detect": 12.07247900000948,
+          "total": 7.226771000001463
+        }
+      },
+      {
+        "sequence": "T7-occlusion",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 83.33333333333334,
+          "survival": 1,
+          "errP50": 0.0012387344171455868,
+          "errP95": 0.004694701144914363,
+          "hfJitterPx": 0.5973950646029089,
+          "ghostRate": 0,
+          "reacquireMs": 0,
+          "overlayAgeMs": 61.99966666665976,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.1764754054338159,
+          "staticJitterPx": 2.7031360284005226
+        },
+        "computeP50Ms": 28.916336000082083,
+        "computeP95Ms": 30.277266399981453,
+        "processedRatio": 0.9666666666666667,
+        "cpuPerFrameMs": 29.478714479995737,
+        "stages": {
+          "pyramid": 0.39529200000106357,
+          "track": 6.8191660000011325,
+          "detect": 11.291417000000365,
+          "total": 7.225749999983236
+        }
+      },
+      {
+        "sequence": "T9-blur",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 83.33333333333334,
+          "survival": 0.8775510204081632,
+          "errP50": 0.0009988874934895504,
+          "errP95": 0.31624094768917277,
+          "hfJitterPx": 11.801593431442635,
+          "ghostRate": 0.0903010033444816,
+          "reacquireMs": null,
+          "overlayAgeMs": 61.99966666666768,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 0.9710144927536232,
+          "hfJitterPx": 7.067181224536109,
+          "staticJitterPx": 60.25656476680879
+        },
+        "computeP50Ms": 29.017252000048757,
+        "computeP95Ms": 75.4480747999798,
+        "processedRatio": 0.92,
+        "cpuPerFrameMs": 30.287968880005646,
+        "stages": {
+          "pyramid": 0.3922289999900386,
+          "track": 6.84133299998939,
+          "detect": 12.177666000003228,
+          "total": 7.252104000013787
+        }
+      }
+    ],
+    "targets": [
+      {
+        "id": "poster-7",
+        "compileMs": 283.27952733333376,
+        "bytes": 254266,
+        "gzipBytes": 96588
+      },
+      {
+        "id": "photo-7",
+        "compileMs": 311.583694333334,
+        "bytes": 251457,
+        "gzipBytes": 176595
+      },
+      {
+        "id": "graphic-7",
+        "compileMs": 321.00061133333355,
+        "bytes": 254771,
+        "gzipBytes": 95134
+      }
+    ],
+    "determinismPct": 100,
+    "metrics": {
+      "rollCoverageDeg": 180,
+      "minLongPx": 160,
+      "maxTiltDeg": 50,
+      "minGain": 0.15,
+      "maxBlurPx": 8,
+      "falsePerThousand": 0,
+      "staticJitterPx": null,
+      "hfJitterPx": 0.1791230130042661,
+      "survivalPct": 99.23635594279835,
+      "maxOcclusion": 0.5,
+      "ghostPct": 18.729096989966553,
+      "reacquireMs": 0,
+      "registrationP95Pct": 38.00913981214693,
+      "overlayAgeMs": 61.99966666666499,
+      "backgroundLagMs": 0,
+      "backgroundRefresh": 1,
+      "computeP95Ms": 32.45177209999819,
+      "mainThreadMs": 1.5,
+      "processedRatio": 0.9533333333333334,
+      "cpuPerFrameMs": 29.62317017333123,
+      "engineKb": 23.17578125,
+      "targetKb": 94.32421875,
+      "ttfpMs": 100.00000000000001,
+      "determinismPct": 100,
+      "maxModuleLoc": 416
+    },
+    "scorecard": {
+      "dimensions": {
+        "D1": {
+          "score": 7.111111111111112,
+          "measured": 1
+        },
+        "D2": {
+          "score": 7.358352748828223,
+          "measured": 0.7000000000000001
+        },
+        "D3": {
+          "score": 3,
+          "measured": 1
+        },
+        "D4": {
+          "score": 6.606124350000054,
+          "measured": 0.7
+        },
+        "D5": {
+          "score": 8.762703125,
+          "measured": 0.8
+        },
+        "D6": {
+          "score": 7.6,
+          "measured": 0
+        },
+        "D7": {
+          "score": 8.812,
+          "measured": 0.6499999999999999
+        }
+      },
+      "total": 6.775878397289088,
+      "metricScores": {
+        "rollCoverageDeg": 10,
+        "minLongPx": 4,
+        "maxTiltDeg": 4,
+        "minGain": 10,
+        "maxBlurPx": 2,
+        "falsePerThousand": 10,
+        "hfJitterPx": 7.767015895965871,
+        "survivalPct": 9.648474590397806,
+        "maxOcclusion": 6,
+        "ghostPct": 0.21181716833890785,
+        "reacquireMs": 10,
+        "registrationP95Pct": 0,
+        "overlayAgeMs": 7.066711111111334,
+        "backgroundLagMs": 10,
+        "backgroundRefresh": 10,
+        "computeP95Ms": 4.064497400000214,
+        "mainThreadMs": 7,
+        "processedRatio": 8.133333333333336,
+        "engineKb": 10,
+        "targetKb": 9.113515625,
+        "ttfpMs": 8,
+        "determinismPct": 10,
+        "maxModuleLoc": 8.84
+      },
+      "caps": [
+        "Y-1 p95 >8% → D3 ≤3"
+      ]
+    },
+    "totalCi": {
+      "low": 6.763670868970394,
+      "high": 6.835770501035443
+    }
+  },
+  {
+    "id": "N3-F1-r60-async",
+    "title": "双环 D4（慢环并发，0.5 Hz）：C1 + ESM + E2 + 帧锁定 F1",
+    "tier": "low",
+    "sweep": {
+      "recall": {
+        "roll": {
+          "0": 1,
+          "10": 1,
+          "15": 1,
+          "20": 1,
+          "30": 1,
+          "45": 1,
+          "60": 1,
+          "90": 1,
+          "135": 1,
+          "180": 1
+        },
+        "longPx": {
+          "48": 0,
+          "64": 0,
+          "80": 0,
+          "96": 0,
+          "128": 0.5,
+          "160": 1,
+          "220": 1,
+          "300": 1,
+          "450": 1,
+          "640": 1
+        },
+        "tilt": {
+          "0": 1,
+          "20": 1,
+          "40": 1,
+          "50": 1,
+          "60": 0.625,
+          "65": 0.125,
+          "70": 0,
+          "75": 0
+        },
+        "gain": {
+          "1": 1,
+          "0.15": 1,
+          "0.25": 1,
+          "0.4": 1,
+          "0.6": 1,
+          "1.6": 1,
+          "2.5": 0.125
+        },
+        "blurPx": {
+          "0": 1,
+          "4": 1,
+          "8": 1,
+          "12": 1,
+          "16": 0.5,
+          "24": 0,
+          "32": 0
+        },
+        "occlusion": {
+          "0": 1,
+          "0.2": 1,
+          "0.35": 1,
+          "0.5": 0.25,
+          "0.65": 0.375,
+          "0.8": 0
+        },
+        "noise": {
+          "0": 1,
+          "3": 1,
+          "6": 1,
+          "10": 1
+        }
+      },
+      "rollCoverageDeg": 180,
+      "minLongPx": 160,
+      "maxTiltDeg": 50,
+      "minGain": 0.15,
+      "maxBlurPx": 12,
+      "maxOcclusion": 0.35,
+      "maxNoise": 10,
+      "falsePerThousand": 0,
+      "meanErrorPct": 0.09537721772038212,
+      "detectP50Ms": 13.921896499998184
+    },
+    "sequences": [
+      {
+        "sequence": "T2-pan",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 116.66666666666669,
+          "survival": 1,
+          "errP50": 0.0006983383963957205,
+          "errP95": 0.0007764235711935172,
+          "hfJitterPx": 0.01889005088545666,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.33299999999022,
+          "backgroundRefresh": 0.9865771812080539,
+          "backgroundLagMs": 9.475956521739143,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.021008680877050746,
+          "staticJitterPx": 123.14436783535311
+        },
+        "computeP50Ms": 11.25783199997386,
+        "computeP95Ms": 12.787968400056707,
+        "processedRatio": 0.9866666666666667,
+        "cpuPerFrameMs": 13.033899680001971,
+        "stages": {
+          "pyramid": 0.3958335000061197,
+          "track": 1.002458499999193,
+          "detect": 13.199374999996508,
+          "total": 1.4065209999971557,
+          "background": 11.141250000000582
+        }
+      },
+      {
+        "sequence": "T3-shake",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 116.66666666666669,
+          "survival": 0.9965753424657534,
+          "errP50": 0.001122387328948728,
+          "errP95": 0.0014378496461851563,
+          "hfJitterPx": 0.23227304310371766,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.332999999996275,
+          "backgroundRefresh": 0.9865771812080539,
+          "backgroundLagMs": 10.590789297658876,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 0.9932432432432432,
+          "hfJitterPx": 0.3359583323882312,
+          "staticJitterPx": 32.08724751672212
+        },
+        "computeP50Ms": 12.005000000004657,
+        "computeP95Ms": 13.133631599997171,
+        "processedRatio": 0.9866666666666667,
+        "cpuPerFrameMs": 13.575621919998278,
+        "stages": {
+          "pyramid": 0.390625,
+          "track": 1.0971454999962589,
+          "detect": 12.990375000008498,
+          "total": 1.4988960000046063,
+          "background": 10.959624999995867
+        }
+      },
+      {
+        "sequence": "T5-roll",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 133.33333333333334,
+          "survival": 1,
+          "errP50": 0.0007063029043168928,
+          "errP95": 0.0007516177852725232,
+          "hfJitterPx": 0.016553145241410914,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.33299999999069,
+          "backgroundRefresh": 0.9888268156424552,
+          "backgroundLagMs": 9.934927576601687,
+          "vsyncs": 359
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.01857346723011922,
+          "staticJitterPx": 184.34412102302088
+        },
+        "computeP50Ms": 11.148832000035327,
+        "computeP95Ms": 12.760065200016834,
+        "processedRatio": 0.9888888888888889,
+        "cpuPerFrameMs": 12.78803142221748,
+        "stages": {
+          "pyramid": 0.3923960000029183,
+          "track": 0.9972294999970472,
+          "detect": 14.0271250000078,
+          "total": 1.392791500002204,
+          "background": 11.476812500004598
+        }
+      },
+      {
+        "sequence": "T7-occlusion",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 133.33333333333334,
+          "survival": 0.9716981132075472,
+          "errP50": 0.0007347478025774982,
+          "errP95": 0.011310274704810148,
+          "hfJitterPx": 0.45997582130016695,
+          "ghostRate": 0,
+          "reacquireMs": 0,
+          "overlayAgeMs": 45.33333333333419,
+          "backgroundRefresh": 0.7651006711409397,
+          "backgroundLagMs": 58.63974247491626,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 0.9901960784313726,
+          "hfJitterPx": 0.2987993179188836,
+          "staticJitterPx": 3.4589740501276394
+        },
+        "computeP50Ms": 12.338831999979448,
+        "computeP95Ms": 105.35407999996096,
+        "processedRatio": 0.7733333333333333,
+        "cpuPerFrameMs": 20.151393120001693,
+        "stages": {
+          "pyramid": 0.395958499997505,
+          "track": 1.1169170000066515,
+          "detect": 11.72295799999847,
+          "total": 1.5418544999993173,
+          "background": 11.254790999999386
+        }
+      },
+      {
+        "sequence": "T9-blur",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 133.33333333333334,
+          "survival": 1,
+          "errP50": 0.0007067820204044369,
+          "errP95": 0.0015288409134905337,
+          "hfJitterPx": 0.129175592912925,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.33299999999255,
+          "backgroundRefresh": 0.9865771812080539,
+          "backgroundLagMs": 10.033367892976601,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.1904522017618405,
+          "staticJitterPx": 59.37605063532928
+        },
+        "computeP50Ms": 11.365668000013102,
+        "computeP95Ms": 13.070380800031126,
+        "processedRatio": 0.9866666666666667,
+        "cpuPerFrameMs": 13.306644693328998,
+        "stages": {
+          "pyramid": 0.39035400000284426,
+          "track": 1.0168330000014976,
+          "detect": 13.806375000000116,
+          "total": 1.420083999997587,
+          "background": 11.148270999998203
+        }
+      },
+      {
+        "sequence": "T2-pan",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 133.33333333333334,
+          "survival": 1,
+          "errP50": 0.0005910698582967088,
+          "errP95": 0.0009464243738998507,
+          "hfJitterPx": 0.019372841643662528,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.33366666665673,
+          "backgroundRefresh": 0.9798657718120808,
+          "backgroundLagMs": 20.51273913043473,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.02128874532202182,
+          "staticJitterPx": 123.11800725392517
+        },
+        "computeP50Ms": 14.184168000007048,
+        "computeP95Ms": 17.614813200064237,
+        "processedRatio": 0.9866666666666667,
+        "cpuPerFrameMs": 15.994106933335619,
+        "stages": {
+          "pyramid": 0.3912915000037174,
+          "track": 1.3766454999931739,
+          "detect": 14.427624999996624,
+          "total": 1.772292000001471,
+          "background": 11.615187999996124
+        }
+      },
+      {
+        "sequence": "T3-shake",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 133.33333333333334,
+          "survival": 1,
+          "errP50": 0.0005650747377423954,
+          "errP95": 0.0006935382800446776,
+          "hfJitterPx": 0.02666177388541494,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.333666666667675,
+          "backgroundRefresh": 0.9328859060402688,
+          "backgroundLagMs": 33.22178260869562,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.03625566519174934,
+          "staticJitterPx": 32.07550694127002
+        },
+        "computeP50Ms": 14.880999999935739,
+        "computeP95Ms": 17.557430799887513,
+        "processedRatio": 0.9333333333333333,
+        "cpuPerFrameMs": 17.97326869333163,
+        "stages": {
+          "pyramid": 0.3982499999983702,
+          "track": 1.444687499984866,
+          "detect": 12.870625499999733,
+          "total": 1.8594999999913853,
+          "background": 12.073562999998103
+        }
+      },
+      {
+        "sequence": "T5-roll",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 133.33333333333334,
+          "survival": 1,
+          "errP50": 0.0006189764385718044,
+          "errP95": 0.0006675632921214176,
+          "hfJitterPx": 0.015209158414752464,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.333333333320915,
+          "backgroundRefresh": 0.9888268156424552,
+          "backgroundLagMs": 15.041693593314738,
+          "vsyncs": 359
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.017582759195594655,
+          "staticJitterPx": 184.31631250611417
+        },
+        "computeP50Ms": 12.399499999941327,
+        "computeP95Ms": 14.66785000001546,
+        "processedRatio": 0.9888888888888889,
+        "cpuPerFrameMs": 14.269592444443454,
+        "stages": {
+          "pyramid": 0.4005624999990687,
+          "track": 1.1386669999919832,
+          "detect": 15.017791999998735,
+          "total": 1.5492079999967245,
+          "background": 12.228375000006054
+        }
+      },
+      {
+        "sequence": "T7-occlusion",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 133.33333333333334,
+          "survival": 0.9724770642201835,
+          "errP50": 0.0006975211319245121,
+          "errP95": 0.016128167490153836,
+          "hfJitterPx": 0.39337256309302554,
+          "ghostRate": 0.043478260869565216,
+          "reacquireMs": 100.00000000000094,
+          "overlayAgeMs": 61.999666666668375,
+          "backgroundRefresh": 0.7651006711409397,
+          "backgroundLagMs": 66.55512374581929,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 0.9702970297029703,
+          "hfJitterPx": 0.388706766719191,
+          "staticJitterPx": 13.455936024233042
+        },
+        "computeP50Ms": 16.875328000169247,
+        "computeP95Ms": 116.68547039991245,
+        "processedRatio": 0.7666666666666667,
+        "cpuPerFrameMs": 22.159680159996885,
+        "stages": {
+          "pyramid": 0.39170899998862296,
+          "track": 1.6757499999948777,
+          "detect": 12.348624999984168,
+          "total": 2.108957999997074,
+          "background": 11.594542000006186
+        }
+      },
+      {
+        "sequence": "T9-blur",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 133.33333333333334,
+          "survival": 1,
+          "errP50": 0.0006444010404652043,
+          "errP95": 0.0012188751119690652,
+          "hfJitterPx": 0.04879605357154631,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.33333333333512,
+          "backgroundRefresh": 0.9865771812080539,
+          "backgroundLagMs": 18.617531772575212,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.08457432337851847,
+          "staticJitterPx": 59.3320382267631
+        },
+        "computeP50Ms": 13.812999999965541,
+        "computeP95Ms": 17.212450000073297,
+        "processedRatio": 0.9866666666666667,
+        "cpuPerFrameMs": 15.540675093332926,
+        "stages": {
+          "pyramid": 0.39281299999856856,
+          "track": 1.3320829999865964,
+          "detect": 14.206792000011774,
+          "total": 1.7261040000012144,
+          "background": 11.569395999991684
+        }
+      }
+    ],
+    "targets": [
+      {
+        "id": "poster-7",
+        "compileMs": 333.72277766666673,
+        "bytes": 254266,
+        "gzipBytes": 96588
+      },
+      {
+        "id": "photo-7",
+        "compileMs": 321.0828616666667,
+        "bytes": 251457,
+        "gzipBytes": 176595
+      },
+      {
+        "id": "graphic-7",
+        "compileMs": 331.1557356666666,
+        "bytes": 254771,
+        "gzipBytes": 95134
+      }
+    ],
+    "determinismPct": 100,
+    "metrics": {
+      "rollCoverageDeg": 180,
+      "minLongPx": 160,
+      "maxTiltDeg": 50,
+      "minGain": 0.15,
+      "maxBlurPx": 12,
+      "falsePerThousand": 0,
+      "staticJitterPx": null,
+      "hfJitterPx": 0.0604149942851339,
+      "survivalPct": 99.53736351377586,
+      "maxOcclusion": 0.35,
+      "ghostPct": 0.43478260869565216,
+      "reacquireMs": 50.00000000000047,
+      "registrationP95Pct": 0.1065693963114917,
+      "overlayAgeMs": 45.33333333332755,
+      "backgroundLagMs": 16.829612682944976,
+      "backgroundRefresh": 0.9865771812080539,
+      "computeP95Ms": 15.940150000044378,
+      "mainThreadMs": 3,
+      "processedRatio": 0.9866666666666667,
+      "cpuPerFrameMs": 14.90513376888819,
+      "engineKb": 23.17578125,
+      "targetKb": 94.32421875,
+      "ttfpMs": 133.33333333333334,
+      "determinismPct": 100,
+      "maxModuleLoc": 416
+    },
+    "scorecard": {
+      "dimensions": {
+        "D1": {
+          "score": 7.333333333333334,
+          "measured": 1
+        },
+        "D2": {
+          "score": 8.570059364970685,
+          "measured": 0.7000000000000001
+        },
+        "D3": {
+          "score": 9.305093055811838,
+          "measured": 1
+        },
+        "D4": {
+          "score": 7.363740624997227,
+          "measured": 0.7
+        },
+        "D5": {
+          "score": 8.409369791666666,
+          "measured": 0.8
+        },
+        "D6": {
+          "score": 6.6,
+          "measured": 0
+        },
+        "D7": {
+          "score": 8.532,
+          "measured": 0.6499999999999999
+        }
+      },
+      "total": 8.037627182265654,
+      "metricScores": {
+        "rollCoverageDeg": 10,
+        "minLongPx": 4,
+        "maxTiltDeg": 4,
+        "minGain": 10,
+        "maxBlurPx": 4,
+        "falsePerThousand": 10,
+        "hfJitterPx": 9.791700114297322,
+        "survivalPct": 10,
+        "maxOcclusion": 4,
+        "ghostPct": 7.413043478260869,
+        "reacquireMs": 9.99999999999998,
+        "registrationP95Pct": 10,
+        "overlayAgeMs": 9.28888888888966,
+        "backgroundLagMs": 7.089384975607336,
+        "backgroundRefresh": 9.463087248322157,
+        "computeP95Ms": 6.014962499988906,
+        "mainThreadMs": 5.333333333333333,
+        "processedRatio": 9.466666666666669,
+        "engineKb": 10,
+        "targetKb": 9.113515625,
+        "ttfpMs": 7.333333333333333,
+        "determinismPct": 10,
+        "maxModuleLoc": 8.84
+      },
+      "caps": []
+    },
+    "totalCi": {
+      "low": 7.944683964940931,
+      "high": 8.116958267559129
+    }
+  },
+  {
+    "id": "R2",
+    "title": "R2 轻量全兼容：D3 + 1 Hz 串行 + E1 + F4（无预测）",
+    "tier": "low",
+    "sweep": {
+      "recall": {
+        "roll": {
+          "0": 1,
+          "10": 1,
+          "15": 1,
+          "20": 1,
+          "30": 1,
+          "45": 1,
+          "60": 1,
+          "90": 1,
+          "135": 1,
+          "180": 1
+        },
+        "longPx": {
+          "48": 0,
+          "64": 0,
+          "80": 0,
+          "96": 0,
+          "128": 0.5,
+          "160": 1,
+          "220": 1,
+          "300": 1,
+          "450": 1,
+          "640": 1
+        },
+        "tilt": {
+          "0": 1,
+          "20": 1,
+          "40": 1,
+          "50": 1,
+          "60": 0.625,
+          "65": 0.125,
+          "70": 0,
+          "75": 0
+        },
+        "gain": {
+          "1": 1,
+          "0.15": 1,
+          "0.25": 1,
+          "0.4": 1,
+          "0.6": 1,
+          "1.6": 1,
+          "2.5": 0.125
+        },
+        "blurPx": {
+          "0": 1,
+          "4": 1,
+          "8": 1,
+          "12": 0.875,
+          "16": 0,
+          "24": 0,
+          "32": 0
+        },
+        "occlusion": {
+          "0": 1,
+          "0.2": 1,
+          "0.35": 1,
+          "0.5": 1,
+          "0.65": 0.5,
+          "0.8": 0
+        },
+        "noise": {
+          "0": 1,
+          "3": 1,
+          "6": 1,
+          "10": 1
+        }
+      },
+      "rollCoverageDeg": 180,
+      "minLongPx": 160,
+      "maxTiltDeg": 50,
+      "minGain": 0.15,
+      "maxBlurPx": 8,
+      "maxOcclusion": 0.5,
+      "maxNoise": 10,
+      "falsePerThousand": 0,
+      "meanErrorPct": 0.10284772340147481,
+      "detectP50Ms": 19.18627050000032
+    },
+    "sequences": [
+      {
+        "sequence": "T2-pan",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": null,
+          "survival": 0,
+          "errP50": 0.09815415303331754,
+          "errP95": 0.1831679966860632,
+          "hfJitterPx": 4.829422093351986,
+          "ghostRate": 0.44816053511705684,
+          "reacquireMs": null,
+          "overlayAgeMs": 278.666666666653,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 0.96875,
+          "hfJitterPx": 3.2621392845902037,
+          "staticJitterPx": 121.69915247662325
+        },
+        "computeP50Ms": 154.753171999997,
+        "computeP95Ms": 192.15645000004443,
+        "processedRatio": 0.21333333333333335,
+        "cpuPerFrameMs": 34.00313989333265,
+        "stages": {
+          "pyramid": 0.3904999999940628,
+          "track": 0.0051045000000158325,
+          "detect": 18.375374999995984,
+          "total": 19.34029150000424
+        }
+      },
+      {
+        "sequence": "T3-shake",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 3033.3333333333285,
+          "survival": 0.008547008547008548,
+          "errP50": 0.12860950337702645,
+          "errP95": 0.1791396063634988,
+          "hfJitterPx": 9.324443529395445,
+          "ghostRate": 0.6822742474916388,
+          "reacquireMs": null,
+          "overlayAgeMs": 278.6666666666679,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 1.0534165476276032,
+          "staticJitterPx": 24.823036830373127
+        },
+        "computeP50Ms": 155.2610000000568,
+        "computeP95Ms": 197.9354999999632,
+        "processedRatio": 0.20666666666666667,
+        "cpuPerFrameMs": 34.81955087999891,
+        "stages": {
+          "pyramid": 0.3924589999951422,
+          "track": 0.004458000010345131,
+          "detect": 18.55633300000045,
+          "total": 19.402375000005122
+        }
+      },
+      {
+        "sequence": "T5-roll",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 766.6666666666663,
+          "survival": 0.019169329073482427,
+          "errP50": 0.05467111195864141,
+          "errP95": 0.0893351467186707,
+          "hfJitterPx": 2.9078934232688733,
+          "ghostRate": 0.025069637883008356,
+          "reacquireMs": null,
+          "overlayAgeMs": 112.00033333333302,
+          "backgroundRefresh": 0.9999999999999971,
+          "backgroundLagMs": 0,
+          "vsyncs": 359
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.1706523971896005,
+          "staticJitterPx": 184.4038079218646
+        },
+        "computeP50Ms": 55.11199999996461,
+        "computeP95Ms": 58.342069600010284,
+        "processedRatio": 0.5722222222222222,
+        "cpuPerFrameMs": 33.58981831111402,
+        "stages": {
+          "pyramid": 0.38991700000769924,
+          "track": 6.488291999994544,
+          "detect": 11.296312500002387,
+          "total": 6.887708000009297
+        }
+      },
+      {
+        "sequence": "T7-occlusion",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 166.66666666666666,
+          "survival": 1,
+          "errP50": 0.0036507880931654973,
+          "errP95": 0.007009039581842485,
+          "hfJitterPx": 0.207015144580366,
+          "ghostRate": 0,
+          "reacquireMs": 0,
+          "overlayAgeMs": 112.00033333333116,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.20457117901952057,
+          "staticJitterPx": 4.240160249199783
+        },
+        "computeP50Ms": 55.051663999969605,
+        "computeP95Ms": 63.00383399997372,
+        "processedRatio": 0.5733333333333334,
+        "cpuPerFrameMs": 33.50979354666856,
+        "stages": {
+          "pyramid": 0.39366700000391575,
+          "track": 6.461687499991967,
+          "detect": 11.329000000012456,
+          "total": 6.879167000006419
+        }
+      },
+      {
+        "sequence": "T9-blur",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 166.66666666666666,
+          "survival": 0.8512110726643599,
+          "errP50": 0.00315693422454561,
+          "errP95": 0.32959384433927263,
+          "hfJitterPx": 5.798936968698418,
+          "ghostRate": 0.12374581939799331,
+          "reacquireMs": null,
+          "overlayAgeMs": 128.66633333333243,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 0.9743589743589743,
+          "hfJitterPx": 4.0601316131752725,
+          "staticJitterPx": 60.31257569516977
+        },
+        "computeP50Ms": 55.41266799997538,
+        "computeP95Ms": 152.1725499999651,
+        "processedRatio": 0.52,
+        "cpuPerFrameMs": 33.63066469333212,
+        "stages": {
+          "pyramid": 0.39314599999488564,
+          "track": 6.495895500003826,
+          "detect": 18.579624999998487,
+          "total": 6.924374499998521
+        }
+      },
+      {
+        "sequence": "T2-pan",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": null,
+          "survival": 0,
+          "errP50": 0.09966298815216117,
+          "errP95": 0.17923320941474,
+          "hfJitterPx": 4.490540033652289,
+          "ghostRate": 0.4782608695652174,
+          "reacquireMs": null,
+          "overlayAgeMs": 278.6670000000007,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.2074280180286289,
+          "staticJitterPx": 120.82455622848337
+        },
+        "computeP50Ms": 160.51500000001397,
+        "computeP95Ms": 203.87149599997792,
+        "processedRatio": 0.20666666666666667,
+        "cpuPerFrameMs": 34.1857864533326,
+        "stages": {
+          "pyramid": 0.39329199999338016,
+          "track": 0.001416999992216006,
+          "detect": 19.540167000006477,
+          "total": 20.05975000000035
+        }
+      },
+      {
+        "sequence": "T3-shake",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": null,
+          "survival": 0,
+          "errP50": 0.11531721404720754,
+          "errP95": 0.19225340542724728,
+          "hfJitterPx": 11.037322116748076,
+          "ghostRate": 0.6254180602006689,
+          "reacquireMs": null,
+          "overlayAgeMs": 295.3329999999937,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 1.0863730927543422,
+          "staticJitterPx": 30.15696677715286
+        },
+        "computeP50Ms": 168.6743359999964,
+        "computeP95Ms": 181.70375120004172,
+        "processedRatio": 0.2,
+        "cpuPerFrameMs": 34.25408895999969,
+        "stages": {
+          "pyramid": 0.40474949999770615,
+          "track": 0.0018339999951422215,
+          "detect": 20.592978999993647,
+          "total": 21.077416500003892
+        }
+      },
+      {
+        "sequence": "T5-roll",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 2766.6666666666642,
+          "survival": 0.0051813471502590676,
+          "errP50": 0.05505344000687409,
+          "errP95": 0.15169973814034907,
+          "hfJitterPx": 3.8580633986473094,
+          "ghostRate": 0.20612813370473537,
+          "reacquireMs": null,
+          "overlayAgeMs": 128.6669999999972,
+          "backgroundRefresh": 0.9999999999999971,
+          "backgroundLagMs": 0,
+          "vsyncs": 359
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.2698853886468453,
+          "staticJitterPx": 184.37255251467957
+        },
+        "computeP50Ms": 57.8773359998595,
+        "computeP95Ms": 164.4104000000283,
+        "processedRatio": 0.4722222222222222,
+        "cpuPerFrameMs": 33.695444266667536,
+        "stages": {
+          "pyramid": 0.39483299999847077,
+          "track": 6.789707999996608,
+          "detect": 19.702124999981606,
+          "total": 7.232457999984035
+        }
+      },
+      {
+        "sequence": "T7-occlusion",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 183.33333333333331,
+          "survival": 1,
+          "errP50": 0.0037256412656222157,
+          "errP95": 0.006979818151317367,
+          "hfJitterPx": 0.20779880241296256,
+          "ghostRate": 0,
+          "reacquireMs": 0,
+          "overlayAgeMs": 128.66633333332837,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.1917657105526285,
+          "staticJitterPx": 2.1306202173736923
+        },
+        "computeP50Ms": 57.72166400006972,
+        "computeP95Ms": 60.996797599969426,
+        "processedRatio": 0.5533333333333333,
+        "cpuPerFrameMs": 33.818462079996245,
+        "stages": {
+          "pyramid": 0.39341600000625476,
+          "track": 6.770250000001397,
+          "detect": 11.627500000002328,
+          "total": 7.211166000022786
+        }
+      },
+      {
+        "sequence": "T9-blur",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 183.33333333333331,
+          "survival": 0.8472222222222222,
+          "errP50": 0.004036035473901637,
+          "errP95": 0.3387683854954296,
+          "hfJitterPx": 4.5891433898827865,
+          "ghostRate": 0.09698996655518395,
+          "reacquireMs": null,
+          "overlayAgeMs": 245.33300000000256,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 0.9574468085106383,
+          "hfJitterPx": 5.6584972005383944,
+          "staticJitterPx": 54.66002396571482
+        },
+        "computeP50Ms": 61.618000000016764,
+        "computeP95Ms": 169.20929920007475,
+        "processedRatio": 0.31333333333333335,
+        "cpuPerFrameMs": 33.8008021333379,
+        "stages": {
+          "pyramid": 0.3992090000247117,
+          "track": 6.79916600001161,
+          "detect": 20.0784994999849,
+          "total": 7.696832999994513
+        }
+      }
+    ],
+    "targets": [
+      {
+        "id": "poster-7",
+        "compileMs": 287.235916,
+        "bytes": 254266,
+        "gzipBytes": 96588
+      },
+      {
+        "id": "photo-7",
+        "compileMs": 316.82716700000003,
+        "bytes": 251457,
+        "gzipBytes": 176595
+      },
+      {
+        "id": "graphic-7",
+        "compileMs": 319.34537499999993,
+        "bytes": 254771,
+        "gzipBytes": 95134
+      }
+    ],
+    "determinismPct": 100,
+    "metrics": {
+      "rollCoverageDeg": 180,
+      "minLongPx": 160,
+      "maxTiltDeg": 50,
+      "minGain": 0.15,
+      "maxBlurPx": 8,
+      "falsePerThousand": 0,
+      "staticJitterPx": null,
+      "hfJitterPx": 0.6616509681372242,
+      "survivalPct": 99.00555782869614,
+      "maxOcclusion": 0.5,
+      "ghostPct": 26.86047269915503,
+      "reacquireMs": 0,
+      "registrationP95Pct": 18.569650589537304,
+      "overlayAgeMs": 186.9999999999999,
+      "backgroundLagMs": 0,
+      "backgroundRefresh": 1,
+      "computeP95Ms": 166.8098496000515,
+      "mainThreadMs": 3,
+      "processedRatio": 0.3927777777777778,
+      "cpuPerFrameMs": 33.809632106667074,
+      "engineKb": 23.17578125,
+      "targetKb": 94.32421875,
+      "ttfpMs": 183.33333333333331,
+      "determinismPct": 100,
+      "maxModuleLoc": 416
+    },
+    "scorecard": {
+      "dimensions": {
+        "D1": {
+          "score": 7.111111111111112,
+          "measured": 1
+        },
+        "D2": {
+          "score": 6.8643604588301015,
+          "measured": 0.7000000000000001
+        },
+        "D3": {
+          "score": 3,
+          "measured": 1
+        },
+        "D4": {
+          "score": 3.4783333333333335,
+          "measured": 0.7
+        },
+        "D5": {
+          "score": 8.179369791666666,
+          "measured": 0.8
+        },
+        "D6": {
+          "score": 7.6,
+          "measured": 0
+        },
+        "D7": {
+          "score": 8.812,
+          "measured": 0.6499999999999999
+        }
+      },
+      "total": 6.171124465922751,
+      "metricScores": {
+        "rollCoverageDeg": 10,
+        "minLongPx": 4,
+        "maxTiltDeg": 4,
+        "minGain": 10,
+        "maxBlurPx": 2,
+        "falsePerThousand": 10,
+        "hfJitterPx": 5.127830106209252,
+        "survivalPct": 9.340743771594854,
+        "maxOcclusion": 6,
+        "ghostPct": 0,
+        "reacquireMs": 10,
+        "registrationP95Pct": 0,
+        "overlayAgeMs": 1.2600000000000022,
+        "backgroundLagMs": 10,
+        "backgroundRefresh": 10,
+        "computeP95Ms": 0,
+        "mainThreadMs": 5.333333333333333,
+        "processedRatio": 1.9277777777777776,
+        "engineKb": 10,
+        "targetKb": 9.113515625,
+        "ttfpMs": 6.333333333333334,
+        "determinismPct": 10,
+        "maxModuleLoc": 8.84
+      },
+      "caps": [
+        "Y-1 p95 >8% → D3 ≤3"
+      ]
+    },
+    "totalCi": {
+      "low": 5.995791132589417,
+      "high": 6.3224159006699185
+    }
+  },
+  {
+    "id": "R2a",
+    "title": "R2a 预测兼容：D2 轻量 + 1 Hz 串行 + E2 + F2",
+    "tier": "low",
+    "sweep": {
+      "recall": {
+        "roll": {
+          "0": 1,
+          "10": 1,
+          "15": 1,
+          "20": 1,
+          "30": 1,
+          "45": 1,
+          "60": 1,
+          "90": 1,
+          "135": 1,
+          "180": 1
+        },
+        "longPx": {
+          "48": 0,
+          "64": 0,
+          "80": 0,
+          "96": 0,
+          "128": 0.5,
+          "160": 1,
+          "220": 1,
+          "300": 1,
+          "450": 1,
+          "640": 1
+        },
+        "tilt": {
+          "0": 1,
+          "20": 1,
+          "40": 1,
+          "50": 1,
+          "60": 0.625,
+          "65": 0.125,
+          "70": 0,
+          "75": 0
+        },
+        "gain": {
+          "1": 1,
+          "0.15": 1,
+          "0.25": 1,
+          "0.4": 1,
+          "0.6": 1,
+          "1.6": 1,
+          "2.5": 0.125
+        },
+        "blurPx": {
+          "0": 1,
+          "4": 1,
+          "8": 1,
+          "12": 1,
+          "16": 0.5,
+          "24": 0,
+          "32": 0
+        },
+        "occlusion": {
+          "0": 1,
+          "0.2": 1,
+          "0.35": 1,
+          "0.5": 0.75,
+          "0.65": 0.375,
+          "0.8": 0
+        },
+        "noise": {
+          "0": 1,
+          "3": 1,
+          "6": 1,
+          "10": 1
+        }
+      },
+      "rollCoverageDeg": 180,
+      "minLongPx": 160,
+      "maxTiltDeg": 50,
+      "minGain": 0.15,
+      "maxBlurPx": 12,
+      "maxOcclusion": 0.35,
+      "maxNoise": 10,
+      "falsePerThousand": 0,
+      "meanErrorPct": 0.10956363302287651,
+      "detectP50Ms": 13.75202100000024
+    },
+    "sequences": [
+      {
+        "sequence": "T2-pan",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 133.33333333333334,
+          "survival": 1,
+          "errP50": 0.0007129230357600786,
+          "errP95": 0.0023037777722124137,
+          "hfJitterPx": 0.25934382107420373,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.33299999999488,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.021490063042262104,
+          "staticJitterPx": 122.89678949012513
+        },
+        "computeP50Ms": 9.029668000002857,
+        "computeP95Ms": 10.521064399986061,
+        "processedRatio": 0.96,
+        "cpuPerFrameMs": 11.704730986664847,
+        "stages": {
+          "pyramid": 0.3908540000047651,
+          "track": 0.7261455000043497,
+          "detect": 10.679250000001048,
+          "total": 1.1282290000017383
+        }
+      },
+      {
+        "sequence": "T3-shake",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 1166.6666666666663,
+          "survival": 0.6244541484716157,
+          "errP50": 0.0213662284224282,
+          "errP95": 0.3574903828354984,
+          "hfJitterPx": 18.89588639608903,
+          "ghostRate": 0.3511705685618729,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.33366666666092,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.1554632156819157,
+          "staticJitterPx": 31.985788617337036
+        },
+        "computeP50Ms": 9.184831999940798,
+        "computeP95Ms": 102.71989560000365,
+        "processedRatio": 0.72,
+        "cpuPerFrameMs": 20.158308586666827,
+        "stages": {
+          "pyramid": 0.3974584999959916,
+          "track": 0.7303124999962165,
+          "detect": 11.498937500000466,
+          "total": 1.1476039999979548
+        }
+      },
+      {
+        "sequence": "T5-roll",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 133.33333333333334,
+          "survival": 1,
+          "errP50": 0.0007268338438143015,
+          "errP95": 0.002027491691670904,
+          "hfJitterPx": 0.1620118005707909,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.33299999999814,
+          "backgroundRefresh": 0.9999999999999971,
+          "backgroundLagMs": 0,
+          "vsyncs": 359
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.018971023760527422,
+          "staticJitterPx": 184.383963139349
+        },
+        "computeP50Ms": 8.988000000012107,
+        "computeP95Ms": 10.490334399999119,
+        "processedRatio": 0.9611111111111111,
+        "cpuPerFrameMs": 11.687874222218912,
+        "stages": {
+          "pyramid": 0.38883300000452437,
+          "track": 0.7260419999947771,
+          "detect": 10.945603999993182,
+          "total": 1.1220829999947455
+        }
+      },
+      {
+        "sequence": "T7-occlusion",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 116.66666666666669,
+          "survival": 0.9330143540669856,
+          "errP50": 0.0007685756741930777,
+          "errP95": 0.028736935992757333,
+          "hfJitterPx": 1.129918692750956,
+          "ghostRate": 0,
+          "reacquireMs": 66.66666666666652,
+          "overlayAgeMs": 45.33333333333326,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 0.98989898989899,
+          "hfJitterPx": 0.4438690989201048,
+          "staticJitterPx": 5.289015243217389
+        },
+        "computeP50Ms": 9.212336000055075,
+        "computeP95Ms": 99.98173440003302,
+        "processedRatio": 0.7533333333333333,
+        "cpuPerFrameMs": 19.074604480003472,
+        "stages": {
+          "pyramid": 0.3946250000008149,
+          "track": 0.7353749999892898,
+          "detect": 11.423770999994304,
+          "total": 1.1503330000123242
+        }
+      },
+      {
+        "sequence": "T9-blur",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 116.66666666666669,
+          "survival": 0.9863013698630136,
+          "errP50": 0.0007169479559910605,
+          "errP95": 0.002641791670376445,
+          "hfJitterPx": 1.0666644792781448,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.33299999999441,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.22260466347742863,
+          "staticJitterPx": 59.39365210454609
+        },
+        "computeP50Ms": 8.979500000015832,
+        "computeP95Ms": 10.815697199938578,
+        "processedRatio": 0.9466666666666667,
+        "cpuPerFrameMs": 11.620402453335313,
+        "stages": {
+          "pyramid": 0.3897704999981215,
+          "track": 0.7234375000043656,
+          "detect": 11.497292000000016,
+          "total": 1.1220419999954174
+        }
+      },
+      {
+        "sequence": "T2-pan",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 150,
+          "survival": 0.996551724137931,
+          "errP50": 0.0007062347172709251,
+          "errP95": 0.00285021285270218,
+          "hfJitterPx": 0.44177980369662606,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.333333333319985,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.021021594796277892,
+          "staticJitterPx": 122.74297871886041
+        },
+        "computeP50Ms": 12.287663999944925,
+        "computeP95Ms": 13.717230800015386,
+        "processedRatio": 0.9333333333333333,
+        "cpuPerFrameMs": 14.701986933338146,
+        "stages": {
+          "pyramid": 0.39806250000401633,
+          "track": 1.1247504999992088,
+          "detect": 11.203624999994645,
+          "total": 1.535541999997804
+        }
+      },
+      {
+        "sequence": "T3-shake",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 1166.6666666666663,
+          "survival": 0.21397379912663755,
+          "errP50": 0.19196145626001718,
+          "errP95": 0.39357344762108737,
+          "hfJitterPx": 24.60493091612052,
+          "ghostRate": 0.6588628762541806,
+          "reacquireMs": null,
+          "overlayAgeMs": 178.66699999999722,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.03726279634310237,
+          "staticJitterPx": 31.933468770540635
+        },
+        "computeP50Ms": 106.85233200003859,
+        "computeP95Ms": 117.44153080000542,
+        "processedRatio": 0.4533333333333333,
+        "cpuPerFrameMs": 29.8475797866735,
+        "stages": {
+          "pyramid": 0.39447900000959635,
+          "track": 1.1235210000013467,
+          "detect": 12.607353999992483,
+          "total": 13.354583499996806
+        }
+      },
+      {
+        "sequence": "T5-roll",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 150,
+          "survival": 1,
+          "errP50": 0.0006344172962385345,
+          "errP95": 0.002016451339708136,
+          "hfJitterPx": 0.4976657767320084,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.33300000000012,
+          "backgroundRefresh": 0.9999999999999971,
+          "backgroundLagMs": 0,
+          "vsyncs": 359
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.017322895980077288,
+          "staticJitterPx": 184.36575889093092
+        },
+        "computeP50Ms": 12.075168000068516,
+        "computeP95Ms": 13.808496400027071,
+        "processedRatio": 0.9333333333333333,
+        "cpuPerFrameMs": 14.58795000000391,
+        "stages": {
+          "pyramid": 0.3927289999992354,
+          "track": 1.1086039999936474,
+          "detect": 11.819062499998836,
+          "total": 1.5089790000201901
+        }
+      },
+      {
+        "sequence": "T7-occlusion",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 133.33333333333334,
+          "survival": 0.9375,
+          "errP50": 0.0007945803410911376,
+          "errP95": 0.031630436386838844,
+          "hfJitterPx": 1.0323300591148306,
+          "ghostRate": 0.043478260869565216,
+          "reacquireMs": 116.66666666666744,
+          "overlayAgeMs": 45.33366666666232,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 0.9583333333333334,
+          "hfJitterPx": 0.4201530748649287,
+          "staticJitterPx": 28.074874765924076
+        },
+        "computeP50Ms": 12.134336000075564,
+        "computeP95Ms": 108.44804760002299,
+        "processedRatio": 0.7333333333333333,
+        "cpuPerFrameMs": 20.941217813341257,
+        "stages": {
+          "pyramid": 0.3901869999972405,
+          "track": 1.11154150000948,
+          "detect": 11.960915999981808,
+          "total": 1.5162080000009155
+        }
+      },
+      {
+        "sequence": "T9-blur",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 133.33333333333334,
+          "survival": 0.9862542955326461,
+          "errP50": 0.0006920819773537566,
+          "errP95": 0.0013595055538245528,
+          "hfJitterPx": 1.0363796614461012,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.333,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.09373844310661379,
+          "staticJitterPx": 59.2112787487853
+        },
+        "computeP50Ms": 12.151500000036322,
+        "computeP95Ms": 13.595797600108197,
+        "processedRatio": 0.9333333333333333,
+        "cpuPerFrameMs": 14.502913440012684,
+        "stages": {
+          "pyramid": 0.3926250000076834,
+          "track": 1.109478999991552,
+          "detect": 11.428332999988925,
+          "total": 1.5184374999953434
+        }
+      }
+    ],
+    "targets": [
+      {
+        "id": "poster-7",
+        "compileMs": 279.1754583333337,
+        "bytes": 254266,
+        "gzipBytes": 96588
+      },
+      {
+        "id": "photo-7",
+        "compileMs": 314.42841633333336,
+        "bytes": 251457,
+        "gzipBytes": 176595
+      },
+      {
+        "id": "graphic-7",
+        "compileMs": 321.0645833333335,
+        "bytes": 254771,
+        "gzipBytes": 95134
+      }
+    ],
+    "determinismPct": 100,
+    "metrics": {
+      "rollCoverageDeg": 180,
+      "minLongPx": 160,
+      "maxTiltDeg": 50,
+      "minGain": 0.15,
+      "maxBlurPx": 12,
+      "falsePerThousand": 0,
+      "staticJitterPx": null,
+      "hfJitterPx": 0.06550061972485807,
+      "survivalPct": 99.48232323232324,
+      "maxOcclusion": 0.35,
+      "ghostPct": 10.535117056856187,
+      "reacquireMs": 91.66666666666697,
+      "registrationP95Pct": 37.55319152282929,
+      "overlayAgeMs": 45.33316666666005,
+      "backgroundLagMs": 0,
+      "backgroundRefresh": 1,
+      "computeP95Ms": 13.762863600021229,
+      "mainThreadMs": 3,
+      "processedRatio": 0.9333333333333333,
+      "cpuPerFrameMs": 14.644968466671028,
+      "engineKb": 23.17578125,
+      "targetKb": 94.32421875,
+      "ttfpMs": 133.33333333333334,
+      "determinismPct": 100,
+      "maxModuleLoc": 416
+    },
+    "scorecard": {
+      "dimensions": {
+        "D1": {
+          "score": 7.333333333333334,
+          "measured": 1
+        },
+        "D2": {
+          "score": 7.4986872673189024,
+          "measured": 0.7000000000000001
+        },
+        "D3": {
+          "score": 3,
+          "measured": 1
+        },
+        "D4": {
+          "score": 6.873154358332007,
+          "measured": 0.7
+        },
+        "D5": {
+          "score": 8.529369791666666,
+          "measured": 0.8
+        },
+        "D6": {
+          "score": 7.6,
+          "measured": 0
+        },
+        "D7": {
+          "score": 8.812,
+          "measured": 0.6499999999999999
+        }
+      },
+      "total": 6.862526445200536,
+      "metricScores": {
+        "rollCoverageDeg": 10,
+        "minLongPx": 4,
+        "maxTiltDeg": 4,
+        "minGain": 10,
+        "maxBlurPx": 4,
+        "falsePerThousand": 10,
+        "hfJitterPx": 9.68998760550284,
+        "survivalPct": 9.976430976430985,
+        "maxOcclusion": 4,
+        "ghostPct": 1.5774804905239688,
+        "reacquireMs": 8.333333333333321,
+        "registrationP95Pct": 0,
+        "overlayAgeMs": 9.288911111111993,
+        "backgroundLagMs": 10,
+        "backgroundRefresh": 10,
+        "computeP95Ms": 6.559284099994693,
+        "mainThreadMs": 5.333333333333333,
+        "processedRatio": 7.777777777777779,
+        "engineKb": 10,
+        "targetKb": 9.113515625,
+        "ttfpMs": 7.333333333333333,
+        "determinismPct": 10,
+        "maxModuleLoc": 8.84
+      },
+      "caps": [
+        "Y-1 p95 >8% → D3 ≤3"
+      ]
+    },
+    "totalCi": {
+      "low": 6.8085225406730014,
+      "high": 6.918463591587174
+    }
+  },
+  {
+    "id": "R2b",
+    "title": "R2b 轻量帧锁定：D2 轻量 + 1 Hz 串行 + E2 + F1",
+    "tier": "low",
+    "sweep": {
+      "recall": {
+        "roll": {
+          "0": 1,
+          "10": 1,
+          "15": 1,
+          "20": 1,
+          "30": 1,
+          "45": 1,
+          "60": 1,
+          "90": 1,
+          "135": 1,
+          "180": 1
+        },
+        "longPx": {
+          "48": 0,
+          "64": 0,
+          "80": 0,
+          "96": 0,
+          "128": 0.5,
+          "160": 1,
+          "220": 1,
+          "300": 1,
+          "450": 1,
+          "640": 1
+        },
+        "tilt": {
+          "0": 1,
+          "20": 1,
+          "40": 1,
+          "50": 1,
+          "60": 0.625,
+          "65": 0.125,
+          "70": 0,
+          "75": 0
+        },
+        "gain": {
+          "1": 1,
+          "0.15": 1,
+          "0.25": 1,
+          "0.4": 1,
+          "0.6": 1,
+          "1.6": 1,
+          "2.5": 0.125
+        },
+        "blurPx": {
+          "0": 1,
+          "4": 1,
+          "8": 1,
+          "12": 1,
+          "16": 0.5,
+          "24": 0,
+          "32": 0
+        },
+        "occlusion": {
+          "0": 1,
+          "0.2": 1,
+          "0.35": 1,
+          "0.5": 0.75,
+          "0.65": 0.375,
+          "0.8": 0
+        },
+        "noise": {
+          "0": 1,
+          "3": 1,
+          "6": 1,
+          "10": 1
+        }
+      },
+      "rollCoverageDeg": 180,
+      "minLongPx": 160,
+      "maxTiltDeg": 50,
+      "minGain": 0.15,
+      "maxBlurPx": 12,
+      "maxOcclusion": 0.35,
+      "maxNoise": 10,
+      "falsePerThousand": 0,
+      "meanErrorPct": 0.10956363302287651,
+      "detectP50Ms": 13.79289549999885
+    },
+    "sequences": [
+      {
+        "sequence": "T2-pan",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 133.33333333333334,
+          "survival": 1,
+          "errP50": 0.0006987987178461938,
+          "errP95": 0.0007807972503891073,
+          "hfJitterPx": 0.018657181553794148,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.332999999995344,
+          "backgroundRefresh": 0.9395973154362418,
+          "backgroundLagMs": 14.0467424749164,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.021490063042262104,
+          "staticJitterPx": 122.89678949012513
+        },
+        "computeP50Ms": 9.003500000049826,
+        "computeP95Ms": 10.26862840001122,
+        "processedRatio": 0.96,
+        "cpuPerFrameMs": 11.7976710933346,
+        "stages": {
+          "pyramid": 0.39143750000948785,
+          "track": 0.7283749999987776,
+          "detect": 11.08933300001081,
+          "total": 1.1248335000054794
+        }
+      },
+      {
+        "sequence": "T3-shake",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 116.66666666666669,
+          "survival": 0.9794520547945206,
+          "errP50": 0.001103020494440025,
+          "errP95": 0.0013681457094496796,
+          "hfJitterPx": 1.3786511273342903,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 95.33333333332092,
+          "backgroundRefresh": 0.6375838926174499,
+          "backgroundLagMs": 79.59863210702336,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 0.98989898989899,
+          "hfJitterPx": 2.095923255882434,
+          "staticJitterPx": 31.79625867718494
+        },
+        "computeP50Ms": 9.198663999908604,
+        "computeP95Ms": 106.66960239997134,
+        "processedRatio": 0.66,
+        "cpuPerFrameMs": 22.819517493338015,
+        "stages": {
+          "pyramid": 0.3929999999963911,
+          "track": 0.7237089999980526,
+          "detect": 11.596166999996058,
+          "total": 1.1489589999982854
+        }
+      },
+      {
+        "sequence": "T5-roll",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 116.66666666666669,
+          "survival": 1,
+          "errP50": 0.0007125010073924956,
+          "errP95": 0.0007590798267961826,
+          "hfJitterPx": 0.016504367053367785,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.332999999996744,
+          "backgroundRefresh": 0.9217877094972041,
+          "backgroundLagMs": 14.856008356545948,
+          "vsyncs": 359
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.018912486198723228,
+          "staticJitterPx": 184.42176034130824
+        },
+        "computeP50Ms": 9.059336000005715,
+        "computeP95Ms": 11.149199999967816,
+        "processedRatio": 0.9444444444444444,
+        "cpuPerFrameMs": 11.780986844445579,
+        "stages": {
+          "pyramid": 0.39320849999785423,
+          "track": 0.7334374999991269,
+          "detect": 11.574333500000648,
+          "total": 1.1318745000025956
+        }
+      },
+      {
+        "sequence": "T7-occlusion",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 116.66666666666669,
+          "survival": 0.9478672985781991,
+          "errP50": 0.0007420676472190977,
+          "errP95": 0.019588667753217034,
+          "hfJitterPx": 0.3155474639773599,
+          "ghostRate": 0.016722408026755852,
+          "reacquireMs": 0,
+          "overlayAgeMs": 45.3333333333329,
+          "backgroundRefresh": 0.7449664429530203,
+          "backgroundLagMs": 56.2987491638796,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 0.98,
+          "hfJitterPx": 0.46378246759996594,
+          "staticJitterPx": 10.039296696526131
+        },
+        "computeP50Ms": 9.177836000046227,
+        "computeP95Ms": 98.11316480003296,
+        "processedRatio": 0.76,
+        "cpuPerFrameMs": 18.678642400000243,
+        "stages": {
+          "pyramid": 0.3968334999954095,
+          "track": 0.733333500000299,
+          "detect": 11.313312500002212,
+          "total": 1.1463750000039
+        }
+      },
+      {
+        "sequence": "T9-blur",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 133.33333333333334,
+          "survival": 1,
+          "errP50": 0.0007103788411358895,
+          "errP95": 0.002044883916907405,
+          "hfJitterPx": 0.1394136519267638,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.33299999999441,
+          "backgroundRefresh": 0.9395973154362418,
+          "backgroundLagMs": 13.82377926421406,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.22098572274233294,
+          "staticJitterPx": 59.31988813283778
+        },
+        "computeP50Ms": 9.038000000000466,
+        "computeP95Ms": 10.55839959993027,
+        "processedRatio": 0.96,
+        "cpuPerFrameMs": 11.731020053341053,
+        "stages": {
+          "pyramid": 0.3893330000064452,
+          "track": 0.726978999991843,
+          "detect": 10.79229199999827,
+          "total": 1.1292505000019446
+        }
+      },
+      {
+        "sequence": "T2-pan",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 133.33333333333334,
+          "survival": 1,
+          "errP50": 0.0005922089963307553,
+          "errP95": 0.0009179277317847826,
+          "hfJitterPx": 0.01832054914785411,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.33299999999997,
+          "backgroundRefresh": 0.9328859060402688,
+          "backgroundLagMs": 16.27640133779264,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.021118294772286553,
+          "staticJitterPx": 122.74542623772318
+        },
+        "computeP50Ms": 12.130671999999322,
+        "computeP95Ms": 13.968335999990813,
+        "processedRatio": 0.94,
+        "cpuPerFrameMs": 14.635379946669564,
+        "stages": {
+          "pyramid": 0.3929999999963911,
+          "track": 1.1153329999942798,
+          "detect": 11.622625000003609,
+          "total": 1.5157909999979893
+        }
+      },
+      {
+        "sequence": "T3-shake",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 133.33333333333334,
+          "survival": 1,
+          "errP50": 0.0005695178611153786,
+          "errP95": 0.0006996742495091457,
+          "hfJitterPx": 0.02125421557288024,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 178.6666666666658,
+          "backgroundRefresh": 0.44295302013422827,
+          "backgroundLagMs": 130.32320066889616,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.037172949776334605,
+          "staticJitterPx": 31.803342068574217
+        },
+        "computeP50Ms": 107.6813320000656,
+        "computeP95Ms": 114.58134999998147,
+        "processedRatio": 0.4533333333333333,
+        "cpuPerFrameMs": 29.57503797333377,
+        "stages": {
+          "pyramid": 0.3885415000113426,
+          "track": 1.1175829999992857,
+          "detect": 12.497896000015317,
+          "total": 13.457562499985215
+        }
+      },
+      {
+        "sequence": "T5-roll",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 133.33333333333334,
+          "survival": 1,
+          "errP50": 0.0006198818509228235,
+          "errP95": 0.0006656094241152559,
+          "hfJitterPx": 0.0146260478800587,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.33300000000256,
+          "backgroundRefresh": 0.927374301675975,
+          "backgroundLagMs": 18.29145961002782,
+          "vsyncs": 359
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.017322895980077288,
+          "staticJitterPx": 184.36575889093092
+        },
+        "computeP50Ms": 12.159835999947973,
+        "computeP95Ms": 13.787699999939651,
+        "processedRatio": 0.9333333333333333,
+        "cpuPerFrameMs": 14.576007377775387,
+        "stages": {
+          "pyramid": 0.39547949998814147,
+          "track": 1.1135625000169966,
+          "detect": 11.581042000005255,
+          "total": 1.519625000000815
+        }
+      },
+      {
+        "sequence": "T7-occlusion",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 133.33333333333334,
+          "survival": 0.9444444444444444,
+          "errP50": 0.0007074926032773025,
+          "errP95": 0.038363167294884454,
+          "hfJitterPx": 0.6558416043542664,
+          "ghostRate": 0.04013377926421405,
+          "reacquireMs": 200.00000000000233,
+          "overlayAgeMs": 45.33366666665161,
+          "backgroundRefresh": 0.724832214765101,
+          "backgroundLagMs": 58.86280602006683,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 0.9583333333333334,
+          "hfJitterPx": 0.7317896344734894,
+          "staticJitterPx": 15.109321410663563
+        },
+        "computeP50Ms": 12.176496000029147,
+        "computeP95Ms": 105.09073480010264,
+        "processedRatio": 0.7466666666666667,
+        "cpuPerFrameMs": 20.764060319994265,
+        "stages": {
+          "pyramid": 0.39089599999715574,
+          "track": 1.112666499990155,
+          "detect": 11.507917000009911,
+          "total": 1.5216044999979204
+        }
+      },
+      {
+        "sequence": "T9-blur",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 133.33333333333334,
+          "survival": 1,
+          "errP50": 0.0006475873198817869,
+          "errP95": 0.001120403266752987,
+          "hfJitterPx": 0.051740262601505424,
+          "ghostRate": 0,
+          "reacquireMs": null,
+          "overlayAgeMs": 45.333000000002095,
+          "backgroundRefresh": 0.9261744966442955,
+          "backgroundLagMs": 18.171615384615365,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.09373844310661379,
+          "staticJitterPx": 59.2112787487853
+        },
+        "computeP50Ms": 12.181668000062928,
+        "computeP95Ms": 14.140516800130708,
+        "processedRatio": 0.9333333333333333,
+        "cpuPerFrameMs": 14.72512026665577,
+        "stages": {
+          "pyramid": 0.3985209999955259,
+          "track": 1.1144375000003492,
+          "detect": 11.796000000002095,
+          "total": 1.5220835000072839
+        }
+      }
+    ],
+    "targets": [
+      {
+        "id": "poster-7",
+        "compileMs": 278.9660143333331,
+        "bytes": 254266,
+        "gzipBytes": 96588
+      },
+      {
+        "id": "photo-7",
+        "compileMs": 306.76193033333317,
+        "bytes": 251457,
+        "gzipBytes": 176595
+      },
+      {
+        "id": "graphic-7",
+        "compileMs": 318.9240973333335,
+        "bytes": 254771,
+        "gzipBytes": 95134
+      }
+    ],
+    "determinismPct": 100,
+    "metrics": {
+      "rollCoverageDeg": 180,
+      "minLongPx": 160,
+      "maxTiltDeg": 50,
+      "minGain": 0.15,
+      "maxBlurPx": 12,
+      "falsePerThousand": 0,
+      "staticJitterPx": null,
+      "hfJitterPx": 0.0654556964414742,
+      "survivalPct": 99.28232323232325,
+      "maxOcclusion": 0.35,
+      "ghostPct": 0.5685618729096991,
+      "reacquireMs": 100.00000000000117,
+      "registrationP95Pct": 0.10339099794794127,
+      "overlayAgeMs": 45.33300000000233,
+      "backgroundLagMs": 18.231537497321593,
+      "backgroundRefresh": 0.9239811030707499,
+      "computeP95Ms": 14.05442640006076,
+      "mainThreadMs": 3,
+      "processedRatio": 0.9333333333333333,
+      "cpuPerFrameMs": 14.680250106662667,
+      "engineKb": 23.17578125,
+      "targetKb": 94.32421875,
+      "ttfpMs": 133.33333333333334,
+      "determinismPct": 100,
+      "maxModuleLoc": 416
+    },
+    "scorecard": {
+      "dimensions": {
+        "D1": {
+          "score": 7.333333333333334,
+          "measured": 1
+        },
+        "D2": {
+          "score": 7.948933519889235,
+          "measured": 0.7000000000000001
+        },
+        "D3": {
+          "score": 8.979545892599074,
+          "measured": 1
+        },
+        "D4": {
+          "score": 6.854931683329537,
+          "measured": 0.7
+        },
+        "D5": {
+          "score": 8.529369791666666,
+          "measured": 0.8
+        },
+        "D6": {
+          "score": 7.6,
+          "measured": 0
+        },
+        "D7": {
+          "score": 8.812,
+          "measured": 0.6499999999999999
+        }
+      },
+      "total": 7.957360171154669,
+      "metricScores": {
+        "rollCoverageDeg": 10,
+        "minLongPx": 4,
+        "maxTiltDeg": 4,
+        "minGain": 10,
+        "maxBlurPx": 4,
+        "falsePerThousand": 10,
+        "hfJitterPx": 9.690886071170516,
+        "survivalPct": 9.709764309764333,
+        "maxOcclusion": 4,
+        "ghostPct": 7.078595317725752,
+        "reacquireMs": 7.999999999999977,
+        "registrationP95Pct": 10,
+        "overlayAgeMs": 9.288933333333024,
+        "backgroundLagMs": 6.902461667023788,
+        "backgroundRefresh": 7.479622061414998,
+        "computeP95Ms": 6.486393399984809,
+        "mainThreadMs": 5.333333333333333,
+        "processedRatio": 7.777777777777779,
+        "engineKb": 10,
+        "targetKb": 9.113515625,
+        "ttfpMs": 7.333333333333333,
+        "determinismPct": 10,
+        "maxModuleLoc": 8.84
+      },
+      "caps": []
+    },
+    "totalCi": {
+      "low": 7.848827282544213,
+      "high": 8.052895288211523
+    }
+  },
+  {
+    "id": "R2c",
+    "title": "R2c 保留 NCC：D3 + 1 Hz 串行 + E2 + F2",
+    "tier": "low",
+    "sweep": {
+      "recall": {
+        "roll": {
+          "0": 1,
+          "10": 1,
+          "15": 1,
+          "20": 1,
+          "30": 1,
+          "45": 1,
+          "60": 1,
+          "90": 1,
+          "135": 1,
+          "180": 1
+        },
+        "longPx": {
+          "48": 0,
+          "64": 0,
+          "80": 0,
+          "96": 0,
+          "128": 0.5,
+          "160": 1,
+          "220": 1,
+          "300": 1,
+          "450": 1,
+          "640": 1
+        },
+        "tilt": {
+          "0": 1,
+          "20": 1,
+          "40": 1,
+          "50": 1,
+          "60": 0.625,
+          "65": 0.125,
+          "70": 0,
+          "75": 0
+        },
+        "gain": {
+          "1": 1,
+          "0.15": 1,
+          "0.25": 1,
+          "0.4": 1,
+          "0.6": 1,
+          "1.6": 1,
+          "2.5": 0.125
+        },
+        "blurPx": {
+          "0": 1,
+          "4": 1,
+          "8": 1,
+          "12": 0.875,
+          "16": 0,
+          "24": 0,
+          "32": 0
+        },
+        "occlusion": {
+          "0": 1,
+          "0.2": 1,
+          "0.35": 1,
+          "0.5": 1,
+          "0.65": 0.5,
+          "0.8": 0
+        },
+        "noise": {
+          "0": 1,
+          "3": 1,
+          "6": 1,
+          "10": 1
+        }
+      },
+      "rollCoverageDeg": 180,
+      "minLongPx": 160,
+      "maxTiltDeg": 50,
+      "minGain": 0.15,
+      "maxBlurPx": 8,
+      "maxOcclusion": 0.5,
+      "maxNoise": 10,
+      "falsePerThousand": 0,
+      "meanErrorPct": 0.10284772340147481,
+      "detectP50Ms": 19.205375000005006
+    },
+    "sequences": [
+      {
+        "sequence": "T2-pan",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 1166.6666666666663,
+          "survival": 0.017467248908296942,
+          "errP50": 0.06209257234396177,
+          "errP95": 0.14095569782759448,
+          "hfJitterPx": 5.068419615103692,
+          "ghostRate": 0.1705685618729097,
+          "reacquireMs": null,
+          "overlayAgeMs": 278.6670000000037,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.1682219107821176,
+          "staticJitterPx": 120.55280819290728
+        },
+        "computeP50Ms": 161.46533599996474,
+        "computeP95Ms": 197.82316400005948,
+        "processedRatio": 0.20666666666666667,
+        "cpuPerFrameMs": 34.22466458666914,
+        "stages": {
+          "pyramid": 0.40408400000887923,
+          "track": 0.0037500000034924597,
+          "detect": 19.0879999999961,
+          "total": 20.176874999990105
+        }
+      },
+      {
+        "sequence": "T3-shake",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": null,
+          "survival": 0,
+          "errP50": 0.16417987045834923,
+          "errP95": 0.22285339812024713,
+          "hfJitterPx": 17.45001288698037,
+          "ghostRate": 0.8695652173913043,
+          "reacquireMs": null,
+          "overlayAgeMs": 278.66699999999906,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.4706542949151582,
+          "staticJitterPx": 23.221400613388766
+        },
+        "computeP50Ms": 155.07533600006718,
+        "computeP95Ms": 199.7346640000469,
+        "processedRatio": 0.20666666666666667,
+        "cpuPerFrameMs": 34.504526613334505,
+        "stages": {
+          "pyramid": 0.3966249999939464,
+          "track": 0.004459000003407709,
+          "detect": 18.529834000000847,
+          "total": 19.37833400000818
+        }
+      },
+      {
+        "sequence": "T5-roll",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 233.3333333333333,
+          "survival": 0.855072463768116,
+          "errP50": 0.004645551576237114,
+          "errP95": 0.07215599822402288,
+          "hfJitterPx": 2.594854773017539,
+          "ghostRate": 0.022284122562674095,
+          "reacquireMs": null,
+          "overlayAgeMs": 128.66633333333243,
+          "backgroundRefresh": 0.9999999999999971,
+          "backgroundLagMs": 0,
+          "vsyncs": 359
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.18109134887738354,
+          "staticJitterPx": 184.76522404879367
+        },
+        "computeP50Ms": 55.61433199996827,
+        "computeP95Ms": 147.70650199998636,
+        "processedRatio": 0.5333333333333333,
+        "cpuPerFrameMs": 33.46376635555967,
+        "stages": {
+          "pyramid": 0.39554150000185473,
+          "track": 6.525895999999193,
+          "detect": 18.88154200000281,
+          "total": 6.949249500001315
+        }
+      },
+      {
+        "sequence": "T7-occlusion",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 166.66666666666666,
+          "survival": 1,
+          "errP50": 0.0032590977064251812,
+          "errP95": 0.007750130677584767,
+          "hfJitterPx": 0.8842231373391473,
+          "ghostRate": 0,
+          "reacquireMs": 0,
+          "overlayAgeMs": 128.66633333332464,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.2603437680248148,
+          "staticJitterPx": 2.511496978736202
+        },
+        "computeP50Ms": 55.410000000032596,
+        "computeP95Ms": 139.71666399994865,
+        "processedRatio": 0.54,
+        "cpuPerFrameMs": 33.7419668799988,
+        "stages": {
+          "pyramid": 0.39491699999780394,
+          "track": 6.476999999998952,
+          "detect": 12.054541999998037,
+          "total": 6.923458000004757
+        }
+      },
+      {
+        "sequence": "T9-blur",
+        "kind": "poster",
+        "metrics": {
+          "ttfpMs": 166.66666666666666,
+          "survival": 0.7093425605536332,
+          "errP50": 0.002814767445978589,
+          "errP95": 0.3284451800451938,
+          "hfJitterPx": 10.736691499681076,
+          "ghostRate": 0.1939799331103679,
+          "reacquireMs": null,
+          "overlayAgeMs": 128.6669999999935,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 0.9710144927536232,
+          "hfJitterPx": 4.354071332700229,
+          "staticJitterPx": 60.33911104956601
+        },
+        "computeP50Ms": 55.80666400003247,
+        "computeP95Ms": 155.37426560001913,
+        "processedRatio": 0.46,
+        "cpuPerFrameMs": 33.74996666666353,
+        "stages": {
+          "pyramid": 0.3941249999916181,
+          "track": 6.524999999994179,
+          "detect": 18.670583500002977,
+          "total": 6.973624999998719
+        }
+      },
+      {
+        "sequence": "T2-pan",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 3349.9999999999923,
+          "survival": 0.04081632653061224,
+          "errP50": 0.060785929408644954,
+          "errP95": 0.14394270553317115,
+          "hfJitterPx": 4.919277268229969,
+          "ghostRate": 0.1939799331103679,
+          "reacquireMs": null,
+          "overlayAgeMs": 295.3329999999958,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.10170196032171956,
+          "staticJitterPx": 120.92447207064194
+        },
+        "computeP50Ms": 162.4473279999802,
+        "computeP95Ms": 204.9210000000312,
+        "processedRatio": 0.20666666666666667,
+        "cpuPerFrameMs": 34.42251098666806,
+        "stages": {
+          "pyramid": 0.4036250000062864,
+          "track": 0.001959000001079403,
+          "detect": 19.60491699999693,
+          "total": 20.30195900000399
+        }
+      },
+      {
+        "sequence": "T3-shake",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": null,
+          "survival": 0,
+          "errP50": 0.20966007464520878,
+          "errP95": 0.36794887943641597,
+          "hfJitterPx": 24.067779622104595,
+          "ghostRate": 0.9230769230769231,
+          "reacquireMs": null,
+          "overlayAgeMs": 295.3329999999879,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.13256017881879772,
+          "staticJitterPx": 28.784346005717495
+        },
+        "computeP50Ms": 162.57067200005986,
+        "computeP95Ms": 204.69416799989995,
+        "processedRatio": 0.20666666666666667,
+        "cpuPerFrameMs": 35.202775306672166,
+        "stages": {
+          "pyramid": 0.3977090000116732,
+          "track": 0.0018330000166315585,
+          "detect": 19.762667000002693,
+          "total": 20.316749999998137
+        }
+      },
+      {
+        "sequence": "T5-roll",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 666.6666666666665,
+          "survival": 0.9059561128526645,
+          "errP50": 0.004272174475265863,
+          "errP95": 0.08768957751860412,
+          "hfJitterPx": 2.973957782693002,
+          "ghostRate": 0.03899721448467967,
+          "reacquireMs": null,
+          "overlayAgeMs": 128.66633333334698,
+          "backgroundRefresh": 0.9999999999999971,
+          "backgroundLagMs": 0,
+          "vsyncs": 359
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.20372177502684943,
+          "staticJitterPx": 184.36340202443702
+        },
+        "computeP50Ms": 57.76667200005613,
+        "computeP95Ms": 156.2611639999086,
+        "processedRatio": 0.5055555555555555,
+        "cpuPerFrameMs": 33.816657511115125,
+        "stages": {
+          "pyramid": 0.395250000001397,
+          "track": 6.794790999992983,
+          "detect": 19.436145500003477,
+          "total": 7.217541999998502
+        }
+      },
+      {
+        "sequence": "T7-occlusion",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 183.33333333333331,
+          "survival": 0.9804878048780488,
+          "errP50": 0.0029548032736675446,
+          "errP95": 0.009099903366205938,
+          "hfJitterPx": 1.352870144258424,
+          "ghostRate": 0,
+          "reacquireMs": 0,
+          "overlayAgeMs": 128.66633333332953,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 1,
+          "hfJitterPx": 0.17637499874300255,
+          "staticJitterPx": 2.511235628388111
+        },
+        "computeP50Ms": 58.23066399991512,
+        "computeP95Ms": 66.1973280000966,
+        "processedRatio": 0.54,
+        "cpuPerFrameMs": 33.58552192000052,
+        "stages": {
+          "pyramid": 0.39495799998985603,
+          "track": 6.860791999992216,
+          "detect": 12.483542000001762,
+          "total": 7.275332999997772
+        }
+      },
+      {
+        "sequence": "T9-blur",
+        "kind": "photo",
+        "metrics": {
+          "ttfpMs": 183.33333333333331,
+          "survival": 0.7118055555555556,
+          "errP50": 0.004118023460605422,
+          "errP95": 0.3287875097120625,
+          "hfJitterPx": 10.334142484068025,
+          "ghostRate": 0.19063545150501673,
+          "reacquireMs": null,
+          "overlayAgeMs": 170.3333333333348,
+          "backgroundRefresh": 1,
+          "backgroundLagMs": 0,
+          "vsyncs": 299
+        },
+        "tracking": {
+          "survival": 0.9649122807017544,
+          "hfJitterPx": 4.818374559593276,
+          "staticJitterPx": 60.58513773608477
+        },
+        "computeP50Ms": 60.53966400003992,
+        "computeP95Ms": 168.46080000000075,
+        "processedRatio": 0.38,
+        "cpuPerFrameMs": 34.16038650666519,
+        "stages": {
+          "pyramid": 0.402791000000434,
+          "track": 6.91245799997705,
+          "detect": 19.988583000013023,
+          "total": 7.564249999995809
+        }
+      }
+    ],
+    "targets": [
+      {
+        "id": "poster-7",
+        "compileMs": 283.27952733333376,
+        "bytes": 254266,
+        "gzipBytes": 96588
+      },
+      {
+        "id": "photo-7",
+        "compileMs": 311.583694333334,
+        "bytes": 251457,
+        "gzipBytes": 176595
+      },
+      {
+        "id": "graphic-7",
+        "compileMs": 321.00061133333355,
+        "bytes": 254771,
+        "gzipBytes": 95134
+      }
+    ],
+    "determinismPct": 100,
+    "metrics": {
+      "rollCoverageDeg": 180,
+      "minLongPx": 160,
+      "maxTiltDeg": 50,
+      "minGain": 0.15,
+      "maxBlurPx": 8,
+      "falsePerThousand": 0,
+      "staticJitterPx": null,
+      "hfJitterPx": 0.19240656195211647,
+      "survivalPct": 99.35926773455378,
+      "maxOcclusion": 0.5,
+      "ghostPct": 26.030873571142436,
+      "reacquireMs": 0,
+      "registrationP95Pct": 29.540113877833157,
+      "overlayAgeMs": 149.50016666666414,
+      "backgroundLagMs": 0,
+      "backgroundRefresh": 1,
+      "computeP95Ms": 162.36098199995467,
+      "mainThreadMs": 3,
+      "processedRatio": 0.42000000000000004,
+      "cpuPerFrameMs": 33.98852200889016,
+      "engineKb": 23.17578125,
+      "targetKb": 94.32421875,
+      "ttfpMs": 208.33333333333331,
+      "determinismPct": 100,
+      "maxModuleLoc": 416
+    },
+    "scorecard": {
+      "dimensions": {
+        "D1": {
+          "score": 7.111111111111112,
+          "measured": 1
+        },
+        "D2": {
+          "score": 7.362201370508722,
+          "measured": 0.7000000000000001
+        },
+        "D3": {
+          "score": 3,
+          "measured": 1
+        },
+        "D4": {
+          "score": 3.5600000000000005,
+          "measured": 0.7
+        },
+        "D5": {
+          "score": 8.033536458333332,
+          "measured": 0.8
+        },
+        "D6": {
+          "score": 7.6,
+          "measured": 0
+        },
+        "D7": {
+          "score": 8.812,
+          "measured": 0.6499999999999999
+        }
+      },
+      "total": 6.261319163358236,
+      "metricScores": {
+        "rollCoverageDeg": 10,
+        "minLongPx": 4,
+        "maxTiltDeg": 4,
+        "minGain": 10,
+        "maxBlurPx": 2,
+        "falsePerThousand": 10,
+        "hfJitterPx": 7.660747504383068,
+        "survivalPct": 9.812356979405044,
+        "maxOcclusion": 6,
+        "ghostPct": 0,
+        "reacquireMs": 10,
+        "registrationP95Pct": 0,
+        "overlayAgeMs": 2.019993333333434,
+        "backgroundLagMs": 10,
+        "backgroundRefresh": 10,
+        "computeP95Ms": 0,
+        "mainThreadMs": 5.333333333333333,
+        "processedRatio": 2.2,
+        "engineKb": 10,
+        "targetKb": 9.113515625,
+        "ttfpMs": 5.916666666666667,
+        "determinismPct": 10,
+        "maxModuleLoc": 8.84
+      },
+      "caps": [
+        "Y-1 p95 >8% → D3 ≤3"
+      ]
+    },
+    "totalCi": {
+      "low": 6.180047083436308,
+      "high": 6.3253138239226905
+    }
+  }
+]

@@ -1,0 +1,15 @@
+{
+  "name": "@livemira-next/ui",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Camera UI (published as @livemira/ui): session over the engine (photos, videos, errors), and the default full-screen view with its loading, scanning guide and controls. Contains no engine code: the page passes the engine module in.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  }
+}

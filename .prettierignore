@@ -1,0 +1,13 @@
+node_modules/
+dist/
+bench/results/
+bench/baseline/
+packages/*/src/generated/
+package-lock.json
+release/
+
+# Third-party picture set, kept as received
+bench/assets/target-set/
+
+# The integration guides ship byte-identical in the release packages.
+/documentation/

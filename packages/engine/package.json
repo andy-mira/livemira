@@ -1,0 +1,24 @@
+{
+  "name": "@livemira-next/engine",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Product engine (published as @livemira/engine): camera session lifecycle and events, photo compilation, video planes with the loading veil and the centre-out reveal, frame-locked in one WebGL2 canvas.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
+    "./worker": {
+      "types": "./src/worker-entry.ts",
+      "default": "./src/worker-entry.ts"
+    }
+  },
+  "dependencies": {
+    "@livemira-next/contracts": "0.1.0",
+    "@livemira-next/features": "0.1.0",
+    "@livemira-next/web": "0.1.0"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "schema": "livemira-exact-matching-wasm/1",
+  "matchingVersion": "hamming32-mutual-ratio075-max64/1",
+  "abi": 1,
+  "buildScript": "tools/build-wasm.ts",
+  "generatedModule": "packages/compute/src/matching/generated/exact-matching-wasm.ts",
+  "generatedModuleSha256": "e29ea287f321fe2bade8b53488075509f70b2b3c330b952514a9ddd64f3b0ae1",
+  "toolchain": {
+    "package": "wabt",
+    "version": "1.0.39",
+    "role": "WAT assembler (development dependency only)"
+  },
+  "variants": [
+    {
+      "id": "scalar",
+      "source": "packages/compute/src/matching/wasm/hamming-exact-scalar.wat",
+      "sourceSha256": "31961c404602aac58d9e91a097037193c90144b8f7ca9c4282b1d4d38461c13a",
+      "features": [],
+      "byteLength": 647,
+      "sha256": "5692cd0c74822126695c29720dc8ff6d283ea802487cb5629564d784fdd98fe1"
+    },
+    {
+      "id": "simd",
+      "source": "packages/compute/src/matching/wasm/hamming-exact-simd.wat",
+      "sourceSha256": "6ea8030280cb86dac763e4e5f6dcb5f97081ba144cd02d8af3bda87c7d3b5147",
+      "features": [
+        "simd"
+      ],
+      "byteLength": 1197,
+      "sha256": "93b68db7070a353ec49abdaf5afc852a7d8a48ba96b4deaee9f466aa38fe7c06"
+    }
+  ]
+}

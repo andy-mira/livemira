@@ -1,0 +1,21 @@
+{
+  "name": "@livemira-next/tracking",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Fast-loop trackers and the dual-loop orchestrator: pyramidal KLT, ESM template alignment, target-anchored NCC patches, and the tracking state machine.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "dependencies": {
+    "@livemira-next/contracts": "0.1.0",
+    "@livemira-next/filters": "0.1.0",
+    "@livemira-next/geometry": "0.1.0",
+    "@livemira-next/imaging": "0.1.0"
+  }
+}

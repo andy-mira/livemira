@@ -1,0 +1,36 @@
+{
+  "name": "livemira-next",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "Apache-2.0",
+  "description": "LiveMira: the engine, the camera UI and the target rating (packages/), with the benchmark suite, the device test kit and the release tools.",
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "workspaces": [
+    "packages/*",
+    "bench",
+    "bench/baseline/*"
+  ],
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "node --test \"packages/*/test/**/*.test.ts\" \"bench/test/**/*.test.ts\" \"tools/**/*.test.ts\"",
+    "bench": "node bench/src/cli.ts",
+    "sync:baseline": "node tools/sync-baseline.ts",
+    "check:baseline": "node tools/sync-baseline.ts --check",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "check": "npm run format:check && npm run typecheck && npm run check:baseline && npm run check:kernels && npm test",
+    "build:kernels": "node tools/build-kernels.ts",
+    "check:kernels": "node tools/build-kernels.ts --check",
+    "check:regression": "node bench/src/guard.ts"
+  },
+  "devDependencies": {
+    "@types/node": "22.20.5",
+    "esbuild": "0.28.2",
+    "playwright-core": "1.59.1",
+    "prettier": "3.9.10",
+    "typescript": "6.0.3"
+  }
+}

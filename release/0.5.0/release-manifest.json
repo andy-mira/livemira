@@ -1,0 +1,240 @@
+{
+  "schema": "livemira-release/1",
+  "name": "LiveMira",
+  "version": "0.5.0",
+  "tag": "v0.5.0",
+  "sourceCommit": "ce3bc8e498bad755d64a4c7d5d9dd41318d1de63",
+  "buildId": "fe28869596b2ae1b0f76860b85fe0edaa99ea8ff21a5d81f1ad105160c33cf77",
+  "modules": {
+    "engine": {
+      "file": "files/livemira-engine.min.mjs",
+      "buildId": "fe28869596b2ae1b0f76860b85fe0edaa99ea8ff21a5d81f1ad105160c33cf77"
+    },
+    "ui": {
+      "file": "files/livemira-ui.min.mjs"
+    },
+    "targetRating": {
+      "file": "files/livemira-target-rating.min.mjs",
+      "buildId": "5510f02d7dc0b3a12f450b61d88afe5b2cd97078d8ef5408b8a7b66f8c09bae3"
+    }
+  },
+  "date": "2026-10-28",
+  "stable": true,
+  "preview": false,
+  "npmRegistry": [
+    "@livemira/engine",
+    "@livemira/ui"
+  ],
+  "files": [
+    {
+      "path": "CHANGELOG.md",
+      "bytes": 9586,
+      "sha256": "de57c935dfc5c6530e79637da017c08afcb737930f6e10c1ca8e408f257751f5"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 11334,
+      "sha256": "4e451b153e550b98d20d289668d78ccbc54999ffe754212304c6415ef11f291f"
+    },
+    {
+      "path": "NOTICE",
+      "bytes": 770,
+      "sha256": "f1e06eb6b87ff3eb0817d6e05c75f0f18fc180862ae7729c6f2c2b9feec6eb4a"
+    },
+    {
+      "path": "README.md",
+      "bytes": 6335,
+      "sha256": "4501e78c20bf41baf9f8338280549e4a012a2e3c95efe7ab70946195b3a80ce0"
+    },
+    {
+      "path": "README.zh-CN.md",
+      "bytes": 16995,
+      "sha256": "393462d3a6b139e92c184e9041574e0a5b1827147913c24f8e12ca00edee4561"
+    },
+    {
+      "path": "demo/assets/CREDITS.md",
+      "bytes": 1056,
+      "sha256": "8b42f28e61774b3fb71a0d1e812744e39e0c68c72e6dc5b70c9bc754a26a0c7d"
+    },
+    {
+      "path": "demo/assets/bird-01.png",
+      "bytes": 477212,
+      "sha256": "cc943ff3666bccd656c8d8b846abccabf900777b83cdf9665e59489ee28943ec"
+    },
+    {
+      "path": "demo/assets/demo-video.mp4",
+      "bytes": 992141,
+      "sha256": "20c4f728071d9e8deb6be9a3f6dc933e6fe3afbd58d0d4d2737308c07edbe693"
+    },
+    {
+      "path": "demo/assets/demo-video.webm",
+      "bytes": 549229,
+      "sha256": "2703fb9347efe1057b56dbd4ed3a72bca300831bf24ee73648eaed3ecc41e5eb"
+    },
+    {
+      "path": "demo/assets/forest-03.png",
+      "bytes": 526111,
+      "sha256": "484dbae4fdaff3c094b099b89a3b6d7983ddd0d5b91c357055f3a9c5d63b2929"
+    },
+    {
+      "path": "demo/assets/mountain-01.png",
+      "bytes": 285006,
+      "sha256": "b10d8b1dc53d463240b73cee667e2a9658ac889ae9b78e40b2e44e3dfd6aeafe"
+    },
+    {
+      "path": "demo/assets/ship-01.png",
+      "bytes": 209822,
+      "sha256": "d225f5f94663129e635a72048c7df6cb8fe090dd8c50337c1fb0ba9e28d76f36"
+    },
+    {
+      "path": "demo/demo.js",
+      "bytes": 1850,
+      "sha256": "546636eece4a5e194047e129e4ac62f17d846068863e3e217c3ca818024755f5"
+    },
+    {
+      "path": "demo/index.html",
+      "bytes": 3657,
+      "sha256": "270f5e524fd0ff2639a2e537004a2bbf5aedfb732aaf148c216ca141229e8838"
+    },
+    {
+      "path": "demo/livemira-engine.min.mjs",
+      "bytes": 125594,
+      "sha256": "9accdb3f750712fd54283cae245724039137f7d572e1db3fad1e54ce0cb66d11"
+    },
+    {
+      "path": "demo/livemira-target-rating.min.mjs",
+      "bytes": 48378,
+      "sha256": "c47de9cd0a363f7686d9fdddb1916b649b8241c8f3548052c950dbc7c7f00262"
+    },
+    {
+      "path": "demo/livemira-ui.min.mjs",
+      "bytes": 33166,
+      "sha256": "a762a33cd5d4538f2b9bf2b8272ab11d79aff0b74aec0c3021912b8b96d13fa7"
+    },
+    {
+      "path": "demo/rate.html",
+      "bytes": 9359,
+      "sha256": "d17e07bdc71355a380371c76b230d924b38fc51b1af2c0aa7eb947a30c6a38fd"
+    },
+    {
+      "path": "demo/rate.js",
+      "bytes": 13278,
+      "sha256": "29ebea6737e33ed7d26e5b21ade2c70a0cccda72da30fa5db01445777b738ad6"
+    },
+    {
+      "path": "demo/targets.html",
+      "bytes": 5217,
+      "sha256": "126583557a39934cfa0ebb44285dffe93a8ff877cb7eda2fa04cf1ebb09ad63f"
+    },
+    {
+      "path": "documentation/migration-0.4-to-0.5.zh-CN.md",
+      "bytes": 9431,
+      "sha256": "d3faf3e229b64dbc6b9d0b0e4561fdecc28ed0c7e699f9fad06dc1e838bb47f3"
+    },
+    {
+      "path": "documentation/target-rating.md",
+      "bytes": 5280,
+      "sha256": "6284fcbcdc1e1e85e9de3a245773d8e557265469a9381b857b096d307834c588"
+    },
+    {
+      "path": "documentation/target-rating.zh-CN.md",
+      "bytes": 9968,
+      "sha256": "e9a9baf323517de56a9dca51a2472a0d11a3779738b95f64b7b4f2109cd7aabb"
+    },
+    {
+      "path": "documentation/ui.md",
+      "bytes": 3006,
+      "sha256": "b3274971bee274efa962b4ee0372266cc8d9c5235816719741aefb9e53c77b07"
+    },
+    {
+      "path": "documentation/ui.zh-CN.md",
+      "bytes": 10831,
+      "sha256": "6b587085cedadf64b3796cfa8fde057dbf2f6fad97086d95cbbe3297731addc8"
+    },
+    {
+      "path": "files/livemira-engine-worker.js",
+      "bytes": 149031,
+      "sha256": "113eb8c27b079c3d37d994c9e157e5542830fbb2520eef14fa0d5543b67126ce"
+    },
+    {
+      "path": "files/livemira-engine-worker.min.js",
+      "bytes": 76714,
+      "sha256": "966a90d39371ed86de250a2c7d1afa9750636282fb9d420af4fe65b6b656d54f"
+    },
+    {
+      "path": "files/livemira-engine.d.ts",
+      "bytes": 12416,
+      "sha256": "e275786acde8d3d3dbb3a98ba758d260ce916bcde0271c83c0775ee7f0b4635a"
+    },
+    {
+      "path": "files/livemira-engine.min.mjs",
+      "bytes": 125594,
+      "sha256": "9accdb3f750712fd54283cae245724039137f7d572e1db3fad1e54ce0cb66d11"
+    },
+    {
+      "path": "files/livemira-engine.mjs",
+      "bytes": 158547,
+      "sha256": "2d83b4d6192c47218fff3585241ef48b3e7ef6ce92a80399a6ff90d4f2f303bf"
+    },
+    {
+      "path": "files/livemira-target-rating-worker.js",
+      "bytes": 83317,
+      "sha256": "949e6c00cd1ddde9f66001b25ebe57ea9c94f88d0469c09aaa11c5b55f1aed5e"
+    },
+    {
+      "path": "files/livemira-target-rating-worker.min.js",
+      "bytes": 44156,
+      "sha256": "2cbfa76263a9559086fa67290780adb851c03aebe4b6dd1b0ad88f46613fb838"
+    },
+    {
+      "path": "files/livemira-target-rating.d.ts",
+      "bytes": 5122,
+      "sha256": "ac1bff4e40c5871868cf2cb4df7d02892f14173da450d6664e94dcb7bcb491a4"
+    },
+    {
+      "path": "files/livemira-target-rating.min.mjs",
+      "bytes": 48378,
+      "sha256": "c47de9cd0a363f7686d9fdddb1916b649b8241c8f3548052c950dbc7c7f00262"
+    },
+    {
+      "path": "files/livemira-target-rating.mjs",
+      "bytes": 51532,
+      "sha256": "9feb4204dee51f659ddf716b8e7bd2038e5715313a2d50bf9c12914acd88aef4"
+    },
+    {
+      "path": "files/livemira-ui.d.ts",
+      "bytes": 14975,
+      "sha256": "5df63576052ce7ef3c4b365a2be3dbadc07c02ef7405086edd76b035befba4bb"
+    },
+    {
+      "path": "files/livemira-ui.min.mjs",
+      "bytes": 33166,
+      "sha256": "a762a33cd5d4538f2b9bf2b8272ab11d79aff0b74aec0c3021912b8b96d13fa7"
+    },
+    {
+      "path": "files/livemira-ui.mjs",
+      "bytes": 48596,
+      "sha256": "724f0b42005aaab245a8691264242358f62ffa77555eaf24732a14b39d433a10"
+    },
+    {
+      "path": "npm/livemira-engine-0.5.0.tgz",
+      "bytes": 100748,
+      "sha256": "680b50041bdaf5465578652cbad0f7fa8b5d6081168a93db46b47c17eed920c0"
+    },
+    {
+      "path": "npm/livemira-target-rating-0.5.0.tgz",
+      "bytes": 57498,
+      "sha256": "b2f4387c810a52e3090170debdc957261763ec254a3d99bb2e132f16d6b50495"
+    },
+    {
+      "path": "npm/livemira-ui-0.5.0.tgz",
+      "bytes": 30568,
+      "sha256": "f34dbc184890d7397ed7c0fb9509568ad4f45447e328129289d0bd6eeb0ce0a2"
+    },
+    {
+      "path": "发布说明.md",
+      "bytes": 5460,
+      "sha256": "b658bcb0f0d149c8e2f1642390da0a2fb18c65a902eed74c80f906035ec270f1"
+    }
+  ]
+}

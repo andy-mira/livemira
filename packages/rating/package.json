@@ -1,0 +1,30 @@
+{
+  "name": "@livemira-next/rating",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Target rating (published as @livemira/target-rating): how well the engine will find and keep a picture, in stars, without the engine. Runs in its own Worker.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
+    "./core": {
+      "types": "./src/rating.ts",
+      "default": "./src/rating.ts"
+    },
+    "./worker": {
+      "types": "./src/worker-entry.ts",
+      "default": "./src/worker-entry.ts"
+    }
+  },
+  "dependencies": {
+    "@livemira-next/contracts": "0.1.0",
+    "@livemira-next/features": "0.1.0",
+    "@livemira-next/geometry": "0.1.0",
+    "@livemira-next/imaging": "0.1.0",
+    "@livemira-next/web": "0.1.0"
+  }
+}

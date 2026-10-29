@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>目标图评分</title>
+    <style>
+      :root {
+        --ink: #fff8ee;
+        --muted: rgba(255, 248, 238, 0.66);
+        --card: rgba(255, 248, 238, 0.06);
+        --line: rgba(255, 248, 238, 0.14);
+        --accent: #c0674a;
+        --gold: #f2b84b;
+      }
+      html,
+      body {
+        margin: 0;
+        background: #1d1810;
+        color: var(--ink);
+        font:
+          16px/1.55 -apple-system,
+          BlinkMacSystemFont,
+          'PingFang SC',
+          'Noto Sans SC',
+          system-ui,
+          sans-serif;
+      }
+      main {
+        box-sizing: border-box;
+        max-width: 980px;
+        margin: 0 auto;
+        padding: calc(20px + env(safe-area-inset-top)) 16px calc(32px + env(safe-area-inset-bottom));
+        display: grid;
+        gap: 22px;
+      }
+      h1 {
+        margin: 0;
+        font-size: 28px;
+      }
+      h2 {
+        margin: 0 0 10px;
+        font-size: 19px;
+      }
+      p {
+        margin: 0;
+        color: var(--muted);
+      }
+      a {
+        color: #f2b49d;
+      }
+      section {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 16px;
+      }
+      .pick {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        align-items: center;
+      }
+      button,
+      .file {
+        font: inherit;
+        font-size: 15px;
+        color: var(--ink);
+        background: rgba(255, 248, 238, 0.1);
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 8px 16px;
+        cursor: pointer;
+      }
+      button.primary {
+        background: var(--accent);
+        border-color: var(--accent);
+      }
+      button:disabled {
+        opacity: 0.45;
+        cursor: default;
+      }
+      .file input {
+        display: none;
+      }
+      #video-box {
+        display: grid;
+        gap: 10px;
+        margin-top: 12px;
+      }
+      #video-box[hidden] {
+        display: none;
+      }
+      video {
+        width: 100%;
+        max-height: 320px;
+        background: #000;
+        border-radius: 10px;
+      }
+      input[type='range'] {
+        width: 100%;
+      }
+      .result {
+        display: grid;
+        grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+        gap: 16px;
+        align-items: start;
+      }
+      @media (max-width: 720px) {
+        .result {
+          grid-template-columns: minmax(0, 1fr);
+        }
+      }
+      canvas {
+        width: 100%;
+        height: auto;
+        border-radius: 10px;
+        background: #000;
+        display: block;
+      }
+      .stars {
+        position: relative;
+        display: inline-block;
+        font-size: 30px;
+        line-height: 1;
+        letter-spacing: 3px;
+        color: rgba(255, 248, 238, 0.22);
+      }
+      .stars::before {
+        content: '★★★★★';
+      }
+      .stars span {
+        position: absolute;
+        inset: 0 auto 0 0;
+        overflow: hidden;
+        white-space: nowrap;
+        color: var(--gold);
+      }
+      .stars span::before {
+        content: '★★★★★';
+      }
+      .score {
+        font-size: 15px;
+        color: var(--muted);
+        margin-left: 8px;
+      }
+      .bars {
+        display: grid;
+        gap: 8px;
+        margin: 14px 0;
+      }
+      .bar {
+        display: grid;
+        grid-template-columns: 5.5em 1fr 2.6em;
+        gap: 8px;
+        align-items: center;
+        font-size: 14px;
+      }
+      .bar i {
+        display: block;
+        height: 8px;
+        border-radius: 4px;
+        background: rgba(255, 248, 238, 0.12);
+        overflow: hidden;
+      }
+      .bar i b {
+        display: block;
+        height: 100%;
+        background: var(--gold);
+      }
+      .bar.test {
+        font-size: 13px;
+        color: var(--muted);
+      }
+      .bar.test span {
+        padding-left: 1em;
+      }
+      .bar.test i b {
+        background: rgba(242, 184, 75, 0.6);
+      }
+      .bar em {
+        font-style: normal;
+        color: var(--muted);
+        text-align: right;
+      }
+      ul.advice {
+        margin: 0;
+        padding-left: 1.2em;
+        color: var(--ink);
+        font-size: 14px;
+        display: grid;
+        gap: 4px;
+      }
+      .legend {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 6px;
+      }
+      .samples {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+        gap: 14px;
+      }
+      .sample {
+        display: grid;
+        gap: 6px;
+        font-size: 14px;
+      }
+      .sample .stars {
+        font-size: 20px;
+      }
+      .sample small {
+        color: var(--muted);
+      }
+      .tag {
+        font-size: 12px;
+        padding: 1px 8px;
+        border-radius: 999px;
+        background: rgba(192, 103, 74, 0.35);
+        white-space: nowrap;
+      }
+      .levels {
+        margin: 10px 0 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+        gap: 2px;
+        font-size: 14px;
+        color: var(--muted);
+      }
+      .levels b {
+        color: var(--gold);
+        font-weight: 600;
+        display: inline-block;
+        min-width: 5.5em;
+      }
+      .head {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px 16px;
+        align-items: baseline;
+        justify-content: space-between;
+        margin-bottom: 12px;
+      }
+      select {
+        font: inherit;
+        font-size: 14px;
+        color: var(--ink);
+        background: rgba(255, 248, 238, 0.1);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 4px 8px;
+      }
+      .status {
+        font-size: 14px;
+        color: var(--muted);
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <div>
+        <h1>目标图评分</h1>
+        <p>
+          为扫描用的照片打分（满分 5
+          星）。不只看识别点有多少，还看点是否铺满整张图，并用引擎自己的检测器在由易到难的合成画面（缩小、斜拍、晃动模糊、暗光、部分遮挡）上实测。点集中在某一块、或只在理想条件下才认得出的图，都不会高分。
+          <a href="index.html">返回示例</a>
+        </p>
+        <ul class="levels">
+          <li><b>★★★★★ 5</b>各方面都接近最好：小、斜、晃、暗、被挡时也多能认出</li>
+          <li><b>★★★★ 4–4.5</b>好，适合作为目标图</li>
+          <li><b>★★★ 3–3.5</b>可用：正对、距离适中时稳定，偏小、斜拍或晃动时容易丢失</li>
+          <li><b>★★ 2–2.5</b>勉强，建议换图或换帧</li>
+          <li><b>★ 0.5–1.5</b>不建议作为目标图</li>
+        </ul>
+      </div>
+
+      <section>
+        <h2>选择目标图</h2>
+        <div class="pick">
+          <label class="file">上传图片<input id="image-file" type="file" accept="image/*" /></label>
+          <label class="file">上传视频，选一帧<input id="video-file" type="file" accept="video/*" /></label>
+        </div>
+        <div id="video-box" hidden>
+          <video id="video" muted playsinline preload="auto"></video>
+          <div class="pick">
+            <button id="first" type="button">首帧</button>
+            <button id="last" type="button">尾帧</button>
+            <button id="use" type="button" class="primary">用当前帧</button>
+            <span class="status" id="time"></span>
+          </div>
+          <input id="seek" type="range" min="0" max="1" step="0.01" value="0" aria-label="自定义帧" />
+        </div>
+      </section>
+
+      <section id="result-box" hidden>
+        <h2>评分</h2>
+        <div class="result">
+          <div>
+            <canvas id="overlay"></canvas>
+            <p class="legend">
+              金色点：引擎能从多个角度稳定认出的细节点；网格越亮点越多；红框：细节最少的一角。右侧缩进的五项是“实测识别”的明细。
+            </p>
+          </div>
+          <div>
+            <div>
+              <span class="stars" id="stars"><span></span></span><span class="score" id="score"></span>
+            </div>
+            <div class="bars" id="bars"></div>
+            <ul class="advice" id="advice"></ul>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="head">
+          <h2 id="samples-title" style="margin: 0">0.4.1 示例目标图的评分</h2>
+          <select id="sort" hidden aria-label="排序">
+            <option value="id">按编号</option>
+            <option value="stars">按评分</option>
+          </select>
+        </div>
+        <p style="margin-bottom: 12px">
+          用新评分现场计算。“0.4.1 旧评分”由 0.4.1 自带的评分模块算出，仅作对照：它只统计 0.4.1
+          自己的特征点。“仿真实测”是离线在仿真场景里用新引擎实测的稳健程度（较难条件下的检测率与手持跟踪的平均，0–100），新评分按它校准。
+        </p>
+        <p class="status" id="summary"></p>
+        <div class="samples" id="samples"></div>
+      </section>
+      <p class="status" id="status"></p>
+    </main>
+    <script type="module" src="rate.js"></script>
+  </body>
+</html>

@@ -1,0 +1,16 @@
+[package]
+name = "livemira-kernels"
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+description = "WASM SIMD kernels of LiveMira Next (B1): Hamming nearest-two search over 256-bit descriptors and FAST-9 corner scoring."
+
+[lib]
+crate-type = ["cdylib"]
+path = "src/lib.rs"
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"

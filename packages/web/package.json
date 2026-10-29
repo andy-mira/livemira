@@ -1,0 +1,35 @@
+{
+  "name": "@livemira-next/web",
+  "version": "0.1.0",
+  "private": true,
+  "description": "The engine's browser layer: capability probing, camera frames to gray (Worker MediaStreamTrackProcessor, VideoFrame luma), the vision and relocalisation Worker roles, engine profiles, and pictures to targets.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
+    "./vision": {
+      "types": "./src/vision-worker.ts",
+      "default": "./src/vision-worker.ts"
+    },
+    "./picture": {
+      "types": "./src/picture.ts",
+      "default": "./src/picture.ts"
+    },
+    "./relocalizer": {
+      "types": "./src/relocalize-worker.ts",
+      "default": "./src/relocalize-worker.ts"
+    }
+  },
+  "dependencies": {
+    "@livemira-next/contracts": "0.1.0",
+    "@livemira-next/features": "0.1.0",
+    "@livemira-next/filters": "0.1.0",
+    "@livemira-next/geometry": "0.1.0",
+    "@livemira-next/imaging": "0.1.0",
+    "@livemira-next/tracking": "0.1.0"
+  }
+}

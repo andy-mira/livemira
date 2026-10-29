@@ -1,0 +1,15 @@
+{
+  "name": "@livemira-next/contracts",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Contracts shared by the engine's modules: images, time, poses, module metadata and the per-layer interfaces.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  }
+}

@@ -1,0 +1,77 @@
+# Local-only files: /Docs/, and docs/ apart from the release guides in docs/release/ (the source of the
+# release's READMEs and documentation). On a case-insensitive disk Docs/ and docs/ are one directory.
+/Docs/*
+/docs/*
+!/docs/release/
+
+# Dependencies and build output
+node_modules/
+dist/
+build/
+# Build tests are source, not output.
+!/tests/build/
+out/
+coverage/
+*.tsbuildinfo
+.cache/
+.turbo/
+.parcel-cache/
+
+# Logs, test output and run artifacts
+logs/
+*.log
+npm-debug.log*
+test-results/
+playwright-report/
+reports/
+artifacts/
+tmp/
+temp/
+
+# Development evidence (device logs, recordings, captures)
+evidence/
+device-test-logs/
+*.mp4
+*.mov
+*.MP4
+*.MOV
+*.har
+# Release assets are source-built artifacts, not development evidence.
+!release/**/*.mp4
+!release/**/*.webm
+# The demo video the release is built from.
+!/bench/release/assets/*.mp4
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+
+# Local editor configuration and OS files
+.vscode/
+.idea/
+.claude/
+.codex/
+AGENTS.md
+CLAUDE.md
+*.swp
+.DS_Store
+Thumbs.db
+
+# Local integration configuration
+.mcp.json
+.mcp.json.backup.*
+
+.aoci/
+aoci*.txt
+kernels/*/target/
+bench/results/release/
+# Test records stay local, except those the code reads; so do the calibration pictures.
+/bench/results/*
+!/bench/results/p6-search/
+!/bench/results/r2-variants/
+!/bench/results/pattern/
+/bench/assets/target-set/

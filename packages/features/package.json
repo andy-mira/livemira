@@ -1,0 +1,20 @@
+{
+  "name": "@livemira-next/features",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Detection: oriented multi-scale binary features (FAST + Harris ranking, intensity-centroid orientation, steered BRIEF), WASM SIMD Hamming matching, the view-synthesis target compiler, the target format and the detector.",
+  "license": "Apache-2.0",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
+  "dependencies": {
+    "@livemira-next/contracts": "0.1.0",
+    "@livemira-next/geometry": "0.1.0",
+    "@livemira-next/imaging": "0.1.0"
+  }
+}
