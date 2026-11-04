@@ -16,8 +16,9 @@
 
 **Try it now: point your phone camera at the sample pictures on the [live demo](https://andy-mira.github.io/livemira/targets.html) — no install, no server, nothing uploaded.**
 
-The engine and the camera UI are on npm: `npm install @livemira/engine@0.5.1 @livemira/ui@0.5.1`. Prebuilt modules, offline npm
-packages, the target rating and the demo are in the [0.5.1 release](release/0.5.1/README.md).
+The engine, the camera UI and the target rating are on npm: `npm install @livemira/engine@0.5.1 @livemira/ui@0.5.1
+@livemira/target-rating@0.5.1`. Prebuilt modules, offline npm
+packages and the demo are in the [0.5.1 release](release/0.5.1/README.md).
 
 LiveMira is a browser engine for **image-target AR**: it recognizes a prepared picture in the live camera image,
 tracks it and plays a video on it. Recognition and tracking run in a Web Worker on the device; the page needs no

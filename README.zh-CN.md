@@ -9,7 +9,7 @@
 
 **现在就试：用手机相机对着[在线 Demo](https://andy-mira.github.io/livemira/targets.html) 里的示例图片——无需安装、无需服务端、不上传任何内容。**
 
-引擎与相机界面已发布到 npm：`npm install @livemira/engine@0.5.1 @livemira/ui@0.5.1`。预构建模块、npm 离线包、目标图评分和 Demo 见[0.5.1 发布版](release/0.5.1/README.zh-CN.md)。
+引擎、相机界面与目标图评分均已发布到 npm：`npm install @livemira/engine@0.5.1 @livemira/ui@0.5.1 @livemira/target-rating@0.5.1`。预构建模块、npm 离线包和 Demo 见[0.5.1 发布版](release/0.5.1/README.zh-CN.md)。
 
 LiveMira 是用于**图片目标 AR** 的浏览器引擎：在实时相机画面中识别预先准备好的图片，持续跟踪它，并在其上播放视频。识别与跟踪在设备上的 Web Worker 中运行；页面不需要服务端组件，也不上传任何内容。
 
