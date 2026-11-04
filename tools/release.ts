@@ -30,7 +30,7 @@ import { fileURLToPath } from 'node:url';
 
 import { buildEngine, buildRating, buildUi } from './bundle.ts';
 
-export const VERSION = '0.5.0';
+export const VERSION = '0.5.1';
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const DOCS = join(ROOT, 'docs/release');
 
@@ -207,11 +207,9 @@ export async function release(options: { allowDirty: boolean; out?: string }): P
     cpSync(join(DOCS, 'documentation', doc), join(out, 'documentation', doc));
 
   // Demo: the page, the minified modules and the sample media.
-  for (const f of ['index.html', 'demo.js', 'targets.html', 'rate.html', 'rate.js'])
-    cpSync(join(ROOT, 'demo', f), join(out, 'demo', f));
+  for (const f of ['index.html', 'demo.js', 'targets.html']) cpSync(join(ROOT, 'demo', f), join(out, 'demo', f));
   writeFileSync(join(out, 'demo/livemira-engine.min.mjs'), engine.minified.code);
   writeFileSync(join(out, 'demo/livemira-ui.min.mjs'), ui.minified);
-  writeFileSync(join(out, 'demo/livemira-target-rating.min.mjs'), rating.minified.code);
   for (const f of readdirSync(join(ROOT, 'bench/release/assets')).filter((f) => f !== '.DS_Store'))
     cpSync(join(ROOT, 'bench/release/assets', f), join(out, 'demo/assets', f));
 

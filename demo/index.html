@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>LiveMira 示例</title>
+    <title>LiveMira Demo</title>
     <style>
       html,
       body {
@@ -46,36 +46,7 @@
         margin: 0;
         color: rgba(255, 248, 238, 0.8);
       }
-      .row {
-        display: grid;
-        grid-template-columns: auto 1fr;
-        gap: 10px 12px;
-        align-items: center;
-        font-size: 14px;
-      }
-      select {
-        font: inherit;
-        color: #1d1810;
-        background: #fff8ee;
-        border: 0;
-        border-radius: 10px;
-        padding: 8px 10px;
-      }
-      .start {
-        font: inherit;
-        font-size: 17px;
-        font-weight: 600;
-        color: #fff8ee;
-        background: #c0674a;
-        border: 0;
-        border-radius: 999px;
-        padding: 14px 20px;
-        cursor: pointer;
-        box-shadow: 0 8px 24px rgba(192, 103, 74, 0.35);
-      }
-      .start:active {
-        transform: scale(0.98);
-      }
+
       a {
         color: #f2b49d;
       }
@@ -89,35 +60,9 @@
     <main class="landing" id="landing">
       <h1>LiveMira<small id="version"></small></h1>
       <p>
-        扫描照片，看见视频。在另一块屏幕上打开<a href="targets.html" target="_blank">识别图片</a
-        >（或打印出来），然后开始扫描。
+        Scan a photo, see a video. <a href="targets.html" target="_blank">Target images here</a> — open on another
+        screen or print.
       </p>
-      <div class="row">
-        <label for="profile">档位</label>
-        <select id="profile">
-          <option value="swift">Swift 雨燕（默认，均衡）</option>
-          <option value="hawk">Hawk 鹰（最精准，较耗电）</option>
-          <option value="wren">Wren 鹪鹩（兼容最广）</option>
-        </select>
-        <label for="scale">处理尺寸</label>
-        <select id="scale">
-          <option value="1">相机原尺寸（默认，最稳）</option>
-          <option value="0.75">3/4</option>
-          <option value="0.5">1/2（最省电）</option>
-        </select>
-        <label for="fit">取景</label>
-        <select id="fit">
-          <option value="cover">铺满屏幕</option>
-          <option value="contain">完整画面</option>
-        </select>
-        <label for="lang">语言</label>
-        <select id="lang">
-          <option value="zh-CN">简体中文</option>
-          <option value="en">English</option>
-        </select>
-      </div>
-      <button class="start" id="start" type="button">开始扫描</button>
-      <p>选照片前，可以先给它<a href="rate.html">打个分</a>（支持从视频中选帧）。</p>
       <p class="meta" id="build"></p>
     </main>
     <script type="module" src="demo.js"></script>

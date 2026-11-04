@@ -10,6 +10,8 @@ export const ZH_CN: ArMessages = Object.freeze({
   reloadVideo: '重新加载视频',
   soundOn: '开启声音',
   soundOff: '关闭声音',
+  language: 'EN',
+  languageSwitch: '切换到英文',
   skipped: '有 {count} 张照片不适合扫描，已跳过。',
   'loader.engine': '正在加载识别组件…',
   'loader.photos': '正在准备照片 {done}/{total}',
@@ -56,6 +58,8 @@ export const EN: ArMessages = Object.freeze({
   reloadVideo: 'Reload video',
   soundOn: 'Turn sound on',
   soundOff: 'Turn sound off',
+  language: '中',
+  languageSwitch: 'Switch to Chinese',
   skipped: {
     one: '{count} photo is not suitable for scanning and was skipped.',
     other: '{count} photos are not suitable for scanning and were skipped.',

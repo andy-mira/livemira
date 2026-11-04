@@ -76,22 +76,25 @@ export const STYLE_TEXT = `
   background: var(--lm-ar-curtain, #000); color: var(--lm-ar-fg); font-size: 14px;
 }
 
-.lm-ar__exit, .lm-ar__sound {
-  position: absolute; z-index: 5; top: calc(10px + env(safe-area-inset-top)); display: grid; place-items: center;
+.lm-ar__exit, .lm-ar__language, .lm-ar__sound {
+  position: absolute; z-index: 5; display: grid; place-items: center;
   min-width: 44px; min-height: 44px; margin: 0; padding: 0; border: 0; border-radius: var(--lm-ar-control-radius);
   background: var(--lm-ar-chip-bg); color: var(--lm-ar-fg); font: inherit; text-decoration: none; cursor: pointer;
   -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); transition: transform 0.15s ease, background-color 0.2s ease;
 }
-.lm-ar__exit:active, .lm-ar__sound:active { transform: scale(0.94); }
+.lm-ar__exit:active, .lm-ar__language:active, .lm-ar__sound:active { transform: scale(0.94); }
+.lm-ar__exit, .lm-ar__language { top: calc(10px + env(safe-area-inset-top)); }
 .lm-ar__exit { left: calc(10px + env(safe-area-inset-left)); font-size: 28px; line-height: 1; }
-.lm-ar__sound { right: calc(10px + env(safe-area-inset-right)); width: 44px; }
+.lm-ar__language { right: calc(10px + env(safe-area-inset-right)); padding: 0 12px; font-size: 15px; font-weight: 600; line-height: 1; }
+/* Bottom right, level with the buttons; the buttons' row keeps clear of it (see .lm-ar__controls). */
+.lm-ar__sound { right: calc(10px + env(safe-area-inset-right)); bottom: calc(10px + env(safe-area-inset-bottom)); width: 44px; }
 .lm-ar__sound--attention { background: var(--lm-ar-accent); animation: lm-ar-pulse 1.4s ease-in-out infinite; }
 @keyframes lm-ar-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(192, 103, 74, 0.55); } 50% { box-shadow: 0 0 0 10px rgba(192, 103, 74, 0); } }
-.lm-ar__exit:focus-visible, .lm-ar__sound:focus-visible, .lm-ar__button:focus-visible { outline: 2px solid var(--lm-ar-focus); outline-offset: 2px; }
+.lm-ar__exit:focus-visible, .lm-ar__language:focus-visible, .lm-ar__sound:focus-visible, .lm-ar__button:focus-visible { outline: 2px solid var(--lm-ar-focus); outline-offset: 2px; }
 .lm-ar__icon { display: block; width: 20px; height: 20px; fill: currentColor; }
 
 .lm-ar__hud {
-  /* A row below the 44px exit/sound row, so the status never collides with them. */
+  /* A row below the 44px exit/language row, so the status never collides with them. */
   position: absolute; z-index: 4; left: calc(12px + env(safe-area-inset-left)); right: calc(12px + env(safe-area-inset-right));
   top: calc(62px + env(safe-area-inset-top)); display: grid; justify-items: center; gap: 6px; pointer-events: none;
 }
@@ -111,7 +114,8 @@ export const STYLE_TEXT = `
 
 .lm-ar__controls {
   position: absolute; left: 0; right: 0; bottom: 0; z-index: 4; display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;
-  padding: 12px calc(12px + env(safe-area-inset-right)) calc(16px + env(safe-area-inset-bottom)) calc(12px + env(safe-area-inset-left));
+  /* 62px a side (10px + 44px + 8px) keeps the centred buttons clear of the sound control in the corner. */
+  padding: 12px calc(62px + env(safe-area-inset-right)) calc(16px + env(safe-area-inset-bottom)) calc(62px + env(safe-area-inset-left));
 }
 .lm-ar__button {
   display: inline-flex; align-items: center; justify-content: center; min-height: 40px; margin: 0; padding: 0 20px; border: 1px solid transparent;

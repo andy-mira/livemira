@@ -1,5 +1,0 @@
-* text=auto eol=lf
-release/** -text
-api/*.api.md -text
-*.min.mjs -text
-*.min.js -text

@@ -8,6 +8,3 @@ release/
 
 # Third-party picture set, kept as received
 bench/assets/target-set/
-
-# The integration guides ship byte-identical in the release packages.
-/documentation/

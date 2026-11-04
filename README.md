@@ -3,17 +3,17 @@
 [English](README.md) | [简体中文](README.zh-CN.md)
 
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
-[![Engine](https://img.shields.io/badge/engine-0.5.0-orange.svg)](https://github.com/andy-mira/livemira/releases/tag/v0.5.0)
+[![Engine](https://img.shields.io/badge/engine-0.5.1-orange.svg)](https://github.com/andy-mira/livemira/releases/tag/v0.5.1)
 [![Docs](https://img.shields.io/badge/docs-EN%20%7C%20%E4%B8%AD%E6%96%87-informational.svg)](README.zh-CN.md)
 
 The engine and the camera UI are on npm: `npm install @livemira/engine @livemira/ui`. Prebuilt modules, offline npm
-packages, the target rating and the demo are in the [0.5.0 release](release/0.5.0/README.md).
+packages, the target rating and the demo are in the [0.5.1 release](release/0.5.1/README.md).
 
 LiveMira is a browser engine for **image-target AR**: it recognizes a prepared picture in the live camera image,
 tracks it and plays a video on it. Recognition and tracking run in a Web Worker on the device; the page needs no
 server component and uploads nothing.
 
-**Status:** 0.5.0, the next-generation engine: recognition, tracking and composition are new, and so is the engine
+**Status:** 0.5.1, the next-generation engine: recognition, tracking and composition are new, and so is the engine
 API. The camera UI `@livemira/ui` keeps its 0.4.1 API. A standalone module `@livemira/target-rating` rates a
 picture as a recognition target without loading the engine. See the
 [upgrade notes](documentation/migration-0.4-to-0.5.zh-CN.md) (Chinese) and the
@@ -56,7 +56,7 @@ npm run build:kernels   # only when the kernels change (needs Rust)
 node tools/release.ts
 ```
 
-Try the demo in `release/0.5.0/demo/` over HTTPS or localhost; camera access requires a secure context and user
+Try the demo in `release/0.5.1/demo/` over HTTPS or localhost; camera access requires a secure context and user
 permission. Its sample target pictures are not in this repository: put pictures with the names in its `demo.js` into its
 `assets/`, or wait for the next release, which brings new ones.
 

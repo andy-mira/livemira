@@ -1,0 +1,313 @@
+{
+ "about": "The 28 pictures of the benchmark set LiveMira 0.4.1's demo pictures come from (WebAR-Mobile-Benchmark round 2: 24 targets and 4 flower negatives, CC0, 512 px long edge); 0.4.1's demo shipped bird-01, forest-03, mountain-01 and ship-01. old041: 0.4.1's own scorer (livemira-target-quality). measured: bench/src/measure-targets.ts (hard-condition detection and hand-held tracking in the bench scene, 0-100).",
+ "pictures": [
+  {
+   "id": "bird-01",
+   "group": "鸟",
+   "title": "Bird in Motion Entering Bird House.png",
+   "author": "Findif",
+   "source": "https://commons.wikimedia.org/wiki/File:Bird_in_Motion_Entering_Bird_House.png",
+   "license": "CC0-1.0",
+   "inRelease041": true,
+   "old041": 5,
+   "measured": 83
+  },
+  {
+   "id": "bird-02",
+   "group": "鸟",
+   "title": "Emu bird standing.jpg",
+   "author": "Anonymous0006",
+   "source": "https://commons.wikimedia.org/wiki/File:Emu_bird_standing.jpg",
+   "license": "CC0-1.0",
+   "inRelease041": false,
+   "old041": 5,
+   "measured": 85
+  },
+  {
+   "id": "bird-03",
+   "group": "鸟",
+   "title": "Yellow Chest bird Costa Rica.jpg",
+   "author": "Dylan Molina A",
+   "source": "https://commons.wikimedia.org/wiki/File:Yellow_Chest_bird_Costa_Rica.jpg",
+   "license": "CC0-1.0",
+   "inRelease041": false,
+   "old041": 3.7,
+   "measured": 62
+  },
+  {
+   "id": "bird-04",
+   "group": "鸟",
+   "title": "Bird at Wingham Wildlife Park.jpg",
+   "author": "Salwa Farwaneh Dameh",
+   "source": "https://commons.wikimedia.org/wiki/File:Bird_at_Wingham_Wildlife_Park.jpg",
+   "license": "CC0-1.0",
+   "inRelease041": false,
+   "old041": 4.9,
+   "measured": 84
+  },
+  {
+   "id": "building-01",
+   "group": "建筑",
+   "title": "Building in Paulista Avenue 09.jpg",
+   "author": "Wilfredor",
+   "source": "https://commons.wikimedia.org/wiki/File:Building_in_Paulista_Avenue_09.jpg",
+   "license": "CC0-1.0",
+   "inRelease041": false,
+   "old041": 3.9,
+   "measured": 70
+  },
+  {
+   "id": "building-02",
+   "group": "建筑",
+   "title": "Construction of bridge.jpg",
+   "author": "Saral Shots",
+   "source": "https://commons.wikimedia.org/wiki/File:Construction_of_bridge.jpg",
+   "license": "CC0-1.0",
+   "inRelease041": false,
+   "old041": 4.1,
+   "measured": 74
+  },
+  {
+   "id": "building-03",
+   "group": "建筑",
+   "title": "Bouwvakkers boven op de steigers aan het werk, Bestanddeelnr 254-7350.jpg",
+   "author": "Anefo",
+   "source": "https://commons.wikimedia.org/wiki/File:Bouwvakkers_boven_op_de_steigers_aan_het_werk,_Bestanddeelnr_254-7350.jpg",
+   "license": "CC0-1.0",
+   "inRelease041": false,
+   "old041": 4.8,
+   "measured": 80
+  },
+  {
+   "id": "building-04",
+   "group": "建筑",
+   "title": "Les Portes d'Arcueil, construction 6.jpg",
+   "author": "Syced",
+   "source": "https://commons.wikimedia.org/wiki/File:Les_Portes_d%27Arcueil,_construction_6.jpg",
+   "license": "CC0-1.0",
+   "inRelease041": false,
+   "old041": 5,
+   "measured": 86
+  },
+  {
+   "id": "flower-01",
+   "group": "花",
+   "title": "Hyacinthus Spring flower in early bloom.jpg",
+   "author": "Terry.grignon",
+   "source": "https://commons.wikimedia.org/wiki/File:Hyacinthus_Spring_flower_in_early_bloom.jpg",
+   "license": "CC0-1.0",
+   "inRelease041": false,
+   "old041": 5,
+   "measured": 85
+  },
+  {
+   "id": "flower-02",
+   "group": "花",
+   "title": "Apple flower dissected.jpg",
+   "author": "Gaiacoyote",
+   "source": "https://commons.wikimedia.org/wiki/File:Apple_flower_dissected.jpg",
+   "license": "CC0-1.0",
+   "inRelease041": false,
+   "old041": 4.3,
+   "measured": 84
+  },
+  {
+   "id": "flower-03",
+   "group": "花",
+   "title": "Plantain flower sideways.jpg",
+   "author": "Terry.grignon",
+   "source": "https://commons.wikimedia.org/wiki/File:Plantain_flower_sideways.jpg",
+   "license": "CC0-1.0",
+   "inRelease041": false,
+   "old041": 5,
+   "measured": 89
+  },
+  {
+   "id": "flower-04",
+   "group": "花",
+   "title": "Flower in Penvenan.jpg",
+   "author": "Syced",
+   "source": "https://commons.wikimedia.org/wiki/File:Flower_in_Penvenan.jpg",
+   "license": "CC0-1.0",
+   "inRelease041": false,
+   "old041": 5,
+   "measured": 80
+  },
+  {
+   "id": "forest-01",
+   "group": "森林",
+   "title": "Littoral rainforest Brunswick Heads July 17 2000.jpg",
+   "author": "Poyt448 Peter Woodard",
+   "source": "https://commons.wikimedia.org/wiki/File:Littoral_rainforest_Brunswick_Heads_July_17_2000.jpg",
+   "license": "CC0-1.0",
+   "inRelease041": false,
+   "old041": 4.9,
+   "measured": 74
+  },
+  {
+   "id": "forest-02",
+   "group": "森林",
+   "title": "Forest fence (Unsplash).jpg",
+   "author": "Sandis Helvigs sandishelvigs",
+   "source": "https://commons.wikimedia.org/wiki/File:Forest_fence_(Unsplash).jpg",
+   "license": "CC0-1.0",
+   "inRelease041": false,
+   "old041": 5,
+   "measured": 75
+  },
+  {
+   "id": "forest-03",
+   "group": "森林",
+   "title": "August 2007, Forest near Helsinki airport.jpg",
+   "author": "Syced",
+   "source": "https://commons.wikimedia.org/wiki/File:August_2007,_Forest_near_Helsinki_airport.jpg",
+   "license": "CC0-1.0",
+   "inRelease041": true,
+   "old041": 5,
+   "measured": 80
+  },
+  {
+   "id": "forest-04",
+   "group": "森林",
+   "title": "2021 Forest church Równica.jpg",
+   "author": "Qasinka",
+   "source": "https://commons.wikimedia.org/wiki/File:2021_Forest_church_R%C3%B3wnica.jpg",
+   "license": "CC0-1.0",
+   "inRelease041": false,
+   "old041": 5,
+   "measured": 82
+  },
+  {
+   "id": "fruit-01",
+   "group": "水果",
+   "title": "Tene edible fruit orchard in Herzliya park 8151.jpg",
+   "author": "יעקב",
+   "source": "https://commons.wikimedia.org/wiki/File:Tene_edible_fruit_orchard_in_Herzliya_park_8151.jpg",
+   "license": "CC0-1.0",
+   "inRelease041": false,
+   "old041": 5,
+   "measured": 80
+  },
+  {
+   "id": "fruit-02",
+   "group": "水果",
+   "title": "Blueberries-In-Pack.jpg",
+   "author": "Evan-Amos",
+   "source": "https://commons.wikimedia.org/wiki/File:Blueberries-In-Pack.jpg",
+   "license": "CC0-1.0",
+   "inRelease041": false,
+   "old041": 4.9,
+   "measured": 77
+  },
+  {
+   "id": "fruit-03",
+   "group": "水果",
+   "title": "Loquat fruit tree.jpg",
+   "author": "Sabalo22",
+   "source": "https://commons.wikimedia.org/wiki/File:Loquat_fruit_tree.jpg",
+   "license": "CC0-1.0",
+   "inRelease041": false,
+   "old041": 4.6,
+   "measured": 84
+  },
+  {
+   "id": "fruit-04",
+   "group": "水果",
+   "title": "Outside fruit vendor in Bernhardstraat, San Nicolas (Aruba).jpg",
+   "author": "Ginelly.Q",
+   "source": "https://commons.wikimedia.org/wiki/File:Outside_fruit_vendor_in_Bernhardstraat,_San_Nicolas_(Aruba).jpg",
+   "license": "CC0-1.0",
+   "inRelease041": false,
+   "old041": 5,
+   "measured": 82
+  },
+  {
+   "id": "mountain-01",
+   "group": "山",
+   "title": "Mountain Range (Tumblr).jpg",
+   "author": "jay mantri",
+   "source": "https://commons.wikimedia.org/wiki/File:Mountain_Range_(Tumblr).jpg",
+   "license": "CC0-1.0",
+   "inRelease041": true,
+   "old041": 1.8,
+   "measured": 77
+  },
+  {
+   "id": "mountain-02",
+   "group": "山",
+   "title": "Antelope Mountain Utah 2020.jpg",
+   "author": "Jstuby",
+   "source": "https://commons.wikimedia.org/wiki/File:Antelope_Mountain_Utah_2020.jpg",
+   "license": "CC0-1.0",
+   "inRelease041": false,
+   "old041": 4.2,
+   "measured": 79
+  },
+  {
+   "id": "mountain-03",
+   "group": "山",
+   "title": "Juju mountain niger.jpg",
+   "author": "Samsonopaluwa",
+   "source": "https://commons.wikimedia.org/wiki/File:Juju_mountain_niger.jpg",
+   "license": "CC0-1.0",
+   "inRelease041": false,
+   "old041": 4.8,
+   "measured": 82
+  },
+  {
+   "id": "mountain-04",
+   "group": "山",
+   "title": "Black Rock Mountain (Distant).jpg",
+   "author": "Hungry403",
+   "source": "https://commons.wikimedia.org/wiki/File:Black_Rock_Mountain_(Distant).jpg",
+   "license": "CC0-1.0",
+   "inRelease041": false,
+   "old041": 5,
+   "measured": 82
+  },
+  {
+   "id": "ship-01",
+   "group": "船",
+   "title": "OSV Ship Island.jpg",
+   "author": "GuavaTrain",
+   "source": "https://commons.wikimedia.org/wiki/File:OSV_Ship_Island.jpg",
+   "license": "CC0-1.0",
+   "inRelease041": true,
+   "old041": 4.2,
+   "measured": 78
+  },
+  {
+   "id": "ship-02",
+   "group": "船",
+   "title": "Container Ship Dole Maya.jpg",
+   "author": "GuavaTrain",
+   "source": "https://commons.wikimedia.org/wiki/File:Container_Ship_Dole_Maya.jpg",
+   "license": "CC0-1.0",
+   "inRelease041": false,
+   "old041": 4.2,
+   "measured": 74
+  },
+  {
+   "id": "ship-03",
+   "group": "船",
+   "title": "MSC Ship arriving at Vizhinjam Trivandrum port.jpg",
+   "author": "Hobbywriterae",
+   "source": "https://commons.wikimedia.org/wiki/File:MSC_Ship_arriving_at_Vizhinjam_Trivandrum_port.jpg",
+   "license": "CC0-1.0",
+   "inRelease041": false,
+   "old041": 5,
+   "measured": 85
+  },
+  {
+   "id": "ship-04",
+   "group": "船",
+   "title": "Ship Approaching Aruba’s Coastline, taken from Hooiberg 02.jpg",
+   "author": "Ginelly.Q",
+   "source": "https://commons.wikimedia.org/wiki/File:Ship_Approaching_Aruba%E2%80%99s_Coastline,_taken_from_Hooiberg_02.jpg",
+   "license": "CC0-1.0",
+   "inRelease041": false,
+   "old041": 3.1,
+   "measured": 61
+  }
+ ]
+}

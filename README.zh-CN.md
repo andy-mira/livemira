@@ -3,7 +3,7 @@
 [English](README.md) | [简体中文](README.zh-CN.md)
 
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
-[![Engine](https://img.shields.io/badge/engine-0.5.0-orange.svg)](https://github.com/andy-mira/livemira/releases/tag/v0.5.0)
+[![Engine](https://img.shields.io/badge/engine-0.5.1-orange.svg)](https://github.com/andy-mira/livemira/releases/tag/v0.5.1)
 [![Docs](https://img.shields.io/badge/docs-EN%20%7C%20%E4%B8%AD%E6%96%87-informational.svg)](README.md)
 
 引擎与相机界面已发布到 npm：`npm install @livemira/engine @livemira/ui`。预构建模块、npm 离线包、目标图评分和 Demo 见[0.5.0 发布版](release/0.5.0/README.zh-CN.md)。
@@ -43,7 +43,7 @@ npm run build:kernels   # 仅内核变更时需要（需 Rust）
 node tools/release.ts
 ```
 
-试用：把 `release/0.5.0/demo/` 以 HTTPS 或 localhost 提供；相机需要安全上下文与用户授权。示例用的目标图不在本仓库中：可按其中 `demo.js` 里的文件名把图片放进它的 `assets/`，或等下个版本附带的新目标图。
+试用：把 `release/0.5.1/demo/` 以 HTTPS 或 localhost 提供；相机需要安全上下文与用户授权。示例用的目标图不在本仓库中：可按其中 `demo.js` 里的文件名把图片放进它的 `assets/`，或等下个版本附带的新目标图。
 
 ## 仓库结构
 

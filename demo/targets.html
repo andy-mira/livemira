@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>LiveMira 识别图片</title>
+    <title>LiveMira Target Images</title>
     <style>
       html,
       body {
@@ -84,6 +84,18 @@
         text-align: center;
         font-variant-numeric: tabular-nums;
       }
+      .stars {
+        display: inline-flex;
+        align-items: center;
+        gap: 2px;
+        margin-left: 10px;
+        color: #f2b544;
+      }
+      .stars svg {
+        width: 16px;
+        height: 16px;
+        display: block;
+      }
       @media print {
         body {
           display: block;
@@ -110,21 +122,44 @@
   </head>
   <body>
     <header>
-      在电脑或平板上打开本页，用手机对准图片；左右滑动、点箭头或按 ← → 翻页。打印时每张一页。图片来自 Wikimedia
-      Commons，CC0 许可。
+      Open this page on a computer or tablet, then point your phone at an image. Tap the arrows or press ← → to flip.
+      One image per page when printing.
     </header>
     <div class="pages" id="pages">
-      <figure data-name="bird-01 鸟屋"><img src="assets/bird-01.png" alt="鸟屋" /></figure>
-      <figure data-name="forest-03 森林"><img src="assets/forest-03.png" alt="森林" /></figure>
-      <figure data-name="mountain-01 山脉"><img src="assets/mountain-01.png" alt="山脉" /></figure>
-      <figure data-name="ship-01 船"><img src="assets/ship-01.png" alt="船" /></figure>
+      <figure data-name="target Seaside Walk" data-stars="4.5">
+        <img src="assets/target.png" alt="Seaside Walk" />
+      </figure>
+      <figure data-name="demo-memory Light & Memory" data-stars="4">
+        <img src="assets/demo-memory.png" alt="Light and Memory" />
+      </figure>
     </div>
     <nav>
-      <button id="prev" type="button" aria-label="上一张">‹</button>
-      <span id="count"></span>
-      <button id="next" type="button" aria-label="下一张">›</button>
+      <button id="prev" type="button" aria-label="Previous">‹</button>
+      <span id="count"></span><span id="stars" class="stars" aria-hidden="true"></span>
+      <button id="next" type="button" aria-label="Next">›</button>
     </nav>
     <script>
+      // Stars as inline SVG: a font-independent full star and a true half star (left filled, rest dimmed).
+      const STAR_FULL =
+        '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.6l2.83 6.13 6.73.8-5 4.6 1.32 6.64L12 17.5l-5.88 3.27 1.32-6.64-5-4.6 6.73-.8z"/></svg>';
+      const STAR_HALF =
+        '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.6l2.83 6.13 6.73.8-5 4.6 1.32 6.64L12 17.5l-5.88 3.27 1.32-6.64-5-4.6 6.73-.8z" opacity=".35"/><path fill="currentColor" d="M12 2.6v14.9l-5.88 3.27 1.32-6.64-5-4.6 6.73-.8z"/></svg>';
+      const STAR_EMPTY =
+        '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.6l2.83 6.13 6.73.8-5 4.6 1.32 6.64L12 17.5l-5.88 3.27 1.32-6.64-5-4.6 6.73-.8z" opacity=".35"/></svg>';
+      const starsText = (value) => {
+        let out = '';
+        for (let i = 1; i <= 5; i++) {
+          if (value >= i) out += STAR_FULL;
+          else if (value >= i - 0.5) out += STAR_HALF;
+          else out += STAR_EMPTY;
+        }
+        return out;
+      };
+      const renderStars = (value) => {
+        const span = document.getElementById('stars');
+        span.innerHTML = starsText(value);
+        span.setAttribute('aria-label', `Rated ${value} out of 5 stars`);
+      };
       const pages = document.getElementById('pages');
       const figures = [...pages.children];
       const clamp = (i) => Math.max(0, Math.min(figures.length - 1, i));
@@ -143,6 +178,7 @@
         if (shown === heading) heading = null;
         document.getElementById('count').textContent =
           `${shown + 1} / ${figures.length} · ${figures[shown].dataset.name}`;
+        renderStars(Number(figures[shown].dataset.stars) || 0);
         document.getElementById('prev').disabled = shown === 0;
         document.getElementById('next').disabled = shown === figures.length - 1;
         history.replaceState(null, '', `#${shown + 1}`);

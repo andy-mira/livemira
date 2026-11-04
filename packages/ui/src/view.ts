@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
-// The default full-screen camera view. Layout and wording follow the LiveMorae camera (exit top left, sound top right
-// while scanning, status below them, actions at the bottom only when needed); the loader shows real progress (engine,
-// photos, camera) and stays translucent once the camera picture is there; a scanning guide shows where to aim.
+// The default full-screen camera view. Layout and wording follow the LiveMorae camera (exit top left, language top
+// right, status below them, actions at the bottom only when needed, sound bottom right while scanning); the loader
+// shows real progress (engine, photos, camera) and stays translucent once the camera picture is there; a scanning
+// guide shows where to aim.
 // Everything is derived from the session state; the view keeps no state of its own besides its DOM.
 
 import type { ArSessionLike, ArState, ArViewHandle, ArViewOptions, ArViewUpdate, Translator } from './api.ts';
@@ -111,6 +112,11 @@ export function mountArView(container: HTMLElement, session: ArSessionLike, opti
   if (exit instanceof HTMLAnchorElement) exit.href = current.exitHref!;
   else exit.type = 'button';
   exit.textContent = '×';
+  // Labelled with the language it switches to, so a reader of that language can find it.
+  const language = el(doc, 'button', 'lm-ar__language');
+  language.type = 'button';
+  const languageLabel = el(doc, 'span', '');
+  language.append(languageLabel);
   const sound = el(doc, 'button', 'lm-ar__sound');
   sound.type = 'button';
 
@@ -130,7 +136,7 @@ export function mountArView(container: HTMLElement, session: ArSessionLike, opti
   reload.type = 'button';
   controls.append(restart, reload);
 
-  root.append(stage, guide, loader, curtain, exit, sound, hud, controls);
+  root.append(stage, guide, loader, curtain, exit, language, sound, hud, controls);
   container.append(root);
 
   const applyTheme = (): void => {
@@ -139,6 +145,7 @@ export function mountArView(container: HTMLElement, session: ArSessionLike, opti
   applyTheme();
 
   // ---- Actions ----
+  let destroyed = false;
   let started = false;
   const start = (): void => {
     started = true;
@@ -148,6 +155,13 @@ export function mountArView(container: HTMLElement, session: ArSessionLike, opti
   reload.addEventListener('click', () => void session.retryVideo());
   sound.addEventListener('click', () => void session.setMuted(!session.getState().isMuted));
   exit.addEventListener('click', (event) => current.onExit?.(event));
+  // Same path as update({ locale }): a new translator and a render; the session and the camera keep running.
+  language.addEventListener('click', () => {
+    if (destroyed) return;
+    current = { ...current, locale: t.locale === 'en' ? 'zh-CN' : 'en' };
+    t = createTranslator(current);
+    render();
+  });
 
   // ---- Rendering ----
   let leaveTimer: ReturnType<typeof setTimeout> | null = null;
@@ -167,6 +181,7 @@ export function mountArView(container: HTMLElement, session: ArSessionLike, opti
 
   const render = (): void => {
     const s: ArState = session.getState();
+    root.lang = t.locale;
     root.dataset.phase = s.phase;
     root.dataset.view = s.view;
     const preparing = s.phase === 'preparing' || s.phase === 'starting';
@@ -247,6 +262,9 @@ export function mountArView(container: HTMLElement, session: ArSessionLike, opti
     // Controls.
     exit.hidden = !current.onExit && !current.exitHref;
     exit.setAttribute('aria-label', t.t('exit'));
+    languageLabel.textContent = t.t('language');
+    languageLabel.lang = t.locale === 'en' ? 'zh-CN' : 'en';
+    language.setAttribute('aria-label', t.t('languageSwitch'));
     sound.hidden = !scanning;
     if (sound.dataset.muted !== String(s.isMuted)) {
       sound.dataset.muted = String(s.isMuted);
@@ -300,7 +318,6 @@ export function mountArView(container: HTMLElement, session: ArSessionLike, opti
   doc.addEventListener('visibilitychange', onVisibility);
   win?.addEventListener('pagehide', onHidden);
 
-  let destroyed = false;
   return {
     element: root,
     update(change: ArViewUpdate) {
