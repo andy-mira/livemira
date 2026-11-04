@@ -50,15 +50,15 @@ npm install --offline --ignore-scripts --no-audit --no-fund && npm run build && 
 
 ## 三、行为变化（用户能感觉到的）
 
-| 方面       | 变化                                                                                                         |
-| ---------- | ------------------------------------------------------------------------------------------------------------ |
-| 识别与跟踪 | 新一代引擎（默认档位 Swift）。真机测试中跟随更稳、大斜角更好，不支持 WebGL2 的设备不再识别并会提示。         |
-| 准备阶段   | 照片编译与打开相机同时进行，相机授权提示更早出现；中间显示带百分比的加载卡片。                               |
+| 方面       | 变化                                                                                                               |
+| ---------- | ------------------------------------------------------------------------------------------------------------------ |
+| 识别与跟踪 | 新一代引擎（默认档位 Swift）。真机测试中跟随更稳、大斜角更好，不支持 WebGL2 的设备不再识别并会提示。               |
+| 准备阶段   | 照片编译与打开相机同时进行，相机授权提示更早出现；中间显示带百分比的加载卡片。                                     |
 | 视频加载   | 识别后立即出现与视频同比例的半透明黑色区域，中间转圈；视频能播放时从区域中心向四周展开。见下文第四节（边下边播）。 |
-| 扫描引导   | 未识别时屏幕中央显示扫描框。                                                                                 |
-| 振动       | 识别到照片时轻振一下（Android 支持时）。如不需要，在 `mountScanCamera` 的选项里加 `isHapticEnabled: false`。 |
-| 取景       | `SCAN_OPTIONS` 的 `engineOptions: { camera: { fit: 'contain' } }` 仍然有效，画面与以前一样完整显示。         |
-| 丢失宽限   | 仍为 200 ms，期间视频淡出。                                                                                  |
+| 扫描引导   | 未识别时屏幕中央显示扫描框。                                                                                       |
+| 振动       | 识别到照片时轻振一下（Android 支持时）。如不需要，在 `mountScanCamera` 的选项里加 `isHapticEnabled: false`。       |
+| 取景       | `SCAN_OPTIONS` 的 `engineOptions: { camera: { fit: 'contain' } }` 仍然有效，画面与以前一样完整显示。               |
+| 丢失宽限   | 仍为 200 ms，期间视频淡出。                                                                                        |
 
 0.4 引擎的其他选项（`processingLongEdge`、`capture`、`timestamps`、`tracking.maxPredictionMs`、`adapters`、`extensions`、`diagnostics`）在本版中不存在，LiveMorae 目前也没有使用。
 
@@ -77,7 +77,9 @@ npm install --offline --ignore-scripts --no-audit --no-fund && npm run build && 
 评分是独立模块 `livemira-target-rating.min.mjs`，不需要引擎（[说明](target-rating.zh-CN.md)）。LiveMorae 作品编辑页在用户选定首帧、尾帧、自定义帧或指定图片后调用即可，像 `scanEngine.ts` 那样按版本号动态导入：
 
 ```ts
-const { rateTargetImage } = await import(/* @vite-ignore */ `/assets/livemira/${ENGINE_VERSION}/livemira-target-rating.min.mjs`);
+const { rateTargetImage } = await import(
+  /* @vite-ignore */ `/assets/livemira/${ENGINE_VERSION}/livemira-target-rating.min.mjs`
+);
 const rating = await rateTargetImage(photoFile, { signal });
 ```
 

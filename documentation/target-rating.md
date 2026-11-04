@@ -12,12 +12,12 @@ target the engine would track.
 
 ## Files
 
-| File                                         | Purpose                                                                    |
-| -------------------------------------------- | -------------------------------------------------------------------------- |
-| `files/livemira-target-rating.min.mjs`       | One ES module, Worker embedded (about 47 KB).                              |
-| `files/livemira-target-rating.mjs`           | The same module, readable.                                                 |
-| `files/livemira-target-rating-worker.min.js` | The rating Worker script (classic), for pages whose CSP forbids `blob:`.   |
-| `files/livemira-target-rating.d.ts`          | Declarations.                                                              |
+| File                                         | Purpose                                                                         |
+| -------------------------------------------- | ------------------------------------------------------------------------------- |
+| `files/livemira-target-rating.min.mjs`       | One ES module, Worker embedded (about 47 KB).                                   |
+| `files/livemira-target-rating.mjs`           | The same module, readable.                                                      |
+| `files/livemira-target-rating-worker.min.js` | The rating Worker script (classic), for pages whose CSP forbids `blob:`.        |
+| `files/livemira-target-rating.d.ts`          | Declarations.                                                                   |
 | `npm/livemira-target-rating-*.tgz`           | Offline package `@livemira/target-rating` (not on npm; `npm install` the file). |
 
 Importing the module creates nothing; the first rating starts its Worker, which closes after 4 s idle. One picture is
@@ -33,7 +33,8 @@ try {
   showStars(rating.stars); // 0.5…5 in halves
   if (rating.stars < 3) suggestAnotherFrame(rating.advice);
 } catch (error) {
-  if (error instanceof RatingError && error.code === 'UNSUITABLE_TARGET') showCannotUse(); // the engine would refuse it
+  if (error instanceof RatingError && error.code === 'UNSUITABLE_TARGET')
+    showCannotUse(); // the engine would refuse it
   else if (error?.code !== 'ABORTED') throw error;
 }
 ```
@@ -57,8 +58,9 @@ Factors (0..1): `detail` (points found in at least 5 of the compiler's 14 views)
 picture: grid cells, evenness, the weakest quarter), `distinctiveness` (no look-alikes far apart), `recognition` (the
 detector on synthetic views, five tests from easy to hard: smaller, tilted, motion-blurred, dimmer, partly covered;
 each view tried twice and counted by its margin; per test in `metrics.tests`). Score = 100 × (0.15 detail + 0.4 spread
-+ 0.05 distinctiveness + 0.4 recognition); stars = 0.5 + 4.5 × the score's place between 15 and 95, capped at
-1 + 4 × min(spread, recognition)^0.4: detail crowded in one place, or hardly found in the views, cannot rate high.
+
+- 0.05 distinctiveness + 0.4 recognition); stars = 0.5 + 4.5 × the score's place between 15 and 95, capped at
+  1 + 4 × min(spread, recognition)^0.4: detail crowded in one place, or hardly found in the views, cannot rate high.
 
 `advice`, most important first: `HARD_TO_FIND`, `CONCENTRATED`, `WEAK_QUARTER` (`metrics.weakestQuarter`),
 `FEW_DETAILS`, `REPETITIVE`, and `FAILS_SMALL`, `FAILS_TILTED`, `FAILS_BLURRED`, `FAILS_DIM`, `FAILS_COVERED` (that
