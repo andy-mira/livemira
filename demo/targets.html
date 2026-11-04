@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>LiveMira Target Images</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        background: #f4efe6;
+        color: #1d1810;
+        font:
+          15px/1.5 system-ui,
+          sans-serif;
+      }
+      body {
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+        height: 100vh;
+        height: 100dvh;
+        overflow: hidden;
+      }
+      header {
+        padding: 10px 16px 0;
+        text-align: center;
+        font-size: 13px;
+        color: #6b5a48;
+      }
+      /* One picture per page: the browser's own horizontal scroll snapping (swipe, trackpad, keyboard). */
+      .pages {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        overscroll-behavior-x: contain;
+        scrollbar-width: none;
+        min-height: 0;
+      }
+      .pages::-webkit-scrollbar {
+        display: none;
+      }
+      figure {
+        flex: 0 0 100%;
+        box-sizing: border-box;
+        margin: 0;
+        padding: 12px 16px;
+        scroll-snap-align: center;
+        scroll-snap-stop: always;
+      }
+      /* As large as the page allows, enlarged too: a bigger picture is found from further away. */
+      img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        min-height: 0;
+        object-fit: contain;
+        filter: drop-shadow(0 6px 18px rgba(0, 0, 0, 0.18));
+      }
+      nav {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 16px;
+        padding: 6px 16px 14px;
+      }
+      nav button {
+        font: inherit;
+        font-size: 22px;
+        line-height: 1;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        border: 1px solid rgba(29, 24, 16, 0.2);
+        background: #fff8ee;
+        color: inherit;
+        cursor: pointer;
+      }
+      nav button:disabled {
+        opacity: 0.3;
+        cursor: default;
+      }
+      #count {
+        min-width: 10em;
+        text-align: center;
+        font-variant-numeric: tabular-nums;
+      }
+      .stars {
+        display: inline-flex;
+        align-items: center;
+        gap: 2px;
+        margin-left: 10px;
+        color: #f2b544;
+      }
+      .stars svg {
+        width: 16px;
+        height: 16px;
+        display: block;
+      }
+      @media print {
+        body {
+          display: block;
+          height: auto;
+          overflow: visible;
+        }
+        header,
+        nav {
+          display: none;
+        }
+        .pages {
+          display: block;
+          overflow: visible;
+        }
+        figure {
+          break-after: page;
+        }
+        img {
+          height: auto;
+          filter: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      Open this page on a computer or tablet, then point your phone at an image. Tap the arrows or press ← → to flip.
+      One image per page when printing.
+    </header>
+    <div class="pages" id="pages">
+      <figure data-name="target Seaside Walk" data-stars="4.5">
+        <img src="assets/target.png" alt="Seaside Walk" />
+      </figure>
+      <figure data-name="demo-memory Light & Memory" data-stars="4">
+        <img src="assets/demo-memory.png" alt="Light and Memory" />
+      </figure>
+    </div>
+    <nav>
+      <button id="prev" type="button" aria-label="Previous">‹</button>
+      <span id="count"></span><span id="stars" class="stars" aria-hidden="true"></span>
+      <button id="next" type="button" aria-label="Next">›</button>
+    </nav>
+    <script>
+      // Stars as inline SVG: a font-independent full star and a true half star (left filled, rest dimmed).
+      const STAR_FULL =
+        '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.6l2.83 6.13 6.73.8-5 4.6 1.32 6.64L12 17.5l-5.88 3.27 1.32-6.64-5-4.6 6.73-.8z"/></svg>';
+      const STAR_HALF =
+        '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.6l2.83 6.13 6.73.8-5 4.6 1.32 6.64L12 17.5l-5.88 3.27 1.32-6.64-5-4.6 6.73-.8z" opacity=".35"/><path fill="currentColor" d="M12 2.6v14.9l-5.88 3.27 1.32-6.64-5-4.6 6.73-.8z"/></svg>';
+      const STAR_EMPTY =
+        '<svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2.6l2.83 6.13 6.73.8-5 4.6 1.32 6.64L12 17.5l-5.88 3.27 1.32-6.64-5-4.6 6.73-.8z" opacity=".35"/></svg>';
+      const starsText = (value) => {
+        let out = '';
+        for (let i = 1; i <= 5; i++) {
+          if (value >= i) out += STAR_FULL;
+          else if (value >= i - 0.5) out += STAR_HALF;
+          else out += STAR_EMPTY;
+        }
+        return out;
+      };
+      const renderStars = (value) => {
+        const span = document.getElementById('stars');
+        span.innerHTML = starsText(value);
+        span.setAttribute('aria-label', `Rated ${value} out of 5 stars`);
+      };
+      const pages = document.getElementById('pages');
+      const figures = [...pages.children];
+      const clamp = (i) => Math.max(0, Math.min(figures.length - 1, i));
+      const at = () => clamp(Math.round(pages.scrollLeft / pages.clientWidth));
+      // The page last asked for by a button or key, until the scroll gets there: quick presses add up.
+      let heading = null;
+      const go = (i, behavior = 'smooth') => {
+        heading = clamp(i);
+        pages.scrollTo({ left: heading * pages.clientWidth, behavior });
+      };
+      const step = (delta) => go((heading ?? at()) + delta);
+      // A resize keeps the page shown; the hash (#2) opens a page directly.
+      let shown = clamp((Number(location.hash.slice(1)) || 1) - 1);
+      function update() {
+        shown = at();
+        if (shown === heading) heading = null;
+        document.getElementById('count').textContent =
+          `${shown + 1} / ${figures.length} · ${figures[shown].dataset.name}`;
+        renderStars(Number(figures[shown].dataset.stars) || 0);
+        document.getElementById('prev').disabled = shown === 0;
+        document.getElementById('next').disabled = shown === figures.length - 1;
+        history.replaceState(null, '', `#${shown + 1}`);
+      }
+      document.getElementById('prev').addEventListener('click', () => step(-1));
+      document.getElementById('next').addEventListener('click', () => step(1));
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowLeft') step(-1);
+        else if (event.key === 'ArrowRight') step(1);
+      });
+      pages.addEventListener('scroll', update, { passive: true });
+      addEventListener('resize', () => go(shown, 'instant'));
+      go(shown, 'instant');
+      update();
+    </script>
+  </body>
+</html>
