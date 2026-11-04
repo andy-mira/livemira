@@ -4,13 +4,16 @@
 
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
 [![Engine](https://img.shields.io/badge/engine-0.5.1-orange.svg)](https://github.com/andy-mira/livemira/releases/tag/v0.5.1)
+[![Live demo](https://img.shields.io/badge/demo-live-brightgreen.svg)](https://andy-mira.github.io/livemira/)
 [![Docs](https://img.shields.io/badge/docs-EN%20%7C%20%E4%B8%AD%E6%96%87-informational.svg)](README.md)
 
-引擎与相机界面已发布到 npm：`npm install @livemira/engine @livemira/ui`。预构建模块、npm 离线包、目标图评分和 Demo 见[0.5.0 发布版](release/0.5.0/README.zh-CN.md)。
+**现在就试：用手机相机对着[在线 Demo](https://andy-mira.github.io/livemira/targets.html) 里的示例图片——无需安装、无需服务端、不上传任何内容。**
+
+引擎与相机界面已发布到 npm：`npm install @livemira/engine @livemira/ui`。预构建模块、npm 离线包、目标图评分和 Demo 见[0.5.1 发布版](release/0.5.1/README.zh-CN.md)。
 
 LiveMira 是用于**图片目标 AR** 的浏览器引擎：在实时相机画面中识别预先准备好的图片，持续跟踪它，并在其上播放视频。识别与跟踪在设备上的 Web Worker 中运行；页面不需要服务端组件，也不上传任何内容。
 
-**状态：** 0.5.0，新一代引擎：识别、跟踪与合成全部重写，引擎 API 也是新的。相机界面 `@livemira/ui` 保持 0.4.1 的接口。独立的评分模块 `@livemira/target-rating` 不加载引擎即可给图片作为识别目标的质量打分。见[升级说明](documentation/migration-0.4-to-0.5.zh-CN.md)与[变更记录](CHANGELOG.md)。
+**状态：** 0.5.1，新一代引擎：识别、跟踪与合成全部重写，引擎 API 也是新的。相机界面 `@livemira/ui` 保持 0.4.1 的接口。独立的评分模块 `@livemira/target-rating` 不加载引擎即可给图片作为识别目标的质量打分。见[升级说明](documentation/migration-0.4-to-0.5.zh-CN.md)与[变更记录](CHANGELOG.md)。
 
 **兼容范围：** 验收目前覆盖 iPhone 浏览器（Safari 与 Chromium 系）的 Demo 与一个集成中的产品。Android 与应用内浏览器尚未验证。桌面浏览器的结果不能代表所有设备上的兼容性与性能。
 
@@ -43,7 +46,7 @@ npm run build:kernels   # 仅内核变更时需要（需 Rust）
 node tools/release.ts
 ```
 
-试用：把 `release/0.5.1/demo/` 以 HTTPS 或 localhost 提供；相机需要安全上下文与用户授权。示例用的目标图不在本仓库中：可按其中 `demo.js` 里的文件名把图片放进它的 `assets/`，或等下个版本附带的新目标图。
+试用：把 `release/0.5.1/demo/` 以 HTTPS 或 localhost 提供，或直接打开在线版 [andy-mira.github.io/livemira](https://andy-mira.github.io/livemira/)；相机需要安全上下文与用户授权。
 
 ## 仓库结构
 

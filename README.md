@@ -1,10 +1,20 @@
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.png">
+    <img src="assets/logo.png" width="140" alt="LiveMira logo">
+  </picture>
+</p>
+
 # LiveMira
 
 [English](README.md) | [简体中文](README.zh-CN.md)
 
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
 [![Engine](https://img.shields.io/badge/engine-0.5.1-orange.svg)](https://github.com/andy-mira/livemira/releases/tag/v0.5.1)
+[![Live demo](https://img.shields.io/badge/demo-live-brightgreen.svg)](https://andy-mira.github.io/livemira/)
 [![Docs](https://img.shields.io/badge/docs-EN%20%7C%20%E4%B8%AD%E6%96%87-informational.svg)](README.zh-CN.md)
+
+**Try it now: point your phone camera at the sample pictures on the [live demo](https://andy-mira.github.io/livemira/targets.html) — no install, no server, nothing uploaded.**
 
 The engine and the camera UI are on npm: `npm install @livemira/engine @livemira/ui`. Prebuilt modules, offline npm
 packages, the target rating and the demo are in the [0.5.1 release](release/0.5.1/README.md).
@@ -56,9 +66,9 @@ npm run build:kernels   # only when the kernels change (needs Rust)
 node tools/release.ts
 ```
 
-Try the demo in `release/0.5.1/demo/` over HTTPS or localhost; camera access requires a secure context and user
-permission. Its sample target pictures are not in this repository: put pictures with the names in its `demo.js` into its
-`assets/`, or wait for the next release, which brings new ones.
+Try the demo in `release/0.5.1/demo/` over HTTPS or localhost, or just open the hosted copy at
+[andy-mira.github.io/livemira](https://andy-mira.github.io/livemira/); camera access requires a secure context and user
+permission.
 
 ## Repository
 
