@@ -9,24 +9,59 @@
 
 **现在就试：用手机相机对着[在线 Demo](https://andy-mira.github.io/livemira/targets.html) 里的示例图片——无需安装、无需服务端、不上传任何内容。**
 
-引擎与相机界面已发布到 npm：`npm install @livemira/engine @livemira/ui`。预构建模块、npm 离线包、目标图评分和 Demo 见[0.5.1 发布版](release/0.5.1/README.zh-CN.md)。
+引擎与相机界面已发布到 npm：`npm install @livemira/engine@0.5.1 @livemira/ui@0.5.1`。预构建模块、npm 离线包、目标图评分和 Demo 见[0.5.1 发布版](release/0.5.1/README.zh-CN.md)。
 
 LiveMira 是用于**图片目标 AR** 的浏览器引擎：在实时相机画面中识别预先准备好的图片，持续跟踪它，并在其上播放视频。识别与跟踪在设备上的 Web Worker 中运行；页面不需要服务端组件，也不上传任何内容。
 
-**状态：** 0.5.1，新一代引擎：识别、跟踪与合成全部重写，引擎 API 也是新的。相机界面 `@livemira/ui` 保持 0.4.1 的接口。独立的评分模块 `@livemira/target-rating` 不加载引擎即可给图片作为识别目标的质量打分。见[升级说明](documentation/migration-0.4-to-0.5.zh-CN.md)与[变更记录](CHANGELOG.md)。
+**状态：** 0.5.1，新一代引擎：识别、跟踪与合成全部重写，引擎 API 也是新的。相机界面 `@livemira/ui` 保持 0.4.1 的接口。独立的评分模块 `@livemira/target-rating` 不加载引擎即可给图片作为识别目标的质量打分。见[升级说明](documentation/migration-0.4-to-0.5.zh-CN.md)与[变更记录](release/0.5.1/CHANGELOG.md)。
 
 **兼容范围：** 验收目前覆盖 iPhone 浏览器（Safari 与 Chromium 系）的 Demo 与一个集成中的产品。Android 与应用内浏览器尚未验证。桌面浏览器的结果不能代表所有设备上的兼容性与性能。
 
 ## 使用
 
-```js
-import { createEngine, compileTargetImage } from './livemira-engine.min.mjs';
+把下面的代码保存为 `index.html`，并把 [0.5.1 引擎模块](release/0.5.1/files/livemira-engine.min.mjs)、你的目标图片 `poster.jpg` 和对应视频 `poster.mp4` 放在同一目录。通过 HTTPS 或 localhost 打开页面（不要直接用 `file://`），等待图片编译完成后点击“开始扫描”。引擎模块已内嵌 Worker 和 WebAssembly，无需构建或安装 npm 依赖。
 
-const engine = createEngine({ container: document.getElementById('stage') });
-const target = await compileTargetImage(file); // 也可以先评分：@livemira/target-rating
-await engine.setTargets([{ targetId: 'poster', target, media: { url: './poster.mp4' } }]);
-startButton.onclick = () => engine.start();
+```html
+<!doctype html>
+<html lang="zh-CN">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LiveMira 0.5.1</title>
+  <button id="start" disabled>开始扫描</button>
+  <p id="status" role="status">正在准备目标图片…</p>
+  <div id="stage" style="position: relative; width: 100%; height: 70vh"></div>
+  <script type="module">
+    import { createEngine, compileTargetImage } from './livemira-engine.min.mjs';
+
+    const startButton = document.getElementById('start');
+    const status = document.getElementById('status');
+    const engine = createEngine({
+      container: document.getElementById('stage'),
+    });
+    /** @param {unknown} error */
+    const showError = (error) => {
+      status.textContent = error instanceof Error ? error.message : String(error);
+    };
+    engine.on('error', ({ error }) => showError(error));
+
+    try {
+      const response = await fetch('./poster.jpg');
+      if (!response.ok) throw new Error(`目标图片加载失败: ${response.status}`);
+      const photo = await response.blob();
+      const target = await compileTargetImage(photo, { targetId: 'poster' });
+      await engine.setTargets([target]);
+      engine.setTargetMedia(target.targetId, { url: './poster.mp4' });
+      status.textContent = '点击开始，然后将相机对准 poster.jpg。';
+      startButton.disabled = false;
+      startButton.onclick = () => engine.start().catch(showError);
+    } catch (error) {
+      showError(error);
+    }
+  </script>
+</html>
 ```
+
+0.5.1 中，`compileTargetImage(photo, { targetId })` 返回 `TargetBundle`；`setTargets([target])` 直接接收目标包，视频用 `setTargetMedia(targetId, { url })` 单独绑定。相机需要用户授权；离开扫描页面时调用 `await engine.dispose()` 释放相机及其他资源。使用 Vite 等打包工具时，也可从 `@livemira/engine` 导入这两个函数（先安装上面指定的 0.5.1 版本）。
 
 相机界面 `@livemira/ui` 在引擎之上挂载全屏扫描视图，接口与 0.4.1 相同；见[相机界面指南](documentation/ui.zh-CN.md)与[目标图评分指南](documentation/target-rating.zh-CN.md)。
 
@@ -66,7 +101,7 @@ node tools/release.ts
 | `demo/`                                        | 发布包中的示例站                                                    |
 | `bench/`                                       | 基准套件（合成场景、基线适配器、评分）与真机测试工具                |
 | `documentation/`                               | 集成指南：相机界面、目标图评分、迁移                                |
-| `tools/`、`docs/release/`                      | 构建、同步与检查工具；发布包的说明源文件（README、指南、发布说明）  |
+| `tools/`                                       | 构建、同步与检查工具                                                |
 | `release/`                                     | 已发布的版本（源码构建的产物与校验和）                              |
 
 依赖方向：`bench → packages/* → contracts`。产品包不导入 `bench`。
@@ -79,7 +114,7 @@ node tools/release.ts
 
 ## 许可
 
-版权所有 2026 Andy (@andy-mira)。依据 [Apache License 2.0](LICENSE) 授权；见 [NOTICE](docs/release/NOTICE)。
+版权所有 2026 Andy (@andy-mira)。依据 [Apache License 2.0](LICENSE) 授权；见 [NOTICE](release/0.5.1/NOTICE)。
 
 ## Made with AI
 

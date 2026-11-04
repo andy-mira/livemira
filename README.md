@@ -16,7 +16,7 @@
 
 **Try it now: point your phone camera at the sample pictures on the [live demo](https://andy-mira.github.io/livemira/targets.html) — no install, no server, nothing uploaded.**
 
-The engine and the camera UI are on npm: `npm install @livemira/engine @livemira/ui`. Prebuilt modules, offline npm
+The engine and the camera UI are on npm: `npm install @livemira/engine@0.5.1 @livemira/ui@0.5.1`. Prebuilt modules, offline npm
 packages, the target rating and the demo are in the [0.5.1 release](release/0.5.1/README.md).
 
 LiveMira is a browser engine for **image-target AR**: it recognizes a prepared picture in the live camera image,
@@ -27,7 +27,7 @@ server component and uploads nothing.
 API. The camera UI `@livemira/ui` keeps its 0.4.1 API. A standalone module `@livemira/target-rating` rates a
 picture as a recognition target without loading the engine. See the
 [upgrade notes](documentation/migration-0.4-to-0.5.zh-CN.md) (Chinese) and the
-[changes](CHANGELOG.md).
+[changes](release/0.5.1/CHANGELOG.md).
 
 **Compatibility limits:** Acceptance so far covers iPhone browsers (Safari and Chromium-based) in the demo and in
 an integrating product. Android and in-app browsers remain unverified. Desktop browser results do not establish
@@ -35,14 +35,49 @@ compatibility or performance on every device.
 
 ## Use
 
-```js
-import { createEngine, compileTargetImage } from './livemira-engine.min.mjs';
+Save the following as `index.html`. Put the [0.5.1 engine module](release/0.5.1/files/livemira-engine.min.mjs), your target image `poster.jpg` and its video `poster.mp4` beside it. Serve the directory over HTTPS or localhost (not `file://`), wait for the image to compile, then tap **Start scanning**. The module embeds its Worker and WebAssembly; no build or npm dependencies are needed.
 
-const engine = createEngine({ container: document.getElementById('stage') });
-const target = await compileTargetImage(file); // or rate it first: @livemira/target-rating
-await engine.setTargets([{ targetId: 'poster', target, media: { url: './poster.mp4' } }]);
-startButton.onclick = () => engine.start();
+```html
+<!doctype html>
+<html lang="en">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LiveMira 0.5.1</title>
+  <button id="start" disabled>Start scanning</button>
+  <p id="status" role="status">Preparing the target image…</p>
+  <div id="stage" style="position: relative; width: 100%; height: 70vh"></div>
+  <script type="module">
+    import { createEngine, compileTargetImage } from './livemira-engine.min.mjs';
+
+    const startButton = document.getElementById('start');
+    const status = document.getElementById('status');
+    const engine = createEngine({
+      container: document.getElementById('stage'),
+    });
+    /** @param {unknown} error */
+    const showError = (error) => {
+      status.textContent = error instanceof Error ? error.message : String(error);
+    };
+    engine.on('error', ({ error }) => showError(error));
+
+    try {
+      const response = await fetch('./poster.jpg');
+      if (!response.ok) throw new Error(`Could not load target image: ${response.status}`);
+      const photo = await response.blob();
+      const target = await compileTargetImage(photo, { targetId: 'poster' });
+      await engine.setTargets([target]);
+      engine.setTargetMedia(target.targetId, { url: './poster.mp4' });
+      status.textContent = 'Tap Start, then point the camera at poster.jpg.';
+      startButton.disabled = false;
+      startButton.onclick = () => engine.start().catch(showError);
+    } catch (error) {
+      showError(error);
+    }
+  </script>
+</html>
 ```
+
+In 0.5.1, `compileTargetImage(photo, { targetId })` returns a `TargetBundle`; pass it directly to `setTargets([target])` and bind the video separately with `setTargetMedia(targetId, { url })`. Camera access needs user permission; call `await engine.dispose()` when leaving the scanning page to release the camera and other resources. With a bundler such as Vite, you can instead import these functions from `@livemira/engine` after installing the pinned 0.5.1 package above.
 
 The camera UI `@livemira/ui` mounts a full-screen scanning view over the engine with the same API as 0.4.1; see the
 [camera UI guide](documentation/ui.md) and the [target rating guide](documentation/target-rating.md).
@@ -89,7 +124,7 @@ one workspace.
 | `demo/`                                       | The demo site shipped in the release                                                      |
 | `bench/`                                      | The benchmark suite (synthetic scenes, baseline adapter, scoring) and the device test kit |
 | `documentation/`                              | Integration guides: camera UI, target rating, migration                                   |
-| `tools/`, `docs/release/`                     | Build, sync and check tools; the release guides (READMEs, documentation, release notes)   |
+| `tools/`                                      | Build, sync and check tools                                                               |
 | `release/`                                    | The published releases (source-built artifacts with checksums)                            |
 
 Dependency direction: `bench → packages/* → contracts`. Product packages never import `bench`.
@@ -105,7 +140,7 @@ location).
 
 ## License
 
-Copyright 2026 Andy (@andy-mira). Licensed under the [Apache License 2.0](LICENSE); see [NOTICE](docs/release/NOTICE).
+Copyright 2026 Andy (@andy-mira). Licensed under the [Apache License 2.0](LICENSE); see [NOTICE](release/0.5.1/NOTICE).
 
 ## Made with AI
 
