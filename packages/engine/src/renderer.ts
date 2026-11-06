@@ -187,6 +187,7 @@ export class StageRenderer {
   private readonly rawUploads = new Map<string, boolean>();
   private cameraUvs: number[] = cornerUvs(UPRIGHT);
   private isContextLost = false;
+  private isPaused = false;
 
   constructor(parent: HTMLElement, standardWidth: number, standardHeight: number, options: StageOptions) {
     this.options = options;
@@ -353,6 +354,21 @@ export class StageRenderer {
   /** Draw again at the next display frame even if nothing seems to change (e.g. a plane appeared). */
   invalidate(): void {
     this.dirty = true;
+  }
+
+  /** Stops scheduling draws (a suspended session); nothing is released. */
+  pause(): void {
+    cancelAnimationFrame(this.raf);
+    this.raf = 0;
+    this.isPaused = true;
+  }
+
+  /** Schedules draws again and redraws at the next display frame. */
+  resume(): void {
+    if (!this.isPaused || this.disposed) return;
+    this.isPaused = false;
+    this.dirty = true;
+    this.loop();
   }
 
   private loop(): void {

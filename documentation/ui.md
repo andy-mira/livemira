@@ -7,8 +7,9 @@ requested only once its photo is recognised and played while it downloads, and o
 notices and controls in Simplified Chinese or English, with the layout, colours and wording of the LiveMorae camera.
 There is no engine code inside: the page hands the engine module in through `loadEngine`.
 
-**Status:** 0.5.0. The API is that of 0.4.1; the implementation is new. Passed end-to-end tests with the real engine
-and a synthetic camera in desktop Chromium and WebKit, and was accepted on phones inside LiveMorae.
+**Status:** 0.6.0. The API is that of 0.4.1 plus the additions of 0.5 and 0.6 (suspend and resume, retained videos);
+the implementation is new. Passed end-to-end tests with the real engine and a synthetic camera in desktop Chromium and
+WebKit; 0.5.0 was accepted on phones inside LiveMorae and the 0.6.0 changes on phones by the publisher.
 
 ```js
 import { mountArCamera } from './livemira-ui.min.mjs';
@@ -42,7 +43,28 @@ As in 0.4.1: `loadEngine`, `targets` (`{ id, photo | target, video }`; `target` 
 `presentation`, `workerUrl`), `video` (new: `isStreamed`), `photoMaxEdgePx`, `locale`, `messages`, `translate`, `onExit`, `exitHref`,
 `isStoppedWhenHidden`, `isAutoStart`, `mode`, `theme`; new: `isHapticEnabled`.
 
-State as in 0.4.1, plus `readiness` (0..1 while preparing), `isCameraOn` and `videoProgress`. New message keys:
+State as in 0.4.1, plus `readiness` (the share of photos prepared, 0..1, `null` until the engine is loaded; waiting for
+the camera permission is not part of it, and the view shows that wait as a turning ring with a short hint at the top),
+`isCameraOn`, `isSuspended` and `videoProgress` (of the recognised photo's video).
+
+Each photo's video is requested the first time the photo is recognised and kept for the run: losing and finding the
+photo again, or switching between photos, never requests it twice, and other photos' downloads are not interrupted.
+`stop()` (also exit and `dispose()`) aborts every download and releases all videos; late results are ignored.
+
+A hidden page: by default the view calls `session.suspend()` and, when visible again, `session.resume()`. The engine, the
+prepared photos and the loaded videos are kept; videos pause (no sound), recognition and drawing idle, and the camera
+track is switched off. `suspend()` returns `false` when it cannot (no run, or an older engine module), and the view then
+stops the run. `isStoppedWhenHidden: true` keeps the old behaviour (stop with a notice); `false` leaves the run alone.
+An interruption the browser enforces (the camera ending) still ends the run with its usual error. Suspending also
+switches off the camera track the recognition Worker owns and makes the Worker release incoming frames unprocessed (a
+frame already being processed may finish); the compiled photos stay.
+
+One video plays at a time: the session calls the engine's optional `media.selectTarget(id | null)` with the recognised
+photo, so videos kept for other photos in view stay paused (source kept, nothing drawn), sound and "Reload video" act on
+the recognised one, and a video that finishes loading for another photo does not start. Standalone engine use is
+unchanged: without a call to `selectTarget`, every photo in view plays its video.
+
+New message keys:
 `loader.engine`, `loader.photos`, `loader.camera`, `loader.hint`, `status.loadingProgress`, `status.blocked`,
 `notice.cameraUnavailable`, `notice.unsupported`, `notice.insecure`.
 

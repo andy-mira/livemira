@@ -10,25 +10,26 @@
 [English](README.md) | [简体中文](README.zh-CN.md)
 
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-blue.svg)](LICENSE)
-[![Engine](https://img.shields.io/badge/engine-0.5.1-orange.svg)](https://github.com/andy-mira/livemira/releases/tag/v0.5.1)
+[![Engine](https://img.shields.io/badge/engine-0.6.0-orange.svg)](https://github.com/andy-mira/livemira/releases/tag/v0.6.0)
 [![Live demo](https://img.shields.io/badge/demo-live-brightgreen.svg)](https://andy-mira.github.io/livemira/)
 [![Docs](https://img.shields.io/badge/docs-EN%20%7C%20%E4%B8%AD%E6%96%87-informational.svg)](README.zh-CN.md)
 
 **Try it now: point your phone camera at the sample pictures on the [live demo](https://andy-mira.github.io/livemira/targets.html) — no install, no server, nothing uploaded.**
 
-The engine, the camera UI and the target rating are on npm: `npm install @livemira/engine@0.5.1 @livemira/ui@0.5.1
-@livemira/target-rating@0.5.1`. Prebuilt modules, offline npm
-packages and the demo are in the [0.5.1 release](release/0.5.1/README.md).
+The engine, the camera UI and the target rating are on npm: `npm install @livemira/engine@0.6.0 @livemira/ui@0.6.0
+@livemira/target-rating@0.6.0`. Prebuilt modules, offline npm
+packages and the demo are in the [0.6.0 release](release/0.6.0/README.md).
 
 LiveMira is a browser engine for **image-target AR**: it recognizes a prepared picture in the live camera image,
 tracks it and plays a video on it. Recognition and tracking run in a Web Worker on the device; the page needs no
 server component and uploads nothing.
 
-**Status:** 0.5.1, the next-generation engine: recognition, tracking and composition are new, and so is the engine
+**Status:** 0.6.0, the next-generation engine: recognition, tracking and composition are new, and so is the engine
 API. The camera UI `@livemira/ui` keeps its 0.4.1 API. A standalone module `@livemira/target-rating` rates a
-picture as a recognition target without loading the engine. See the
-[upgrade notes](documentation/migration-0.4-to-0.5.zh-CN.md) (Chinese) and the
-[changes](release/0.5.1/CHANGELOG.md).
+picture as a recognition target without loading the engine. 0.6.0 lets a hidden page suspend a run instead of ending
+it, keeps each run's videos, plays one video at a time and no longer shows a made-up percentage while waiting for
+camera permission. See the [upgrade notes](documentation/migration-0.4-to-0.5.zh-CN.md) (Chinese) and the
+[changelog](CHANGELOG.md).
 
 **Compatibility limits:** Acceptance so far covers iPhone browsers (Safari and Chromium-based) in the demo and in
 an integrating product. Android and in-app browsers remain unverified. Desktop browser results do not establish
@@ -36,14 +37,14 @@ compatibility or performance on every device.
 
 ## Use
 
-Save the following as `index.html`. Put the [0.5.1 engine module](release/0.5.1/files/livemira-engine.min.mjs), your target image `poster.jpg` and its video `poster.mp4` beside it. Serve the directory over HTTPS or localhost (not `file://`), wait for the image to compile, then tap **Start scanning**. The module embeds its Worker and WebAssembly; no build or npm dependencies are needed.
+Save the following as `index.html`. Put the [0.6.0 engine module](release/0.6.0/files/livemira-engine.min.mjs), your target image `poster.jpg` and its video `poster.mp4` beside it. Serve the directory over HTTPS or localhost (not `file://`), wait for the image to compile, then tap **Start scanning**. The module embeds its Worker and WebAssembly; no build or npm dependencies are needed.
 
 ```html
 <!doctype html>
 <html lang="en">
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>LiveMira 0.5.1</title>
+  <title>LiveMira 0.6.0</title>
   <button id="start" disabled>Start scanning</button>
   <p id="status" role="status">Preparing the target image…</p>
   <div id="stage" style="position: relative; width: 100%; height: 70vh"></div>
@@ -78,7 +79,7 @@ Save the following as `index.html`. Put the [0.5.1 engine module](release/0.5.1/
 </html>
 ```
 
-In 0.5.1, `compileTargetImage(photo, { targetId })` returns a `TargetBundle`; pass it directly to `setTargets([target])` and bind the video separately with `setTargetMedia(targetId, { url })`. Camera access needs user permission; call `await engine.dispose()` when leaving the scanning page to release the camera and other resources. With a bundler such as Vite, you can instead import these functions from `@livemira/engine` after installing the pinned 0.5.1 package above.
+In 0.6.0, `compileTargetImage(photo, { targetId })` returns a `TargetBundle`; pass it directly to `setTargets([target])` and bind the video separately with `setTargetMedia(targetId, { url })`. Camera access needs user permission; call `await engine.dispose()` when leaving the scanning page to release the camera and other resources. With a bundler such as Vite, you can instead import these functions from `@livemira/engine` after installing the pinned 0.6.0 package above.
 
 The camera UI `@livemira/ui` mounts a full-screen scanning view over the engine with the same API as 0.4.1; see the
 [camera UI guide](documentation/ui.md) and the [target rating guide](documentation/target-rating.md).
@@ -102,7 +103,7 @@ npm run build:kernels   # only when the kernels change (needs Rust)
 node tools/release.ts
 ```
 
-Try the demo in `release/0.5.1/demo/` over HTTPS or localhost, or just open the hosted copy at
+Try the demo in `release/0.6.0/demo/` over HTTPS or localhost, or just open the hosted copy at
 [andy-mira.github.io/livemira](https://andy-mira.github.io/livemira/); camera access requires a secure context and user
 permission.
 
@@ -124,7 +125,9 @@ one workspace.
 | `kernels/vision`                              | Rust → WebAssembly SIMD kernels (Hamming matching, FAST-9 scoring)                        |
 | `demo/`                                       | The demo site shipped in the release                                                      |
 | `bench/`                                      | The benchmark suite (synthetic scenes, baseline adapter, scoring) and the device test kit |
-| `documentation/`                              | Integration guides: camera UI, target rating, migration                                   |
+| `documentation/`                              | Integration guides: camera UI, target rating, migration (the only copy; releases ship it) |
+| `release-src/`                                | The release's integration guide (`README*.md`) and release notes template                 |
+| `CHANGELOG.md`, `NOTICE`                      | Changes and legal notices; releases ship both                                             |
 | `tools/`                                      | Build, sync and check tools                                                               |
 | `release/`                                    | The published releases (source-built artifacts with checksums)                            |
 
@@ -141,7 +144,7 @@ location).
 
 ## License
 
-Copyright 2026 Andy (@andy-mira). Licensed under the [Apache License 2.0](LICENSE); see [NOTICE](release/0.5.1/NOTICE).
+Copyright 2026 Andy (@andy-mira). Licensed under the [Apache License 2.0](LICENSE); see [NOTICE](NOTICE).
 
 ## Made with AI
 

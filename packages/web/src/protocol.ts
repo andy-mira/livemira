@@ -41,6 +41,12 @@ export type ToWorker =
   | { readonly type: 'resize'; readonly width: number; readonly height: number }
   /** Replace the targets with these target assets (answered by 'targets'); tracking starts over. */
   | { readonly type: 'targets'; readonly assets: readonly ArrayBuffer[] }
+  /**
+   * A hidden page: true switches the track the Worker owns off (`enabled = false`) and drops every incoming frame
+   * (stream, track, 'frame' and 'gray') unprocessed, releasing it at once; the frame being processed may finish.
+   * false switches the track on and starts tracking over. The loaded targets stay.
+   */
+  | { readonly type: 'suspend'; readonly isSuspended: boolean }
   | { readonly type: 'stop' };
 
 export interface DisplayPose {

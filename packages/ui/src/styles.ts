@@ -51,7 +51,7 @@ export const STYLE_TEXT = `
 @keyframes lm-ar-breathe { 0%, 100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.035); } }
 @keyframes lm-ar-sweep { 0% { transform: translateY(-10%); opacity: 0; } 15% { opacity: 1; } 85% { opacity: 1; } 100% { transform: translateY(360%); opacity: 0; } }
 
-/* Loader: a progress ring with the percentage, the current step and a hint. Opaque until the camera shows. */
+/* Loader: a ring (filling for measured work, turning otherwise) with the current step. Opaque until the camera shows. */
 .lm-ar__loader {
   position: absolute; inset: 0; z-index: 2; display: grid; place-content: center; justify-items: center; gap: 14px;
   padding: 24px; text-align: center; background: var(--lm-ar-bg); transition: opacity 0.45s ease, background-color 0.45s ease;
@@ -63,12 +63,15 @@ export const STYLE_TEXT = `
 .lm-ar__ring-track { fill: none; stroke: rgba(255, 248, 238, 0.16); stroke-width: 5; }
 .lm-ar__ring-bar { fill: none; stroke: var(--lm-ar-accent); stroke-width: 5; stroke-linecap: round; transition: stroke-dashoffset 0.4s ease; }
 .lm-ar__ring-glow { fill: none; stroke: var(--lm-ar-accent); stroke-width: 9; opacity: 0.25; filter: blur(4px); transition: stroke-dashoffset 0.4s ease; }
-.lm-ar__percent {
-  position: absolute; inset: 0; display: grid; place-items: center; font-size: 20px; font-weight: 600;
-  font-variant-numeric: tabular-nums; letter-spacing: 0.02em;
-}
+/* Waits without a measure (loading the scanner, the camera permission) turn the ring instead of filling it. */
+.lm-ar__ring--busy svg { animation: lm-ar-turn 1.1s linear infinite; }
+@keyframes lm-ar-turn { from { transform: rotate(-90deg); } to { transform: rotate(270deg); } }
 .lm-ar__step { margin: 0; font-size: 15px; font-weight: 600; }
-.lm-ar__hint { margin: 0; font-size: 13px; color: var(--lm-ar-muted); }
+/* A short line below the exit/language row (like the status), clear of the browser's prompt in the middle. */
+.lm-ar .lm-ar__camera-hint {
+  position: absolute; z-index: 4; left: calc(12px + env(safe-area-inset-left)); right: calc(12px + env(safe-area-inset-right));
+  margin: 0 auto; top: calc(62px + env(safe-area-inset-top)); width: max-content; pointer-events: none;
+}
 
 /* Curtain while the view changes shape: pure black, like the camera's own mask. */
 .lm-ar__curtain {
@@ -98,7 +101,7 @@ export const STYLE_TEXT = `
   position: absolute; z-index: 4; left: calc(12px + env(safe-area-inset-left)); right: calc(12px + env(safe-area-inset-right));
   top: calc(62px + env(safe-area-inset-top)); display: grid; justify-items: center; gap: 6px; pointer-events: none;
 }
-.lm-ar__status {
+.lm-ar__status, .lm-ar__camera-hint {
   display: inline-flex; align-items: center; gap: 8px; margin: 0; padding: 7px 14px; max-width: 100%; border-radius: var(--lm-ar-radius);
   background: var(--lm-ar-chip-bg); font-size: 13px; line-height: 1.4; text-align: center; overflow-wrap: anywhere;
   -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); animation: lm-ar-in 0.25s ease;
@@ -126,7 +129,8 @@ export const STYLE_TEXT = `
 .lm-ar__button:active { transform: scale(0.97); }
 
 @media (prefers-reduced-motion: reduce) {
-  .lm-ar__guide--on, .lm-ar__sweep, .lm-ar__sound--attention, .lm-ar__status { animation: none; }
+  .lm-ar__guide--on, .lm-ar__sweep, .lm-ar__sound--attention, .lm-ar__status, .lm-ar__camera-hint { animation: none; }
+  .lm-ar__ring--busy svg { animation: lm-ar-turn 3s linear infinite; }
   .lm-ar__sweep { display: none; }
   .lm-ar__spinner { animation-duration: 2s; }
   .lm-ar__loader, .lm-ar__guide, .lm-ar__ring-bar, .lm-ar__ring-glow { transition: none; }

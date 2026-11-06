@@ -8,13 +8,13 @@
 
 ## 文件
 
-| 文件                                         | 用途                                                                         |
-| -------------------------------------------- | ---------------------------------------------------------------------------- |
-| `files/livemira-target-rating.min.mjs`       | 单个 ES 模块，Worker 已内嵌（约 47 KB）。                                    |
-| `files/livemira-target-rating.mjs`           | 同一模块的可读版本。                                                         |
-| `files/livemira-target-rating-worker.min.js` | 评分的 Worker 脚本（经典脚本），供 CSP 禁止 `blob:` Worker 的页面使用。      |
-| `files/livemira-target-rating.d.ts`          | 类型声明。                                                                   |
-| `npm/livemira-target-rating-*.tgz`           | 离线包 `@livemira/target-rating`（不在 npm 上，可 `npm install` 这个文件）。 |
+| 文件                                         | 用途                                                                                                          |
+| -------------------------------------------- | ------------------------------------------------------------------------------------------------------------- |
+| `files/livemira-target-rating.min.mjs`       | 单个 ES 模块，Worker 已内嵌（约 47 KB）。                                                                     |
+| `files/livemira-target-rating.mjs`           | 同一模块的可读版本。                                                                                          |
+| `files/livemira-target-rating-worker.min.js` | 评分的 Worker 脚本（经典脚本），供 CSP 禁止 `blob:` Worker 的页面使用。                                       |
+| `files/livemira-target-rating.d.ts`          | 类型声明。                                                                                                    |
+| `npm/livemira-target-rating-*.tgz`           | npm 包 `@livemira/target-rating` 的 tarball，用于离线安装（也可直接 `npm install @livemira/target-rating`）。 |
 
 导入模块不会创建任何东西；第一次评分时才启动 Worker，空闲 4 秒后关闭。同一时间只评一张，其余排队。
 

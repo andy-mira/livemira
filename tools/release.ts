@@ -8,6 +8,13 @@
 //   documentation/, README*.md, CHANGELOG.md, LICENSE, NOTICE, 发布说明.md
 //   release-manifest.json, SHA256SUMS
 //
+// Where each part comes from (nothing is kept twice; published release directories are never read except for the
+// demo's sample media, see DEMO_ASSETS in bundle.ts):
+//   documentation/                      the root documentation/ (the one authoritative copy)
+//   CHANGELOG.md, LICENSE, NOTICE       the repository root
+//   release-src/README*.md, 发布说明.md the integration guide and the release notes template of this release
+//   demo/                               demo/ and the sample media
+//
 //   node tools/release.ts                 release/livemira-<version>/ and its .zip (the working tree must be committed)
 //   node tools/release.ts --allow-dirty   the same from uncommitted sources (sourceCommit marked "-dirty")
 
@@ -28,11 +35,15 @@ import { tmpdir } from 'node:os';
 import { dirname, join, posix, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-import { buildEngine, buildRating, buildUi } from './bundle.ts';
+import { buildEngine, buildRating, buildUi, DEMO_ASSETS } from './bundle.ts';
+import { brokenLinks } from './release-links.ts';
 
-export const VERSION = '0.5.1';
+export const VERSION = '0.6.0';
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const DOCS = join(ROOT, 'docs/release');
+/** The guides: the root documentation/ is the only copy. */
+const DOCUMENTATION = join(ROOT, 'documentation');
+/** The release's own texts: the integration guide (README*.md) and the release notes template. */
+const SOURCE = join(ROOT, 'release-src');
 
 const sha256 = (data: Buffer | string): string => createHash('sha256').update(data).digest('hex');
 const git = (...args: string[]): string => execFileSync('git', args, { cwd: ROOT, encoding: 'utf8' }).trim();
@@ -131,7 +142,8 @@ const releaseUrl = `${REPOSITORY}/tree/v${VERSION}/release/${VERSION}`;
  */
 function npmReadme(docPath: string, note: string): string {
   const base = `${REPOSITORY}/blob/v${VERSION}/release/${VERSION}/`;
-  const lines = readFileSync(join(DOCS, docPath), 'utf8')
+  const source = docPath.startsWith('documentation/') ? join(ROOT, docPath) : join(SOURCE, docPath);
+  const lines = readFileSync(source, 'utf8')
     .replace(
       /\]\((?!https?:|#|mailto:)([^)\s]+)\)/g,
       (_, target: string) => `](${base}${posix.normalize(posix.join(posix.dirname(docPath), target))})`,
@@ -197,24 +209,28 @@ export async function release(options: { allowDirty: boolean; out?: string }): P
 
   // Legal and documentation.
   const license = readFileSync(join(ROOT, 'LICENSE'));
-  const notice = readFileSync(join(DOCS, 'NOTICE'));
-  const changelog = readFileSync(join(DOCS, 'CHANGELOG.md'));
+  const notice = readFileSync(join(ROOT, 'NOTICE'));
+  const changelog = readFileSync(join(ROOT, 'CHANGELOG.md'));
   writeFileSync(join(out, 'LICENSE'), license);
   writeFileSync(join(out, 'NOTICE'), notice);
   writeFileSync(join(out, 'CHANGELOG.md'), changelog);
-  for (const doc of ['README.md', 'README.zh-CN.md']) cpSync(join(DOCS, doc), join(out, doc));
-  for (const doc of readdirSync(join(DOCS, 'documentation')))
-    cpSync(join(DOCS, 'documentation', doc), join(out, 'documentation', doc));
+  for (const doc of ['README.md', 'README.zh-CN.md']) cpSync(join(SOURCE, doc), join(out, doc));
+  for (const doc of readdirSync(DOCUMENTATION).filter((f) => f !== '.DS_Store'))
+    cpSync(join(DOCUMENTATION, doc), join(out, 'documentation', doc));
 
-  // Demo: the page, the minified modules and the sample media.
+  // Demo: the page, the minified modules (the target rating too: the same set the browser tests serve) and the
+  // sample media, which have no source directory of their own (see DEMO_ASSETS).
+  const assets = join(ROOT, DEMO_ASSETS);
+  if (!existsSync(assets)) throw new Error(`The demo's sample media are missing: ${assets}`);
   for (const f of ['index.html', 'demo.js', 'targets.html']) cpSync(join(ROOT, 'demo', f), join(out, 'demo', f));
   writeFileSync(join(out, 'demo/livemira-engine.min.mjs'), engine.minified.code);
   writeFileSync(join(out, 'demo/livemira-ui.min.mjs'), ui.minified);
-  for (const f of readdirSync(join(ROOT, 'bench/release/assets')).filter((f) => f !== '.DS_Store'))
-    cpSync(join(ROOT, 'bench/release/assets', f), join(out, 'demo/assets', f));
+  writeFileSync(join(out, 'demo/livemira-target-rating.min.mjs'), rating.minified.code);
+  for (const f of readdirSync(assets).filter((f) => f !== '.DS_Store'))
+    cpSync(join(assets, f), join(out, 'demo/assets', f));
 
   // npm packages: the minified modules, their declarations and the guides; the readable builds stay in files/.
-  // The engine and the UI are published to npm; the target rating is offline only (npm/ of the release).
+  // All three are published to npm; the tarballs in npm/ of the release are the same packages for offline use.
   const stage = mkdtempSync(join(tmpdir(), 'livemira-npm-'));
   try {
     const common = {
@@ -311,11 +327,11 @@ export async function release(options: { allowDirty: boolean; out?: string }): P
         'dist/livemira-target-rating.d.ts': ratingDts,
         'README.md': npmReadme(
           'documentation/target-rating.md',
-          `> **Offline package**, not on npm: \`npm install ./livemira-target-rating-${VERSION}.tgz\` from the [release](${releaseUrl}).`,
+          `> **npm:** \`npm install @livemira/target-rating\`. The files listed below as \`files/livemira-target-rating*\` are under \`dist/\` here (\`import { rateTargetImage } from '@livemira/target-rating'\`; the Worker file is \`@livemira/target-rating/worker\`). It needs no engine. The same package is in the [release](${releaseUrl}) as an offline tarball.`,
         ),
         'README.zh-CN.md': npmReadme(
           'documentation/target-rating.zh-CN.md',
-          `> **离线包**，不在 npm 上：从[发布包](${releaseUrl})中 \`npm install ./livemira-target-rating-${VERSION}.tgz\`。`,
+          `> **npm：** \`npm install @livemira/target-rating\`。下文中 \`files/livemira-target-rating*\` 在本包的 \`dist/\` 下（\`import { rateTargetImage } from '@livemira/target-rating'\`，Worker 文件为 \`@livemira/target-rating/worker\`）。不需要引擎。同一个包也以离线 tarball 形式在[发布包](${releaseUrl})中。`,
         ),
         ...legal,
       },
@@ -327,7 +343,7 @@ export async function release(options: { allowDirty: boolean; out?: string }): P
 
   // Release notes with this build's numbers.
   const date = new Date().toISOString().slice(0, 10);
-  const notes = readFileSync(join(DOCS, '发布说明.md'), 'utf8')
+  const notes = readFileSync(join(SOURCE, '发布说明.md'), 'utf8')
     .replaceAll('{{version}}', VERSION)
     .replaceAll('{{commit}}', commit)
     .replaceAll('{{buildId}}', engine.minified.buildId)
@@ -337,6 +353,12 @@ export async function release(options: { allowDirty: boolean; out?: string }): P
     .replaceAll('{{uiKb}}', (Buffer.byteLength(ui.minified) / 1024).toFixed(0))
     .replaceAll('{{ratingKb}}', (Buffer.byteLength(rating.minified.code) / 1024).toFixed(0));
   writeFileSync(join(out, '发布说明.md'), notes);
+  const unresolved = notes.match(/\{\{\w+\}\}/g);
+  if (unresolved) throw new Error(`发布说明.md has unfilled placeholders: ${[...new Set(unresolved)].join(', ')}`);
+
+  // No dead relative link in any guide of the release.
+  const broken = brokenLinks(out);
+  if (broken.length > 0) throw new Error(`Broken links in the release:\n  ${broken.join('\n  ')}`);
 
   // Manifest and checksums.
   const listed = listFiles(out).filter((f) => f !== 'SHA256SUMS' && f !== 'release-manifest.json');
@@ -356,8 +378,8 @@ export async function release(options: { allowDirty: boolean; out?: string }): P
     date,
     stable: !VERSION.includes('-'),
     preview: VERSION.includes('-preview.'),
-    // Packages for the npm registry; the others are offline tarballs in npm/ only.
-    npmRegistry: ['@livemira/engine', '@livemira/ui'],
+    // Packages for the npm registry (npm/ holds the same packages as tarballs).
+    npmRegistry: ['@livemira/engine', '@livemira/ui', '@livemira/target-rating'],
     files: listed.map((path) => {
       const data = readFileSync(join(out, path));
       return { path, bytes: data.length, sha256: sha256(data) };

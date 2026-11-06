@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // The camera session: prepares the photos (download, compile) while the camera opens, then follows the engine's
-// recognition: the recognised photo's video is requested only then (streamed by the browser, or downloaded through
-// `loadMedia`), one video at a time. Errors become notices;
+// recognition: a photo's video is requested when the photo is first recognised (streamed by the browser, or downloaded
+// through `loadMedia`) and then kept for the run, so seeing a photo again or switching photos never requests it twice.
+// A hidden page suspends the run instead of ending it. Stopping aborts and releases everything. Errors become notices;
 // the host may reclassify them. State changes are published as one immutable state object.
 
 import type {
@@ -77,6 +78,10 @@ interface BoundVideo {
   /** Played from its URL; 'video-loaded' is reported at its first playback. */
   isStreamed: boolean;
   isReported: boolean;
+  /** Download progress (NaN: unknown); shown while this video's photo is the recognised one. */
+  progress: number | null;
+  /** A failure of a video whose photo was not in view; reported when it is (the host classifies it only then). */
+  failure: (() => void) | null;
 }
 
 interface Run {
@@ -86,7 +91,8 @@ interface Run {
   isEnded: boolean;
   isCameraOn: boolean;
   wasFound: boolean;
-  video: BoundVideo | null;
+  /** Every video requested in this run, kept (downloading or loaded) until the run ends. */
+  readonly videos: Map<string, BoundVideo>;
   readonly mediaFacts: Map<string, EngineMediaState>;
 }
 
@@ -96,6 +102,7 @@ const INITIAL: ArState = Object.freeze({
   progress: null,
   readiness: null,
   isCameraOn: false,
+  isSuspended: false,
   videoProgress: null,
   notice: null,
   isMuted: true,
@@ -185,6 +192,8 @@ export function createArSession(options: ArSessionOptions): ArSession {
   let starting: Promise<void> | null = null;
   let stopping: Promise<void> | null = null;
   let disposing: Promise<void> | null = null;
+  /** `suspend()` is in effect (also before the engine exists, so a hidden start begins suspended). */
+  let wantsSuspend = false;
 
   const observe = (observation: ArObservation): void => {
     try {
@@ -220,9 +229,10 @@ export function createArSession(options: ArSessionOptions): ArSession {
     const active = next.activeTargetId;
     if (!r || next.phase !== 'scanning') return 'searching';
     if (!active) return r.wasFound ? 'lost' : 'searching';
-    if (r.video?.targetId !== active) return 'loading';
+    const video = r.videos.get(active);
+    if (!video) return 'loading';
     const fact = r.mediaFacts.get(active);
-    if (r.video.fact === 'download-failed' || fact === 'error') return 'videoError';
+    if (video.fact === 'download-failed' || fact === 'error') return 'videoError';
     if (fact === 'playing') return 'playing';
     return 'loading';
   };
@@ -244,6 +254,15 @@ export function createArSession(options: ArSessionOptions): ArSession {
     engineListeners.push(engine!.on(type, listener));
   };
 
+  /** Which video may play; an engine without the control plays every photo in view. */
+  const selectPlaying = (targetId: string | null): void => {
+    try {
+      engine?.media.selectTarget?.(targetId);
+    } catch {
+      // The engine is gone.
+    }
+  };
+
   const listen = (): void => {
     onEngine('targetFound', ({ targetId }) => {
       const r = run;
@@ -251,13 +270,29 @@ export function createArSession(options: ArSessionOptions): ArSession {
       r.wasFound = true;
       observe({ type: 'target', name: 'found', targetId });
       bindVideo(r, targetId);
-      update({ activeTargetId: targetId });
+      const video = r.videos.get(targetId);
+      // One video at a time: this photo's plays, the ones kept for other photos pause.
+      selectPlaying(targetId);
+      update({
+        activeTargetId: targetId,
+        isPlaybackBlocked: false,
+        videoProgress: video?.fact === 'downloading' ? video.progress : null,
+        // The notice of another photo's video does not follow to this one.
+        ...(videoNotice() ? { notice: null } : {}),
+      });
+      // A failure that happened while its photo was out of view is reported now.
+      const failure = video?.failure;
+      if (video && failure) {
+        video.failure = null;
+        failure();
+      }
     });
     onEngine('targetLost', ({ targetId }) => {
       const r = run;
       if (!r || r.isEnded || state.activeTargetId !== targetId) return;
       observe({ type: 'target', name: 'lost', targetId });
-      update({ activeTargetId: null, isPlaybackBlocked: false });
+      selectPlaying(null);
+      update({ activeTargetId: null, isPlaybackBlocked: false, videoProgress: null });
     });
     onEngine('viewport', ({ phase }) => {
       if (run && !run.isEnded) update({ isAdjusting: phase === 'begin' });
@@ -266,22 +301,35 @@ export function createArSession(options: ArSessionOptions): ArSession {
       const r = run;
       if (!r || r.isEnded) return;
       r.mediaFacts.set(targetId, fact);
-      const video = r.video;
-      if (video?.targetId !== targetId) return update({});
+      const video = r.videos.get(targetId);
+      if (!video) return update({});
+      // Only the recognised photo's video shows in the state; the others are remembered for when they are.
+      const isActive = state.activeTargetId === targetId;
+      if (fact !== 'error' && video.fact === 'set') video.failure = null;
       if (fact === 'playing') {
         if (video.isStreamed && !video.isReported) {
           video.isReported = true;
           const durationMs = Math.round(performance.now() - video.requestedAt);
           observe({ type: 'target', name: 'video-loaded', targetId, durationMs });
         }
-        update({ isPlaybackBlocked: false, videoProgress: null, notice: videoNotice() ? null : state.notice });
-      } else if (fact === 'blocked') update({ isPlaybackBlocked: true });
+        if (isActive)
+          update({ isPlaybackBlocked: false, videoProgress: null, notice: videoNotice() ? null : state.notice });
+        else update({});
+      } else if (fact === 'blocked') update(isActive ? { isPlaybackBlocked: true } : {});
       else if (fact === 'error') {
         observe({ type: 'target', name: 'video-failed', targetId, ...(code ? { code } : {}) });
         // A streamed video that cannot be fetched (browsers report a refused or missing file as unsupported).
-        if (video.isStreamed && (code === 'network' || code === 'unsupported'))
-          videoLoadFailed(r, targetId, Object.assign(new Error(`The video could not be loaded (${code})`), { code }));
-        else update({ notice: { key: 'notice.videoPlayFailed' } });
+        const fail = (): void => {
+          if (!isCurrent(r)) return;
+          if (video.isStreamed && (code === 'network' || code === 'unsupported'))
+            videoLoadFailed(r, targetId, Object.assign(new Error(`The video could not be loaded (${code})`), { code }));
+          else update({ notice: { key: 'notice.videoPlayFailed' } });
+        };
+        if (isActive) fail();
+        else {
+          video.failure = fail;
+          update({});
+        }
       } else update({});
     });
     onEngine('ended', ({ error }) => {
@@ -304,12 +352,9 @@ export function createArSession(options: ArSessionOptions): ArSession {
       state.notice.key,
     );
 
-  // ---- Videos: one bound at a time, downloaded once its photo is recognised ----
+  // ---- Videos: each requested once its photo is first recognised, then kept until the run ends ----
 
-  const releaseVideo = (r: Run): void => {
-    const video = r.video;
-    if (!video) return;
-    r.video = null;
+  const releaseVideo = (video: BoundVideo): void => {
     video.abort.abort();
     try {
       engine?.setTargetProgress(video.targetId, null);
@@ -319,9 +364,22 @@ export function createArSession(options: ArSessionOptions): ArSession {
     }
   };
 
+  /** Aborts every download of the run and drops its videos (the run ended). */
+  const releaseVideos = (r: Run): void => {
+    const videos = [...r.videos.values()];
+    r.videos.clear();
+    r.mediaFacts.clear();
+    for (const video of videos) releaseVideo(video);
+  };
+
   const bindVideo = (r: Run, targetId: string, isRetry = false): void => {
-    if (!isRetry && r.video?.targetId === targetId) return;
-    releaseVideo(r);
+    const previous = r.videos.get(targetId);
+    // Seen before: its video is already loaded or on its way, never requested again (unless the user retries).
+    if (previous && !isRetry) return;
+    if (previous) {
+      r.videos.delete(targetId);
+      releaseVideo(previous);
+    }
     const target = r.targets.find((t) => t.id === targetId);
     if (!target || !engine) return;
     const video: BoundVideo = {
@@ -331,19 +389,29 @@ export function createArSession(options: ArSessionOptions): ArSession {
       requestedAt: performance.now(),
       isStreamed: isStreamed && typeof target.video === 'string',
       isReported: false,
+      progress: null,
+      failure: null,
     };
-    r.video = video;
+    r.videos.set(targetId, video);
+    const isLive = (): boolean => r.videos.get(targetId) === video && !r.isEnded;
+    const isActive = (): boolean => state.activeTargetId === targetId;
+    /** Shown now when its photo is in view, otherwise when it is next found. */
+    const report = (fail: () => void): void => {
+      if (isActive()) fail();
+      else video.failure = fail;
+    };
     const settings = { isLooping: options.video?.isLooping ?? true, fit: options.video?.fit ?? 'contain' };
     const setMedia = (blob: Blob): void => {
+      video.progress = null;
       if (blob.size === 0) {
         video.fact = 'download-failed';
-        update({ notice: { key: 'notice.emptyVideo' } });
+        report(() => update({ notice: { key: 'notice.emptyVideo' } }));
         return;
       }
       video.fact = 'set';
       engine?.setTargetProgress(targetId, null);
       engine?.setTargetMedia(targetId, { file: blob, ...settings });
-      update({ videoProgress: null });
+      if (isActive()) update({ videoProgress: null });
     };
     if (typeof target.video !== 'string') return setMedia(target.video);
     observe({ type: 'target', name: 'video-requested', targetId });
@@ -353,20 +421,21 @@ export function createArSession(options: ArSessionOptions): ArSession {
       return;
     }
     engine.setTargetProgress(targetId, Number.NaN);
-    update({ videoProgress: Number.NaN });
+    video.progress = Number.NaN;
     const url = target.video;
     void loadMedia(url, {
       signal: video.abort.signal,
       kind: 'video',
       targetId,
       onProgress: (fraction) => {
-        if (r.video !== video || r.isEnded) return;
+        if (!isLive()) return;
+        video.progress = fraction;
         engine?.setTargetProgress(targetId, fraction);
-        update({ videoProgress: fraction });
+        if (isActive()) update({ videoProgress: fraction });
       },
     }).then(
       (blob) => {
-        if (r.video !== video || r.isEnded) return;
+        if (!isLive()) return;
         observe({
           type: 'target',
           name: 'video-loaded',
@@ -377,11 +446,14 @@ export function createArSession(options: ArSessionOptions): ArSession {
         setMedia(blob);
       },
       (cause: unknown) => {
-        if (r.video !== video || r.isEnded || video.abort.signal.aborted) return;
+        if (!isLive() || video.abort.signal.aborted) return;
         video.fact = 'download-failed';
+        video.progress = null;
         engine?.setTargetProgress(targetId, null);
         observe({ type: 'target', name: 'video-failed', targetId, code: 'download' });
-        videoLoadFailed(r, targetId, cause);
+        report(() => {
+          if (isLive()) videoLoadFailed(r, targetId, cause);
+        });
       },
     );
   };
@@ -471,8 +543,9 @@ export function createArSession(options: ArSessionOptions): ArSession {
   const endRun = async (r: Run, end: { notice: ArNotice | null; isStale: boolean; reason: string }): Promise<void> => {
     if (r.isEnded) return;
     r.isEnded = true;
+    wantsSuspend = false;
     r.abort.abort();
-    releaseVideo(r);
+    releaseVideos(r);
     observe({ type: 'lifecycle', name: 'stop', reason: end.reason });
     try {
       await engine?.stop(end.reason);
@@ -487,6 +560,7 @@ export function createArSession(options: ArSessionOptions): ArSession {
         progress: null,
         readiness: null,
         isCameraOn: false,
+        isSuspended: false,
         videoProgress: null,
         activeTargetId: null,
         isPlaybackBlocked: false,
@@ -499,11 +573,9 @@ export function createArSession(options: ArSessionOptions): ArSession {
     const total = r.targets.length;
     let photosDone = 0;
     let engineLoaded = false;
-    const readiness = (): number =>
-      Math.min(
-        0.98,
-        (engineLoaded ? 0.12 : 0.02) + (total ? 0.58 * (photosDone / total) : 0) + (r.isCameraOn ? 0.28 : 0),
-      );
+    // Real work only: the share of photos prepared once the engine is loaded. Waiting for the camera permission is
+    // not part of it (the view shows that as its own wait), so nothing sticks at a made-up percentage.
+    const readiness = (): number | null => (engineLoaded ? (total ? photosDone / total : 0) : null);
     update({
       phase: 'preparing',
       notice: null,
@@ -512,6 +584,7 @@ export function createArSession(options: ArSessionOptions): ArSession {
       progress: { done: 0, total },
       readiness: readiness(),
       isCameraOn: false,
+      isSuspended: wantsSuspend,
       videoProgress: null,
       activeTargetId: null,
       isPlaybackBlocked: false,
@@ -556,6 +629,14 @@ export function createArSession(options: ArSessionOptions): ArSession {
       if (!state.isMuted) void engine.media.setMuted(false);
     }
     const current = engine;
+    // Nothing plays until a photo is recognised (a kept video of an earlier run cannot start by itself).
+    selectPlaying(null);
+    // Hidden before the camera opened: the engine starts suspended (an older engine cannot, so the run ends).
+    if (wantsSuspend) {
+      if (typeof current.suspend !== 'function')
+        return endRun(r, { notice: { key: 'notice.backgrounded' }, isStale: false, reason: 'page-hidden' });
+      current.suspend();
+    }
 
     // Photos and camera at the same time: the camera prompt shows while the photos compile.
     const camera = current.start().then(
@@ -628,7 +709,7 @@ export function createArSession(options: ArSessionOptions): ArSession {
         isEnded: false,
         isCameraOn: false,
         wasFound: false,
-        video: null,
+        videos: new Map(),
         mediaFacts: new Map(),
       };
       run = r;
@@ -661,6 +742,28 @@ export function createArSession(options: ArSessionOptions): ArSession {
       stopping = attempt;
       return attempt;
     },
+    suspend() {
+      const r = run;
+      if (!r || r.isEnded || state.phase === 'stopping') return false;
+      if (wantsSuspend) return true;
+      // An engine of an older release cannot be suspended; the caller stops the run instead.
+      if (engine && typeof engine.suspend !== 'function') return false;
+      wantsSuspend = true;
+      // No engine yet (still loading it): the run starts suspended (see runStart).
+      engine?.suspend?.();
+      update({ isSuspended: true });
+      return true;
+    },
+    resume() {
+      if (!wantsSuspend) return;
+      wantsSuspend = false;
+      try {
+        engine?.resume?.();
+      } catch {
+        // The engine is gone.
+      }
+      update({ isSuspended: false });
+    },
     setTargets(next) {
       targets = next;
     },
@@ -681,10 +784,12 @@ export function createArSession(options: ArSessionOptions): ArSession {
     async retryVideo() {
       const r = run;
       if (!r || r.isEnded || !engine) return;
-      const video = r.video;
-      if (video?.fact === 'download-failed') {
+      const id = state.activeTargetId;
+      const video = id ? r.videos.get(id) : undefined;
+      if (id && video?.fact === 'download-failed') {
         update({ notice: null });
-        bindVideo(r, video.targetId, true);
+        bindVideo(r, id, true);
+        update({ videoProgress: r.videos.get(id)?.progress ?? null });
         return;
       }
       update({ notice: null, isPlaybackBlocked: false });

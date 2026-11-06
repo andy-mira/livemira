@@ -49,6 +49,8 @@ export interface SessionHost {
   media(targetId: string): TargetMedia | null;
   progress(targetId: string): number | null;
   isMuted(): boolean;
+  /** undefined: every target in view plays; otherwise only the selected one (null: none). */
+  selected(): string | null | undefined;
   /** The session ended on its own (camera or Worker failure). */
   failed(error: EngineError, reason: string): void;
 }
@@ -102,6 +104,7 @@ export class Session {
   private readonly host: SessionHost;
   private aborted = false;
   private ended = false;
+  private suspended = false;
   profile: ProfileName;
   private camera: OpenCamera | null = null;
   private layer: HTMLDivElement | null = null;
@@ -150,11 +153,17 @@ export class Session {
     Object.assign(layer.style, { position: 'absolute', inset: '0', overflow: 'hidden', background: '#000' });
     s.container.append(layer);
     this.layer = layer;
-    this.camera = await openCamera(
+    const opened = await openCamera(
       { facingMode: s.facingMode, ...(s.deviceId ? { deviceId: s.deviceId } : {}) },
       layer,
     );
-    this.check();
+    // Stopped while the permission prompt was open: `dispose()` ran before there was a camera to release.
+    if (this.aborted) {
+      for (const t of opened.stream.getTracks()) t.stop();
+      opened.video.srcObject = null;
+      this.check();
+    }
+    this.camera = opened;
     const { video, track } = this.camera;
     [this.width, this.height] = standardSize(video.videoWidth, video.videoHeight, s.processingScale);
     this.renderer = new StageRenderer(layer, this.width, this.height, {
@@ -257,7 +266,7 @@ export class Session {
           const onFrame = (now: number, metadata: VideoFrameCallbackMetadata): void => {
             if (!active) return;
             handle = video.requestVideoFrameCallback(onFrame);
-            if (this.inFlight > 0) return;
+            if (this.inFlight > 0 || this.suspended) return;
             const captureUs = (metadata.captureTime ?? now) * 1000;
             const frame = new VideoFrame(video, { timestamp: Math.round(captureUs) });
             this.send({ type: 'frame', frame, captureUs }, [frame]);
@@ -283,6 +292,11 @@ export class Session {
       return;
     }
     this.inFlight = Math.max(0, this.inFlight - 1);
+    // Suspended: a result still on its way is dropped, so nothing is found or drawn while hidden.
+    if (this.suspended) {
+      m.frame?.close();
+      return;
+    }
     this.frames++;
     this.lastResultAt = performance.now();
     this.stepDown(m.stats.processUs);
@@ -319,8 +333,31 @@ export class Session {
     for (const id of found) {
       this.host.emit('targetFound', { targetId: id });
       const player = this.players.get(id);
-      if (player && player.state !== 'error') void player.play();
+      if (player && player.state !== 'error' && this.canPlay(id)) void player.play();
     }
+  }
+
+  /** Whether this target's video may play: always, unless the host selected a target (`media.selectTarget`). */
+  private canPlay(id: string): boolean {
+    const selected = this.host.selected();
+    return selected === undefined || selected === id;
+  }
+
+  /** The target whose video sound changes and retries act on: the selected one, else the first in view. */
+  private focusId(): string | undefined {
+    const selected = this.host.selected();
+    if (selected === undefined) return this.visibility.visible()[0];
+    return selected && this.visibility.isVisible(selected) ? selected : undefined;
+  }
+
+  /** The selection changed: other videos pause (their source stays), the selected one in view plays. */
+  applySelection(): void {
+    if (this.ended) return;
+    for (const [id, player] of this.players) {
+      if (!this.canPlay(id)) player.pause();
+      else if (!this.suspended && this.visibility.isVisible(id) && player.state !== 'error') void player.play();
+    }
+    this.renderer?.invalidate();
   }
 
   /** Hawk that cannot keep up with the camera steps down to Swift (same capture, lighter pipeline). */
@@ -447,13 +484,13 @@ export class Session {
       if (this.players.get(id) !== player) return;
       this.host.emit('media', { targetId: id, state, ...(code ? { code } : {}) });
       if (state === 'blocked') this.host.emit('playbackBlocked', { targetId: id });
-      if (state === 'ready' && this.visibility.isVisible(id)) void player.play();
+      if (state === 'ready' && this.visibility.isVisible(id) && this.canPlay(id) && !this.suspended) void player.play();
       this.renderer?.invalidate();
     });
     this.players.set(id, player);
     this.host.emit('media', { targetId: id, state: 'loading' });
     // Asked for at once: the browser starts as soon as enough has arrived (and some only load a video asked to play).
-    if (this.visibility.isVisible(id)) void player.play();
+    if (this.visibility.isVisible(id) && this.canPlay(id) && !this.suspended) void player.play();
   }
 
   setMuted(isMuted: boolean): void {
@@ -462,7 +499,7 @@ export class Session {
 
   /** From a tap: plays the video of the photo in view (reloading it after an error). */
   async retry(): Promise<boolean> {
-    const id = this.visibility.visible()[0];
+    const id = this.focusId();
     if (!id) return false;
     let player = this.players.get(id);
     if (!player) return false;
@@ -478,7 +515,7 @@ export class Session {
 
   /** The video of a visible target (for sound changes from a tap). */
   activePlayer(): MediaPlayer | null {
-    const id = this.visibility.visible()[0];
+    const id = this.focusId();
     return (id && this.players.get(id)) || null;
   }
 
@@ -495,7 +532,9 @@ export class Session {
       const corners = this.corners.get(id);
       if (!corners) continue;
       const presence = this.visibility.presence(id, now);
-      const player = this.players.get(id) ?? null;
+      // A target the host did not select shows no video and no download ring (its player and source are kept).
+      const isSelected = this.canPlay(id);
+      const player = (isSelected && this.players.get(id)) || null;
       const targetAspect = this.aspects.get(id) ?? 1;
       let look: PlaneLook | null;
       if (presentation) {
@@ -508,7 +547,7 @@ export class Session {
               isReducedMotion: () => prefersReducedMotion(this.settings.container.ownerDocument),
             })),
           );
-        const progress = this.host.progress(id);
+        const progress = isSelected ? this.host.progress(id) : null;
         look = presenter.look(now, {
           presence,
           isPlaying: !!player?.isFlowing,
@@ -547,6 +586,43 @@ export class Session {
       });
     }
     return out;
+  }
+
+  get isSuspended(): boolean {
+    return this.suspended;
+  }
+
+  private setTracksEnabled(isEnabled: boolean): void {
+    for (const track of [this.camera?.track, ...this.clones])
+      try {
+        if (track) track.enabled = isEnabled;
+      } catch {
+        // A track handed to a Worker cannot be touched from here.
+      }
+  }
+
+  /** The page is hidden: videos paused, targets in view lost, camera track off, recognition and drawing idle. */
+  suspend(): void {
+    if (this.ended || this.suspended) return;
+    this.suspended = true;
+    for (const id of this.visibility.clear()) this.targetLost(id, 'suspended');
+    for (const player of this.players.values()) player.pause();
+    this.setTracksEnabled(false);
+    // The Worker owns a transferred track and the frames of a transferred stream: it switches the track off and
+    // releases incoming frames unprocessed.
+    this.send({ type: 'suspend', isSuspended: true });
+    this.renderer?.pause();
+  }
+
+  /** Back in view: the camera track is on, drawing resumes; targets are found again from the next frames. */
+  resume(): void {
+    if (this.ended || !this.suspended) return;
+    this.suspended = false;
+    // Frames stopped on purpose: not a stalled camera.
+    this.lastResultAt = 0;
+    this.setTracksEnabled(true);
+    this.send({ type: 'suspend', isSuspended: false });
+    this.renderer?.resume();
   }
 
   /** Releases everything; the targets in view are reported lost. Idempotent. */

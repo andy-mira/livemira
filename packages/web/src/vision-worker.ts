@@ -49,6 +49,12 @@ let probe = false;
 let sequence = 0;
 let busy = false;
 let stopped = false;
+/** A hidden page (`suspend`): incoming frames are released unprocessed. */
+let suspended = false;
+/** The camera track handed to this Worker (the 'track' path), switched off while suspended. */
+let ownedTrack: MediaStreamTrack | null = null;
+/** Newest frame of the stream waiting while the pipeline is busy. */
+let pendingFrame: VideoFrame | null = null;
 /** Newest frame waiting while the pipeline is busy (frames from the main thread). */
 let waiting: { frame: VideoFrame | null; gray: ArrayBuffer | null; captureUs: number } | null = null;
 
@@ -265,24 +271,28 @@ function captureTime(frame: VideoFrame): number {
 /** Pulls frames from a stream: one in flight, and whatever queued meanwhile is replaced by the newest. */
 async function pump(readable: ReadableStream<VideoFrame>): Promise<void> {
   const reader = readable.getReader();
-  let pending: VideoFrame | null = null;
   let reading = false;
   const readNext = async (): Promise<void> => {
     reading = true;
     while (!stopped) {
       const { value, done } = await reader.read();
       if (done) break;
-      pending?.close();
-      pending = value;
+      // Suspended: the frame is released at once, nothing is queued or processed.
+      if (suspended) {
+        value.close();
+        continue;
+      }
+      pendingFrame?.close();
+      pendingFrame = value;
       if (!busy) void drain();
     }
     reading = false;
   };
   const drain = async (): Promise<void> => {
     busy = true;
-    while (pending && !stopped) {
-      const frame = pending;
-      pending = null;
+    while (pendingFrame && !stopped && !suspended) {
+      const frame = pendingFrame;
+      pendingFrame = null;
       try {
         await process(frame, null, captureTime(frame));
       } catch (error) {
@@ -294,9 +304,17 @@ async function pump(readable: ReadableStream<VideoFrame>): Promise<void> {
   if (!reading) await readNext();
 }
 
+/** Drops the frames waiting for the pipeline (a suspend or a stop). */
+function releaseWaiting(): void {
+  pendingFrame?.close();
+  pendingFrame = null;
+  waiting?.frame?.close();
+  waiting = null;
+}
+
 async function drainWaiting(): Promise<void> {
   busy = true;
-  while (waiting && !stopped) {
+  while (waiting && !stopped && !suspended) {
     const w = waiting;
     waiting = null;
     try {
@@ -370,11 +388,30 @@ function onMessage(event: MessageEvent<ToWorker>): void {
         post({ type: 'error', message: 'MediaStreamTrackProcessor unavailable in Worker' });
         return;
       }
+      ownedTrack = message.track;
+      if (suspended) ownedTrack.enabled = false;
       void pump(new MediaStreamTrackProcessor({ track: message.track, maxBufferSize: 1 }).readable);
+      return;
+    }
+    case 'suspend': {
+      if (suspended === message.isSuspended) return;
+      suspended = message.isSuspended;
+      try {
+        if (ownedTrack) ownedTrack.enabled = !suspended;
+      } catch {
+        // The track already ended.
+      }
+      if (suspended) releaseWaiting();
+      // Back in view: the old poses mean nothing now; the loaded targets stay.
+      else pipeline?.reset(`web-${++session}`);
       return;
     }
     case 'frame':
     case 'gray': {
+      if (suspended) {
+        if (message.type === 'frame') message.frame.close();
+        return;
+      }
       waiting?.frame?.close();
       waiting =
         message.type === 'frame'
@@ -397,8 +434,12 @@ function onMessage(event: MessageEvent<ToWorker>): void {
     }
     case 'stop':
       stopped = true;
-      waiting?.frame?.close();
-      waiting = null;
+      releaseWaiting();
+      try {
+        ownedTrack?.stop();
+      } catch {
+        // Nothing to stop.
+      }
       return;
   }
 }

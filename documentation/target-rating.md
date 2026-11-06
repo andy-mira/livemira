@@ -12,13 +12,13 @@ target the engine would track.
 
 ## Files
 
-| File                                         | Purpose                                                                         |
-| -------------------------------------------- | ------------------------------------------------------------------------------- |
-| `files/livemira-target-rating.min.mjs`       | One ES module, Worker embedded (about 47 KB).                                   |
-| `files/livemira-target-rating.mjs`           | The same module, readable.                                                      |
-| `files/livemira-target-rating-worker.min.js` | The rating Worker script (classic), for pages whose CSP forbids `blob:`.        |
-| `files/livemira-target-rating.d.ts`          | Declarations.                                                                   |
-| `npm/livemira-target-rating-*.tgz`           | Offline package `@livemira/target-rating` (not on npm; `npm install` the file). |
+| File                                         | Purpose                                                                       |
+| -------------------------------------------- | ----------------------------------------------------------------------------- |
+| `files/livemira-target-rating.min.mjs`       | One ES module, Worker embedded (about 47 KB).                                 |
+| `files/livemira-target-rating.mjs`           | The same module, readable.                                                    |
+| `files/livemira-target-rating-worker.min.js` | The rating Worker script (classic), for pages whose CSP forbids `blob:`.      |
+| `files/livemira-target-rating.d.ts`          | Declarations.                                                                 |
+| `npm/livemira-target-rating-*.tgz`           | The npm package `@livemira/target-rating` as a tarball, for offline installs. |
 
 Importing the module creates nothing; the first rating starts its Worker, which closes after 4 s idle. One picture is
 rated at a time; the rest wait in order.

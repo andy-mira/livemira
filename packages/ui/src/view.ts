@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: Apache-2.0
 // The default full-screen camera view. Layout and wording follow the LiveMorae camera (exit top left, language top
 // right, status below them, actions at the bottom only when needed, sound bottom right while scanning); the loader
-// shows real progress (engine, photos, camera) and stays translucent once the camera picture is there; a scanning
-// guide shows where to aim.
+// fills only for measured work (photos prepared) and turns for other waits (the scanner, the camera permission, with
+// a short hint at the top), and stays translucent once the camera picture is there; a scanning guide shows where to aim.
 // Everything is derived from the session state; the view keeps no state of its own besides its DOM.
 
 import type { ArSessionLike, ArState, ArViewHandle, ArViewOptions, ArViewUpdate, Translator } from './api.ts';
@@ -97,11 +97,11 @@ export function mountArView(container: HTMLElement, session: ArSessionLike, opti
     `<svg viewBox="0 0 96 96" aria-hidden="true"><circle class="lm-ar__ring-track" cx="48" cy="48" r="42"/>` +
     `<circle class="lm-ar__ring-glow" cx="48" cy="48" r="42" stroke-dasharray="${RING_LENGTH}" stroke-dashoffset="${RING_LENGTH}"/>` +
     `<circle class="lm-ar__ring-bar" cx="48" cy="48" r="42" stroke-dasharray="${RING_LENGTH}" stroke-dashoffset="${RING_LENGTH}"/></svg>`;
-  const percent = el(doc, 'span', 'lm-ar__percent');
-  ring.append(percent);
   const step = el(doc, 'p', 'lm-ar__step');
-  const hint = el(doc, 'p', 'lm-ar__hint');
-  loader.append(ring, step, hint);
+  loader.append(ring, step);
+  // Short and near the top: the browser's own camera prompt covers the middle of the screen.
+  const hint = el(doc, 'p', 'lm-ar__camera-hint');
+  hint.setAttribute('role', 'status');
 
   const curtain = el(doc, 'div', 'lm-ar__curtain');
   curtain.setAttribute('role', 'status');
@@ -136,7 +136,7 @@ export function mountArView(container: HTMLElement, session: ArSessionLike, opti
   reload.type = 'button';
   controls.append(restart, reload);
 
-  root.append(stage, guide, loader, curtain, exit, language, sound, hud, controls);
+  root.append(stage, guide, loader, curtain, exit, language, sound, hint, hud, controls);
   container.append(root);
 
   const applyTheme = (): void => {
@@ -150,6 +150,11 @@ export function mountArView(container: HTMLElement, session: ArSessionLike, opti
   const start = (): void => {
     started = true;
     void session.start(stage);
+    // A page may already be hidden when mounted (no visibilitychange is fired for that initial state).
+    // Defer until the handlers below exist; also cover a programmatic restart while hidden.
+    queueMicrotask(() => {
+      if (!destroyed && doc.visibilityState === 'hidden') onHidden();
+    });
   };
   restart.addEventListener('click', start);
   reload.addEventListener('click', () => void session.retryVideo());
@@ -194,28 +199,28 @@ export function mountArView(container: HTMLElement, session: ArSessionLike, opti
       loader.hidden = false;
       loader.classList.remove('lm-ar__loader--leaving');
       loader.classList.toggle('lm-ar__loader--camera', s.isCameraOn);
-      const value = Math.round(100 * (s.readiness ?? 0));
-      percent.textContent = `${value}%`;
-      loader.setAttribute('aria-valuenow', String(value));
-      const offset = String(RING_LENGTH * (1 - (s.readiness ?? 0)));
+      // A filling ring only for work with a real measure (photos prepared); every other wait is a turning ring.
+      const p = s.progress;
+      const isMeasured = s.readiness !== null && !!p && p.done < p.total;
+      ring.classList.toggle('lm-ar__ring--busy', !isMeasured);
+      const fill = isMeasured ? s.readiness! : 0.25;
+      if (isMeasured) loader.setAttribute('aria-valuenow', String(Math.round(100 * fill)));
+      else loader.removeAttribute('aria-valuenow');
+      const offset = String(RING_LENGTH * (1 - fill));
       for (const bar of loader.querySelectorAll('circle:not(.lm-ar__ring-track)'))
         bar.setAttribute('stroke-dashoffset', offset);
-      const p = s.progress;
       step.textContent =
-        (s.readiness ?? 0) < 0.1
+        s.readiness === null
           ? t.t('loader.engine')
           : p && p.done < p.total
             ? t.t('loader.photos', { done: p.done, total: p.total })
-            : t.t('loader.camera');
+            : s.isCameraOn
+              ? t.t('status.preparing')
+              : t.t('loader.camera');
       loader.setAttribute('aria-label', step.textContent);
-      hint.textContent = t.t('loader.hint');
-      hint.hidden = s.isCameraOn;
     } else if (!loader.hidden && !leaveTimer) {
       if (scanning) {
         // Fade out to the camera; gone after the transition.
-        percent.textContent = '100%';
-        for (const bar of loader.querySelectorAll('circle:not(.lm-ar__ring-track)'))
-          bar.setAttribute('stroke-dashoffset', '0');
         loader.classList.add('lm-ar__loader--leaving');
         leaveTimer = setTimeout(() => {
           leaveTimer = null;
@@ -223,6 +228,9 @@ export function mountArView(container: HTMLElement, session: ArSessionLike, opti
         }, 480);
       } else loader.hidden = true;
     }
+
+    // Until the camera is open (the permission prompt may be showing).
+    setText(hint, preparing && !s.isCameraOn ? t.t('loader.hint') : null);
 
     // Guide: while scanning with nothing recognised.
     guide.classList.toggle('lm-ar__guide--on', scanning && !s.activeTargetId && !s.isAdjusting);
@@ -306,17 +314,25 @@ export function mountArView(container: HTMLElement, session: ArSessionLike, opti
     observer.observe(stage);
     tryStart();
   }
+  // Hidden page: by default the run is suspended (nothing loaded is dropped) and resumed when visible again;
+  // `isStoppedWhenHidden: true` stops it, `false` leaves it alone.
   const onHidden = (): void => {
     if (current.isStoppedWhenHidden === false) return;
     const phase = session.getState().phase;
     if (phase === 'idle' || phase === 'stopping') return;
+    if (current.isStoppedWhenHidden !== true && session.suspend?.()) return;
     void session.stop({ reason: 'page-hidden', notice: { key: 'notice.backgrounded' } });
+  };
+  const onVisible = (): void => {
+    if (current.isStoppedWhenHidden === undefined && doc.visibilityState !== 'hidden') session.resume?.();
   };
   const onVisibility = (): void => {
     if (doc.visibilityState === 'hidden') onHidden();
+    else onVisible();
   };
   doc.addEventListener('visibilitychange', onVisibility);
   win?.addEventListener('pagehide', onHidden);
+  win?.addEventListener('pageshow', onVisible);
 
   return {
     element: root,
@@ -338,6 +354,7 @@ export function mountArView(container: HTMLElement, session: ArSessionLike, opti
       unsubscribe();
       doc.removeEventListener('visibilitychange', onVisibility);
       win?.removeEventListener('pagehide', onHidden);
+      win?.removeEventListener('pageshow', onVisible);
       root.remove();
       releaseScroll();
       releaseStyle();

@@ -162,7 +162,7 @@ for (const [name, launcher] of [
     );
     check(await until(page, (s) => s.view === 'playing', 9000), 'second photo plays');
     check(await until(page, (s) => s.view === 'lost', 6000), 'loss reported when the photo leaves');
-    check((await state(page)).text.includes('The photo moved out of view'), 'lost hint');
+    check((await state(page)).text.includes('Photo out of view'), 'lost hint');
     await shot(page, '6-lost');
     await page.context().close();
   }

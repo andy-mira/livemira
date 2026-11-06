@@ -94,6 +94,9 @@ class LiveMiraEngine implements Engine {
   private readonly mediaSpecs = new Map<string, TargetMedia>();
   private readonly progressValues = new Map<string, number>();
   private muted = true;
+  private suspendRequested = false;
+  /** undefined: every target in view plays; otherwise only this one (see `media.selectTarget`). */
+  private selected: string | null | undefined = undefined;
   private session: Session | null = null;
   /** Lifecycle operations run one after another. */
   private queue: Promise<void> = Promise.resolve();
@@ -109,6 +112,13 @@ class LiveMiraEngine implements Engine {
         return engine.muted;
       },
       setMuted: (isMuted) => this.setMuted(isMuted),
+      selectTarget: (targetId) => {
+        if (targetId !== null && !isValidTargetId(targetId))
+          throw invalid(`Invalid target id ${JSON.stringify(targetId)}`);
+        if (this.stateValue === 'disposed') return;
+        this.selected = targetId;
+        this.session?.applySelection();
+      },
       retry: () => this.session?.retry() ?? Promise.resolve(false),
     };
   }
@@ -196,12 +206,14 @@ class LiveMiraEngine implements Engine {
       const capture = await session.start(targets, caps);
       if (this.session !== session) throw new EngineError('ABORTED', 'The start was cancelled by a stop');
       this.setState('running');
+      if (this.suspendRequested) session.suspend();
       this.events.emit('ready', { profile: session.profile, capture, fallbacks });
       if (targets.length) this.events.emit('targetsReady', { targetIds: targets.map((t) => t.targetId) });
     } catch (cause) {
       const error = asEngineError(cause, 'CAMERA_START_FAILED', 'The engine could not start');
       session?.dispose();
       if (this.session === session) this.session = null;
+      this.suspendRequested = false;
       this.setState('idle');
       this.events.emit('ended', error.code === 'ABORTED' ? { reason: 'stopped' } : { reason: 'start-failed', error });
       if (error.code !== 'ABORTED') this.events.emit('error', { error });
@@ -215,11 +227,13 @@ class LiveMiraEngine implements Engine {
       media: (id) => this.mediaSpecs.get(id) ?? null,
       progress: (id) => this.progressValues.get(id) ?? null,
       isMuted: () => this.muted,
+      selected: () => this.selected,
       failed: (error, reason) => {
         // The camera or a Worker failed while running: end the session.
         const session = this.session;
         if (!session) return;
         this.session = null;
+        this.suspendRequested = false;
         session.dispose();
         if (this.stateValue === 'running' || this.stateValue === 'starting') this.setState('idle');
         this.events.emit('ended', { reason, error });
@@ -228,8 +242,26 @@ class LiveMiraEngine implements Engine {
     };
   }
 
+  get isSuspended(): boolean {
+    return this.suspendRequested;
+  }
+
+  suspend(): void {
+    if (this.stateValue === 'disposed' || this.stateValue === 'stopping') return;
+    this.suspendRequested = true;
+    // Not running yet: the session applies it once the camera is open (see runStart); a stop clears it.
+    if (this.stateValue === 'running') this.session?.suspend();
+  }
+
+  resume(): void {
+    if (!this.suspendRequested) return;
+    this.suspendRequested = false;
+    if (this.stateValue === 'running') this.session?.resume();
+  }
+
   stop(reason = 'stopped'): Promise<void> {
     if (this.stateValue === 'disposed') return Promise.resolve();
+    this.suspendRequested = false;
     // A stop during a start cancels it right away (the start then rejects with ABORTED).
     const session = this.session;
     if (this.stateValue === 'starting' && session) {
@@ -256,6 +288,7 @@ class LiveMiraEngine implements Engine {
     this.disposing = this.stop('disposed').then(() => {
       this.mediaSpecs.clear();
       this.progressValues.clear();
+      this.selected = undefined;
       this.targets = [];
       this.setState('disposed');
       this.events.clear();

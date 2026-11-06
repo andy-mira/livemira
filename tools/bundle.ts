@@ -9,6 +9,14 @@ import { build } from 'esbuild';
 
 export type Variant = 'minified' | 'readable';
 
+/**
+ * The demo's sample photos and videos (with CREDITS.md), relative to the repository root. They are release content, not
+ * source: bench/release/assets no longer exists, so the copy shipped in the 0.5.1 release is the preserved source
+ * (read only; the 0.5.1 directory stays as published). A later release that changes the media gives them a directory
+ * of their own and points this at it.
+ */
+export const DEMO_ASSETS = 'release/0.5.1/demo/assets';
+
 const sha256 = (text: string): string => createHash('sha256').update(text).digest('hex');
 
 async function bundle(options: {

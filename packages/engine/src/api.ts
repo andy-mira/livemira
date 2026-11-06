@@ -157,7 +157,7 @@ export interface EngineEvents {
   /** The targets given to `setTargets` are loaded and recognised from now on. */
   targetsReady: { readonly targetIds: readonly string[] };
   targetFound: { readonly targetId: string };
-  targetLost: { readonly targetId: string; readonly reason: 'out-of-view' | 'viewport' | 'stopped' };
+  targetLost: { readonly targetId: string; readonly reason: 'out-of-view' | 'viewport' | 'suspended' | 'stopped' };
   /**
    * The view changes shape (rotation, resize): from 'begin' to 'end' the picture is unstable and nothing is drawn on
    * targets; a page may cover the stage meanwhile.
@@ -196,6 +196,17 @@ export interface Engine {
   setTargetProgress(targetId: string, progress: number | null): void;
   /** Opens the camera and starts recognition. Call it from a tap where you can (camera prompt, playback, sound). */
   start(): Promise<void>;
+  /**
+   * For a hidden page: pauses every video (no sound), stops recognition and drawing and turns the camera track off
+   * (`enabled = false`), while the camera, the targets and the loaded videos stay. Targets in view are reported lost
+   * (`reason: 'suspended'`). Idempotent; before the camera is open it applies once it is; `stop()` ends it.
+   * An interruption the browser enforces (the camera track ending) still ends the session with its usual error.
+   */
+  suspend(): void;
+  /** Undoes `suspend()`: the camera track is on again and targets in view are found again, their videos playing. */
+  resume(): void;
+  /** Whether `suspend()` is in effect. */
+  readonly isSuspended: boolean;
   /** Stops the camera and recognition; videos and targets stay set for the next start. Idempotent. */
   stop(reason?: string): Promise<void>;
   /** Stops and releases everything; the engine cannot be used afterwards. Idempotent. */
@@ -206,6 +217,13 @@ export interface Engine {
     readonly isMuted: boolean;
     /** From a tap. Resolves true when the change took effect (playback continues with the new setting). */
     setMuted(isMuted: boolean): Promise<boolean>;
+    /**
+     * Optional exclusive playback. Until it is first called, every target in view plays its video (the default). After
+     * it, only the selected target's video plays or is drawn: the others are paused with their source kept, a video
+     * that finishes loading for another target does not start, and `setMuted` and `retry` work on the selected one.
+     * `null` selects none. The selection is kept across suspend/resume and cleared by `dispose()`.
+     */
+    selectTarget(targetId: string | null): void;
     /** From a tap, after 'blocked' or 'error': plays (or reloads) the video of the photo in view. */
     retry(): Promise<boolean>;
   };

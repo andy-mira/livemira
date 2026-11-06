@@ -4,7 +4,7 @@
 
 一次调用得到全屏 AR 相机：照片在浏览器里编译为目标（与打开相机同时进行），照片被识别后才请求对应的视频并边下边播，同一时间只绑定一个视频。默认视图用简体中文或英文显示状态、提示与控件，布局、配色与文字沿用 LiveMorae 相机。包内没有引擎代码：页面通过 `loadEngine` 把引擎模块传进来。
 
-**状态：** 0.5.0，接口与 0.4.1 兼容，内部全部重写。已在桌面 Chromium 与 WebKit 中配合真实引擎、用合成相机通过端到端测试，并已在 LiveMorae 中真机验收。
+**状态：** 0.6.0，接口与 0.4.1 兼容（另有 0.5、0.6 的新增：挂起与恢复、保留的视频），内部全部重写。已在桌面 Chromium 与 WebKit 中配合真实引擎、用合成相机通过端到端测试；0.5.0 已在 LiveMorae 中真机验收，0.6.0 的改动已由发布者在手机上验收。
 
 ## 使用
 
@@ -62,7 +62,7 @@ const camera = mountArCamera(document.body, {
 | `translate`           | 无                         | `(key, params, locale) => string \| undefined`；返回字符串即优先。                                                                                                                                                                                                                    |
 | `onExit`              | 无                         | 退出控件（左上）调用它；它与 `exitHref` 都没有时不显示退出控件。                                                                                                                                                                                                                      |
 | `exitHref`            | 无                         | 把退出控件渲染为链接。                                                                                                                                                                                                                                                                |
-| `isStoppedWhenHidden` | true                       | 页面隐藏或离开时结束运行并提示。                                                                                                                                                                                                                                                      |
+| `isStoppedWhenHidden` | 未设置                     | 页面隐藏时默认挂起运行（见下）；true 结束运行并提示；false 不处理。                                                                                                                                                                                                                   |
 | `isAutoStart`         | true                       | false：自己调用 `view.start()`，最好在点击中调用。                                                                                                                                                                                                                                    |
 | `isHapticEnabled`     | true                       | 识别到照片时轻振一下（设备支持时）。                                                                                                                                                                                                                                                  |
 | `mode`                | `'fullscreen'`             | 固定在视口并锁定页面滚动；`'embedded'` 填满你设定尺寸的容器。                                                                                                                                                                                                                         |
@@ -86,9 +86,16 @@ await session.dispose();
 
 - 与 0.4.1 相同：`phase`（`idle | preparing | starting | scanning | stopping`）、`view`（`searching | loading | playing | lost | videoError`）、`progress`、`notice`（`{ key, params?, text? }`）、`isMuted`、`isAdjusting`、`isPlaybackBlocked`、`isStale`、`skippedCount`、`activeTargetId`、`isDisposed`。
 - 新增：
-  - `readiness`：准备阶段的整体进度，0..1；
+  - `readiness`：准备阶段照片的完成比例，0..1（引擎加载完成前为 `null`）；只统计真实的准备工作，等待相机权限不计入、也不会让它卡在某个百分比，界面用转动的圆环表示这类等待；
   - `isCameraOn`：相机已打开，照片可能仍在准备；
-  - `videoProgress`：当前视频的下载进度。
+  - `isSuspended`：运行处于挂起（页面在后台）；
+  - `videoProgress`：当前识别到的照片的视频下载进度。
+
+每张照片的视频在第一次识别到它时请求，之后在本次运行内一直保留：目标丢失、再次识别或切换到别的照片都不会重复请求，其他照片的下载也不会被中断。`stop()`（包括退出和 `dispose()`）会取消所有下载并释放全部视频，之后到达的结果会被忽略。
+
+页面进入后台时，默认视图调用 `session.suspend()`：引擎、已准备的照片和已加载的视频都保留，视频暂停（无声音），识别与绘制暂停，相机轨道关闭；回到前台时 `session.resume()`。`suspend()` 在无法挂起时（没有运行，或引擎模块较旧）返回 `false`，此时视图改为停止运行。`isStoppedWhenHidden: true` 保持旧行为（结束运行并提示）。浏览器强制中断相机仍按普通错误处理。挂起时识别 Worker 持有的相机轨道也会被关闭，Worker 对收到的帧不处理、立即释放（正在处理的一帧可以完成），已编译的照片保留。
+
+同一时间只播放一个视频：会话用引擎可选的 `media.selectTarget(id | null)` 选中当前识别到的照片，其他照片保留的视频保持暂停（保留源、不绘制），声音与"重新加载视频"作用于被选中的视频，别的照片的视频后来加载完成也不会自动播放。单独使用引擎时不变：不调用 `selectTarget`，画面中的每张照片都播放自己的视频。
 
 只在字段变化时通知，不逐帧。`session.setMuted()` 与 `session.retryVideo()` 要在点击里调用。`start()` 从不 reject：结果看状态。
 

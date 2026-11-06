@@ -4,7 +4,7 @@
 import { copyFileSync, mkdirSync, readdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-import { buildEngine, buildRating, buildUi } from '../../tools/bundle.ts';
+import { buildEngine, buildRating, buildUi, DEMO_ASSETS } from '../../tools/bundle.ts';
 
 export async function buildDemoSite(dir: string, version = '0.0.0-test'): Promise<void> {
   mkdirSync(join(dir, 'assets'), { recursive: true });
@@ -13,6 +13,6 @@ export async function buildDemoSite(dir: string, version = '0.0.0-test'): Promis
   writeFileSync(join(dir, 'livemira-ui.min.mjs'), await buildUi(version, 'minified'));
   writeFileSync(join(dir, 'livemira-target-rating.min.mjs'), (await buildRating(version)).minified.code);
   for (const f of ['index.html', 'demo.js', 'targets.html']) copyFileSync(join('demo', f), join(dir, f));
-  for (const f of readdirSync('bench/release/assets'))
-    copyFileSync(join('bench/release/assets', f), join(dir, 'assets', f));
+  for (const f of readdirSync(DEMO_ASSETS).filter((f) => f !== '.DS_Store'))
+    copyFileSync(join(DEMO_ASSETS, f), join(dir, 'assets', f));
 }

@@ -72,11 +72,19 @@ export interface EngineInstance {
   setTargetProgress(targetId: string, progress: number | null): void;
   start(): Promise<void>;
   stop(reason?: string): Promise<void>;
+  /** Engines of this release have it; an older engine module lacks it, and the UI stops instead of suspending. */
+  suspend?(): void;
+  resume?(): void;
   dispose(): Promise<void>;
   on<K extends keyof EngineEventMap>(type: K, listener: (event: EngineEventMap[K]) => void): () => void;
   readonly media: {
     setMuted(isMuted: boolean): Promise<boolean>;
     retry(): Promise<boolean>;
+    /**
+     * Engines of this release: only the selected target's video plays (the UI selects the recognised photo, so
+     * videos kept for other photos stay paused). Without it, every photo in view plays its loaded video.
+     */
+    selectTarget?(targetId: string | null): void;
   };
 }
 
@@ -207,13 +215,19 @@ export interface ArState {
   readonly view: ArView;
   /** Photos prepared so far while preparing; null otherwise. */
   readonly progress: { readonly done: number; readonly total: number } | null;
-  /** Preparation as a whole (engine, photos, camera), 0..1, while preparing or starting; null otherwise. */
+  /**
+   * The share of photos prepared, 0..1, while preparing or starting; null before the engine is loaded (no known
+   * progress) and otherwise. It covers the preparation work only: waiting for the camera permission neither moves it
+   * nor holds it below 1; `isCameraOn` tells whether the camera is open.
+   */
   readonly readiness: number | null;
   /** The camera is open (it may run while photos are still being prepared). */
   readonly isCameraOn: boolean;
+  /** Between `suspend()` and `resume()`: the page is hidden, the camera track off, videos paused but kept. */
+  readonly isSuspended: boolean;
   /**
    * Download progress of the recognised photo's video, 0..1 (NaN: size unknown); null when not downloading (always
-   * for streamed videos).
+   * for streamed videos). Videos of other photos keep downloading and are kept for when their photo is seen again.
    */
   readonly videoProgress: number | null;
   readonly notice: ArNotice | null;
@@ -249,8 +263,20 @@ export interface ArSession {
    * mean the camera runs, the state says what happened. A start while running joins it; one while stopping waits.
    */
   start(container: HTMLElement): Promise<void>;
-  /** Idempotent; concurrent calls share one stop. */
+  /**
+   * Idempotent; concurrent calls share one stop. Stopping (also during the camera prompt, the preparation or a
+   * download) cancels everything pending and releases the run's videos and downloads; late results are ignored.
+   */
   stop(options?: ArStopOptions): Promise<void>;
+  /**
+   * For a hidden page: keeps the run (engine, prepared photos, loaded or loading videos) and pauses its resource
+   * use: videos pause (no sound), recognition and drawing idle, the camera track is switched off. Nothing is released
+   * and no teardown runs. Returns false when it cannot (no run, or an engine module without `suspend`); the caller
+   * may `stop()` instead. Idempotent.
+   */
+  suspend(): boolean;
+  /** Undoes `suspend()`; the recognised photo's video plays again once its photo is found. Idempotent. */
+  resume(): void;
   /** The targets of the next start; a running run keeps its own. */
   setTargets(targets: readonly ArTarget[]): void;
   /** Call from a tap. Resolves whether the new setting took effect. */
@@ -261,8 +287,9 @@ export interface ArSession {
   dispose(): Promise<void>;
 }
 
-/** What the view needs of a session. */
-export type ArSessionLike = Pick<ArSession, 'getState' | 'subscribe' | 'start' | 'stop' | 'setMuted' | 'retryVideo'>;
+/** What the view needs of a session (`suspend` and `resume` are optional: without them a hidden page stops the run). */
+export type ArSessionLike = Pick<ArSession, 'getState' | 'subscribe' | 'start' | 'stop' | 'setMuted' | 'retryVideo'> &
+  Partial<Pick<ArSession, 'suspend' | 'resume'>>;
 
 // ---- View and wording ----
 
@@ -296,7 +323,12 @@ export interface ArViewOptions extends TranslatorOptions {
   readonly exitHref?: string;
   /** Start once the stage has a size (default true). Otherwise call `start()`, best from a tap. */
   readonly isAutoStart?: boolean;
-  /** Stop the run when the page is hidden or left (default true); "Start again" resumes it. */
+  /**
+   * Hidden or left page. Default (unset): the run is suspended (`session.suspend()`: videos paused, camera track off,
+   * everything loaded kept) and resumed when the page is visible again; an engine module without `suspend` stops the
+   * run instead. true: stop the run (the 0.5 behaviour; "Start again" restarts it and reloads what was released).
+   * false: leave the run alone.
+   */
   readonly isStoppedWhenHidden?: boolean;
   /** A short vibration when a photo is recognised, where the device supports it (default true). */
   readonly isHapticEnabled?: boolean;
